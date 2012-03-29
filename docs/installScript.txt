@@ -1,0 +1,36 @@
+Per installare node.js su ubuntu
+
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs nodejs-dev npm
+
+oppure
+
+http://apptob.org/
+
+-----
+
+CoffeeScript:
+wget --output-document=coffee-120.tar.gz http://github.com/jashkenas/coffee-script/tarball/1.2.0
+tar xzvf coffe-120.tar.gz
+# entrate nella dir untarrata
+sudo bin/cake install
+
+oppure con npm installato:
+npm install -g coffee-script
+(-g = globalmente)
+
+-----
+
+MongoDB:
+http://www.mongodb.org/display/DOCS/Ubuntu+and+Debian+packages
+
+CouchDB:
+sudo apt-get -y install couchdb 
+
+Redis:
+Script http://apptob.org/
+Guida su http://www.denofubiquity.com/nosql/412/
+
+------
