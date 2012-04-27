@@ -8,12 +8,10 @@
 var fs = require('fs');
 var zlib = require('zlib');
 var path = require('path');
-var fileutils = require('./fileUtils')
+var fileutils = require('./fileUtils');
 
-var m_fileName;
-var m_fileNameOnly;
-var m_callbackFun;
-var m_isCompressed;
+var m_PDBENCODING = 'ascii';
+var m_FILENOTFOUND = "File not found";
 
 /*
 	function: readFile
@@ -21,40 +19,45 @@ var m_isCompressed;
 	compressed: 
 	callback: a function (statusRead:BOOL, data:STRING, filename:STRING) to be called once the file is read
 */
-var mF_readFile = function(filename, callbackFun) {
-	m_fileName = filename;
-	m_fileNameOnly = fileutils.fileName(m_fileName);
-	//
-	m_callbackFun = callbackFun;
-	m_isCompressed = fileutils.isFileCompressed(m_fileName);
+var mF_readFile = function(fileName, callbackFun) {
+	var fileNameOnly;
+	var isCompressed;
 
-	if ( !path.existsSync(m_fileName) ) {
-		m_callbackFun(false, "file not found", m_fileNameOnly);
+	// console.log("==" + fileName);
+	fileNameOnly = fileutils.fileName(fileName);
+	//
+	isCompressed = fileutils.isFileCompressed(fileName);
+
+	if ( !path.existsSync(fileName) ) {
+		callbackFun(false, m_FILENOTFOUND, fileNameOnly);
 	} else {
-		mF_startRead();
+		mF_startRead(fileName, fileNameOnly, callbackFun, isCompressed);
 	}
 };
 
-var mF_startRead = function() {
-	fs.readFile(m_fileName, function (err, data) {
+var mF_startRead = function(fileName, fileNameOnly, callbackFun, isCompressed) {
+	fs.readFile(fileName, function (err, data) {
 		if (err) { 
-			m_callbackFun(false, err, m_fileNameOnly);
+			callbackFun(false, err, fileNameOnly);
 		} else {
-			if (m_isCompressed) {
-				zlib.unzip(new Buffer(data), mf_readCompressedBuffer);
+			if (isCompressed) {
+				// console.log(fileName + "||" + fileNameOnly + "||" + isCompressed);
+				zlib.unzip(data, mf_readCompressedBuffer(fileNameOnly, callbackFun));
 			} else {
-				m_callbackFun(true, data, m_fileNameOnly);
+				callbackFun(true, data.toString(m_PDBENCODING), fileNameOnly);
 			}
 		}
 	});
 };
 
-var mf_readCompressedBuffer = function(err, buffer) {
-	if (err) { 
-		m_callbackFun(false, err, m_fileNameOnly);
-	} else {
-		m_callbackFun(true, buffer.toString('ascii'), m_fileNameOnly);
-	}
+var mf_readCompressedBuffer = function(fileNameOnly, callbackFun) {
+	return (function(err, buffer) {
+				if (err) { 
+					callbackFun(false, err, fileNameOnly);
+				} else {
+					callbackFun(true, buffer.toString(m_PDBENCODING), fileNameOnly);
+				}
+			});
 };
 
 // Exports

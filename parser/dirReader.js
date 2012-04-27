@@ -1,4 +1,5 @@
 // https://github.com/coolaj86/node-walk 
+// npm install walk
 
 var walk = require('walk');
 var fs = require('fs');
@@ -23,11 +24,11 @@ var mf_RunWalker = function(callbackFun, directory, filterFunction) {
   var listResults = [];
   filterFunction = filterFunction || fileutils.filterAlways;
 
-  emitter.on('file', function (path, stat, next) {
-    var currFile = [path, '/', file].join('');
-    console.log(currFile);
+  emitter.on('file', function (root, fileStats, next) {
+    var currFile = [root, '/', fileStats.name].join('');
+    // console.log(currFile);
 
-    if ( filterFunction(file) ) {
+    if ( filterFunction(currFile) ) {
       listResults.push(currFile);
     }
 

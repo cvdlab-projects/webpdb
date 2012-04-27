@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 
-var m_GZ_EXTENSION = "gz";
+var m_GZ_EXTENSION = ".gz";
 
 var mF_fileName = function(fileName) {
 	var parsedName = path.basename(fileName);
@@ -26,8 +26,12 @@ var mf_filterNoextension = function(filename) {
 };
 
 var mf_filterCompressed = function(filename) {
-  return path.extname(filename) ===  m_GZ_EXTENSION;
+	return path.extname(filename) ===  m_GZ_EXTENSION;
 };
+
+var mf_genearateFilterforExtension = function(ext) {
+	return (function(filename) {  return path.extname(filename) ===  ext; });
+}
 
 // Get file name
 exports.fileName = mF_fileName;
@@ -36,5 +40,6 @@ exports.filterAlways = mf_filterAlways;
 exports.filterNever = mf_filterNever;
 exports.filterNoextension = mf_filterNoextension;
 exports.filterCompressed = mf_filterCompressed;
+exports.filterExtension = mf_genearateFilterforExtension;
 // Alias
 exports.isFileCompressed = mf_filterCompressed;
