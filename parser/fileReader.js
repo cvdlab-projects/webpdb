@@ -8,8 +8,7 @@
 var fs = require('fs');
 var zlib = require('zlib');
 var path = require('path');
-
-var GZ_EXTENSION = "gz";
+var fileutils = require('./fileUtils')
 
 var m_fileName;
 var m_fileNameOnly;
@@ -18,32 +17,22 @@ var m_isCompressed;
 
 /*
 	function: readFile
-	fileName: a string containing a fully qualified pathname to the file to read
+	filename: a string containing a fully qualified pathname to the file to read
 	compressed: 
-	callback: a function (statusRead:BOOL, data:STRING, fileName:STRING) to be called once the file is read
+	callback: a function (statusRead:BOOL, data:STRING, filename:STRING) to be called once the file is read
 */
-var readFile = function(fileName, callbackFun) {
-	m_fileName = fileName;
-	m_fileNameOnly = mF_fileName(fileName);
+var mF_readFile = function(filename, callbackFun) {
+	m_fileName = filename;
+	m_fileNameOnly = fileutils.fileName(m_fileName);
 	//
 	m_callbackFun = callbackFun;
-	m_isCompressed = (path.extname(fileName).indexOf(GZ_EXTENSION) != -1);
+	m_isCompressed = fileutils.isFileCompressed(m_fileName);
 
-	if ( !path.existsSync(fileName) ) {
+	if ( !path.existsSync(m_fileName) ) {
 		m_callbackFun(false, "file not found", m_fileNameOnly);
 	} else {
 		mF_startRead();
 	}
-};
-
-var mF_fileName = function(fileName) {
-	var parsedName = path.basename(fileName);
-
-	while (parsedName.indexOf(".") != -1) {
-		parsedName = path.basename(parsedName, path.extname(parsedName));
-	}
-
-	return parsedName;
 };
 
 var mF_startRead = function() {
@@ -69,4 +58,4 @@ var mf_readCompressedBuffer = function(err, buffer) {
 };
 
 // Exports
-exports.readPDBData = readFile;
+exports.readPDBData = mF_readFile;

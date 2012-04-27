@@ -2,79 +2,42 @@
 
 var walk = require('walk');
 var fs = require('fs');
+var fileutils = require('./fileUtils')
 
-var options = {
-    followLinks: false,
+var mf_Sortfile = function(a,b) {
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+  if (a > b) return -1;
+  if (a < b) return 1;
+  return 0;
 };
 
-  function sort(a,b) {
-    a= a.toLowerCase();
-    b= b.toLowerCase();
-    if (a > b) return -1;
-    if (a < b) return 1;
-    return 0;
-  }
+/*
+  params:
+  callbackFun FUNCTION a fun to be called with argument
+  directory STRING sirectory to walk
+  
+*/
+var mf_RunWalker = function(callbackFun, directory, filterFunction) {
+  var emitter = walk.walk(directory);
+  var listResults = [];
+  filterFunction = filterFunction || fileutils.filterAlways;
 
-var emitter = walk.walk("../testdata/multiple");
+  emitter.on('file', function (path, stat, next) {
+    var currFile = [path, '/', file].join('');
+    console.log(currFile);
 
-  // Non-`stat`ed Nodes
-      emitter.on('name', function (path, file, stat) {
-        // saneCount += 1;
-        //console.log( ["[", count, "] ", path, '/', file].join('') )
-        console.log( [path, '/', file].join('') )
-      });
+    if ( filterFunction(file) ) {
+      listResults.push(currFile);
+    }
 
-      emitter.on('names', function (path, files, stats) {
-        files.sort(sort);
-        //console.log('sort: ' + files.join(' ; '));
-      });
+    next();
+  });
 
+  // The end of all things
+  emitter.on('end', function () {
+    callbackFun(listResults);
+  });
+};
 
-
-  // Single `stat`ed Nodes
-      emitter.on('error', function (path, err, next) {
-        next()
-        // ignore
-      });
-      emitter.on('directoryError', function (path, stats, next) {
-        next();
-      });
-      emitter.on('nodeError', function (path, stats, next) {
-        next();
-      });
-
-      emitter.on('file', function (path, stat, next) {
-        // count += 1;
-        console.log( [path, '/', stat.name].join('') )
-        //console.log( ["[", count, "] ", path, '/', stat.name].join('') )
-        next();
-      });
-
-      emitter.on('directory', function (path, stat, next) {
-        // count += 1;
-        console.log( [path, '/', stat.name].join('') )
-        next();
-      });
-
-
-    // Grouped `stat`ed Nodes
-      emitter.on('errors', function (path, stats, next) {
-        next();
-      });
-
-      emitter.on('files', function (path, stats, next) {
-        next();
-      });
-      emitter.on('directories', function (path, stats, next) {
-        //delete stats[1];
-        next();
-      });
-      emitter.on('symbolicLinks', function (path, stats, next) {
-        next();
-      });
-
-
-    // The end of all things
-      emitter.on('end', function () {
-        console.log("The eagle has landed");
-      });
+exports.dirExplorer = mf_RunWalker;
