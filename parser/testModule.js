@@ -11,10 +11,9 @@ var funCallFile = function(status, data, filename) {
 
 var funCallFileLaunchRead = function(fileList) {
 	for (var i = fileList.length - 1; i >= 0; i--) {
-		frModule.readPDBData(fileList[i], funCallFile);
+		console.log(fileList[i]);
+		// frModule.readPDBData(fileList[i], funCallFile);
 	};
 };
 
-drModule.fileExplorer(funCallFileLaunchRead, "../testdata");
-
-// console.log(mF_fileName("../testdata/pdb2lgb.ent.gz"));
+drModule.directoryExplorer(funCallFileLaunchRead, "../testdata");
