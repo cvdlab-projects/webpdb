@@ -15,6 +15,6 @@ var funCallFileLaunchRead = function(fileList) {
 	};
 };
 
-drModule.dirExplorer(funCallFileLaunchRead, "../testdata");
+drModule.fileExplorer(funCallFileLaunchRead, "../testdata");
 
 // console.log(mF_fileName("../testdata/pdb2lgb.ent.gz"));

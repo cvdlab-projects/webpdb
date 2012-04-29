@@ -14,6 +14,8 @@ var mf_Sortfile = function(a,b) {
 };
 
 /*
+  given a directory this fetches all the files inside it
+
   params:
   callbackFun FUNCTION a fun to be called with argument
   directory STRING sirectory to walk
@@ -41,4 +43,6 @@ var mf_RunWalker = function(callbackFun, directory, filterFunction) {
   });
 };
 
-exports.dirExplorer = mf_RunWalker;
+// TODO: dirExplorer 8report only subdir of one chosen dir.
+
+exports.fileExplorer = mf_RunWalker;
