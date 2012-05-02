@@ -29,6 +29,8 @@ var mf_fileDataRead = function(status, data, filename) {
 
 var mf_fileStartRead = function(next, current) {
 	fileReader.readPDBData(current, mf_fileDataRead);
+	// Go next step
+	next();
 };
 
 var mf_fileNamesRead = function(fileList) {
