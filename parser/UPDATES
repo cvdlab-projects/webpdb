@@ -1,0 +1,6 @@
+-spit del contenuto
+-corretto l'errore di uno sul substring
+-struttura di parsing a 3 livelli (metodo di store nel json -> oggetto -> contenuto linea)
+-oggetto scanner
+-passaggio dello scanner invece di tenere variabili per tenere traccia dell'avanzamento.
+-VIM fa schifo.

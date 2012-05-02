@@ -1,3 +1,11 @@
+// ----------------------require-----------------
+
+var utils = require('parserUtils');
+
+var parseLineContent = utils.parseLineContent;
+var LineScanner = utils.LineScanner;
+var getObjectParsingFunction = utils.getObjectParsingFunction;
+
 // ---------------------------------funzione da esportare:---------------------------------
 
 
@@ -12,31 +20,30 @@ var parsePDB = function (allGoingWell,pdbString,proteinID){
 	};
 
 	//-------VARIABILI "globali" di parsing-------
-	var pdbStringLength = pdbString.length;
-	var currentLineStartIndex = 0;
-	var nl = "\n";
+	var scanner = new LineScanner(pdbString,0);
+
+//	var pdbStringLength = pdbString.length; (sostituito dallo scanner)
+//	var currentLineStartIndex = 0;
+//	var nl = "\n";
 
 
 
 	// -------funzioni che hanno bisogno di questo scope:-------
-	var nextLine = function (){
-		if(currentLineStartIndex >= pdbStringLength){
-			return "EOF";
-		}
 
-		endOfLineIndex = pdbString.indexOf(nl, currentLineStartIndex);
-
-		if(endOfLineIndex == -1){
-			endOfLineIndex = pdbStringLength;
-		}
-		
-		var line = pdbString.substring(currentLineStartIndex, endOfLineIndex);
-		currentLineStartIndex = endOfLineIndex+1;
-		return line;
+	var parsingFunctions = {
+		"MODEL " : parseIncremental,
+		"HELIX " : parseIncremental,
+		"SHEET " : parseIncremental,
+		"REMARK" : parseIncremental, //migliorabile
+		"default" : parseUnique
+	};
+	var getParsingFunction = function(type){
+		return (parsingFunctions[type] || parsingFunctions["default"]);
 	}
 
-	var parse1lmt = function(protein,line,type){
-		var NOF_fname = "NOF_"+type; // es : NOF_HELIX sta per Number Of Helix
+
+	var parseIncremental = function(protein,type,line,scanner){
+		var NOF_fname = "NOF_"+type; // es : NOF_HELIX sta per Number Of Helix(es)
 
 		var quantity = protein[NOF_fname];
 
@@ -46,105 +53,43 @@ var parsePDB = function (allGoingWell,pdbString,proteinID){
 		}
 
 		protein[NOF_fname] = protein[NOF_fname]+1;
-		thisRecordNumber = quantity +1;
+		var thisRecordNumber = quantity +1;
 
-		protein[type+"_"+thisRecordNumber] = parseLine(line,type,true); //es: HELIX_1 = parsed helix json
-
-//TODO continuare qui.
-
+		var objectParsingFunction = getObjectParsingFunction(type);
+		protein[type+"_"+thisRecordNumber] = objectParsingFunction(type,line,scanner);// parsa l' "oggetto" del pdb che inizia a quella linea (che puo' essere lungo una o piu' linee)
+																	//es: HELIX_1 = helix json parsato
+																 	//	 MODEL_1 = model json parsato che contiene tutti i suoi ATOM ecc.. parsati (nota: quindi potrebbe essere utilizzato nextline() dalla funzione)
 	}
-	var parsingFns = {
-		"MODEL " : parseModel, //TODO
-		"HELIX " : parse1lmt,
-		"SHEET " : parse1lmt,
-		"REMARK" : parse1lmt, //migliorabile
-		"default" : simpleParseLine //TODO (semplice, schiaffa la stringa intera apparte il type)
-	};
-	var getParsingFn(type){
-		return (parsingFns[type] || parsingFns["default"]);
+
+	var parseUnique = function(protein,type,line,scanner){
+		var objectParsingFunction = getObjectParsingFunction(type);
+		protein[type] = objectParsingFunction(type,line,scanner);
 	}
+
+
 
 
 	//---------------------------------------------------parsing:------------------------------------------------
 
-	var line = nextLine();
-	while(line != "EOF"){
 
+
+//	var line = nextLine(); (sostituito dallo scanner)
+	var line;
+
+	while(scanner.hasNextLine()){
+
+		line = scanner.nextLine();
 		var type = line.substring(0,6);
 
-		var parsingFn = getParsingFn(type);
+		var parsingFunction = getParsingFunction(type);
 
-		parsingFn(protein,line,type); 
-
-		line = nextLine();	//NOTA: la parsingFn puo' fare uso della funzione nextLine(),
+		parsingFunction(protein,type,line,scanner); //la linea corrente puo' anche essere ottenuta dallo scanner (scanner.currentLine());
+							//NOTA: la parsingFunction puo' fare uso della funzione scanner.nextLine(),
 							//quindi la nuova line non e' necessariamente quella che seguiva la vecchia.
 	}
 
 
 }
-
-// ---------------------------------dati:---------------------------------
-
-var helixAssocs = [[1,6,"type"],[8,10,"serNum"],[12,14,"helixID"],[16,18,"initResName"],[20,20,"initChainID"],[22,25,"initSeqNum"],[26,26,"initICode"],[28,30,"endResName"],[32,32,"endChainID"],[34,37,"endSeqNum"],[38,38,"endICode"],[39,40,"helixClass"],[41,70,"comment"],[72,76,"length"]];
-var sheetAssocs = [[1,6,"type"],[8,10,"strand"],[12,14,"sheetID"],[15,16,"numStrands"],[18,20,"initResName"],[22,22,"initChainID"],[23,26,"initSeqNum"],[27,27,"initICode"],[29,31,"endResName"],[33,33,"endChainID"],[34,37,"endSeqNum"],[38,38,"endICode"],[39,40,"sense"],[42,45,"curAtom"],[46,48,"curResName"],[50,50,"curChainId"],[51,54,"curResSeq"],[55,55,"curICode"],[57,60,"prevAtom"]];
-
-
-var modelAssocs = [[1,6,"type"],[11,14,"serial"]];
-var atomAssocs = [[1,6,"type"],[7,11,"serial"],[13,16,"name"],[17,17,"altLoc"],[18,20,"resName"],[22,22,"chainID"],[23,26,"resSeq"],[27,27,"iCode"],[31,38,"x"],[39,46,"y"],[47,54,"z"],[55,60,"occupancy"],[61,66,"tempFactor"],[77,78,"element"],[79,80,"charge"]];
-var hetatmAssocs = [[1,6,"type"],[7,11,"serial"],[13,16,"name"],[17,17,"altLoc"],[18,20,"resName"],[22,22,"chainID"],[23,26,"resSeq"],[27,27,"iCode"],[31,38,"x"],[39,46,"y"],[47,54,"z"],[55,60,"occupancy"],[61,66,"tempFactor"],[77,78,"element"],[79,80,"charge"]];
-var anisouAssocs = [[1,6,"type"],[7,11,"serial"],[13,16,"name"],[17,17,"altLoc"],[18,20,"resName"],[22,22,"chainID"],[23,26,"resSeq"],[27,27,"iCode"],[29,35,"u[0][0]"],[36,42,"u[1][1]"],[43,49,"u[2][2]"],[50,56,"u[0][1]"],[57,63,"u[0][2]"],[64,70,"u[1][2]"],[77,78,"element"]];
-var terAssocs = [[1,6,"type"],[7,11,"serial"],[18,20,"resName"],[22,22,"chainID"],[23,26,"resSeq"],[27,27,"iCode"]];
-
-
-var parsingInfo = { // la chiave e' di 6 caratteri, comprende gli spazi finali
-	"HELIX " : helixAssocs,
-	"SHEET " : sheetAssocs,
-	"MODEL " : modelAssocs,
-	"ATOM  " : atomAssocs,
-	"HETATM" : hetatmAssocs,
-	"TER   " : terAssocs,
-	"ANISOU" : anisouAssocs
-};
-
-// ---------------------------------altre funzioni:---------------------------------
-
-
-
-var parseLine = function (line,type,cutSpaces) {
-
-	if(type == undefined || type == null || type == ""){
-		throw"Type undefined";
-	}
-	var assocs = parsingInfo[type];
-
-
-	var parsedLine = {};
-
-	assocs.forEach(function(fieldInfo,index,array){
-		// finfo[0]: start column
-		// finfo[1]: end column
-		// finfo[2]: fname
-		if(cutSpaces){
-			var tokens = line.substring(fieldInfo[0],fieldInfo[1]+1).split(" ");
-			parsedLine[fieldInfo[2]] = tokens[0];
-			if(tokens.length>1){
-				console.log(tokens);
-				throw "Information loss while cutting blank spaces";
-			}
-		} else {
-			parsedLine[fieldInfo[2]] = line.substring(fieldInfo[0],fieldInfo[1]+1);
-		}	
-
-	});
-	return parsedLine;
-}
-
-// INUTILE?
-var getLine = function (startIndex,string){	// startIndex : indice del primo carattere della linea (NON una "\n")
-											// ritorna la linea fino al prossimo "\n" (NON incluso)
-	return string.substring(startIndex, string.indexOf("\n",startIndex));
-}
-
 
 
 // --------------------------------------------------------------test-----------------------------------------------
@@ -182,3 +127,24 @@ if(what.contains("p")){
 
 exports.parsePDB = parsePDB;
 
+
+
+
+//// OLD
+
+/*
+	var nextLine = function (){
+		if(currentLineStartIndex >= pdbStringLength){
+			return "EOF";
+		}
+
+		endOfLineIndex = pdbString.indexOf(nl, currentLineStartIndex);
+
+		if(endOfLineIndex == -1){
+			endOfLineIndex = pdbStringLength;
+		}
+		
+		var line = pdbString.substring(currentLineStartIndex, endOfLineIndex);
+		currentLineStartIndex = endOfLineIndex+1;
+		return line;
+	}*/
