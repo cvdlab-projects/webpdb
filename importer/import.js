@@ -8,20 +8,23 @@ var dirReader = require('../parser/dirReader');
 var parsePdb = require('../parser/parserNub');
 var insertDB = require('../dbmodule/insert');
 
-// These variables doesnot change during script execution, so they can be shared
+// These variables do not change during script execution, so they can be shared
 var m_Database_Name;
 var m_Database_Address;
 var m_Database_Port;
 var m_Database_Username;
 var m_Database_Password;
 
+var mf_fileDataInserted = function(status, id) {
+	console.log("Insert in DB for document " + id + " " + (( status === true ) ? "SUCCESS" : "FAILED") );
+};
+
 var mf_fileDataRead = function(status, data, filename) {
-	if ( status ) {
-	
+	if ( status === true ) {
+		insertDB.insert(filename, parsePdb.parsePDB(status, data, filename), mf_fileDataInserted, m_Database_Username, m_Database_Password, m_Database_Name, m_Database_Address, m_Database_Port);
+	} else {
+		console.log("Reading data for protein " + filename + " has failed.");
 	}
-	var parsedJSON = parsePdb.parsePDB(status, data, filename);
-	insertDB.insert(filename, data, '127.0.0.1', 5984, m_Database_Name, filename, ret);
-	console.log("-----------------------");
 };
 
 var mf_fileStartRead = function(next, current) {
@@ -50,4 +53,4 @@ var mf_runImport = function(rootDir, isRecursive, username, password, dbname, ho
 	}
 };
 
-// dirReader.fileExplorer(funCallFileLaunchRead, "./testdata/lg");
+exports.runImport = mf_runImport;
