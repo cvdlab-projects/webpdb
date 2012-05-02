@@ -58,16 +58,16 @@ var parseLine = function (line,type) {
 	if(type == undefined || type == null || type == ""){
 		return null;
 	}
-	var assocs = parsingInfo[type];
+	var assocs = parsingInfo[type] || [];
 
-
+	// console.log(line + "-" + type);
 	var parsedLine = {};
 
 	assocs.forEach(function(fieldInfo,index,array){
 		// finfo[0]: start column
 		// finfo[1]: end column
 		// finfo[2]: fname
-		parsedLine[fieldInfo[2]] = line.substring(fieldInfo[0],fieldInfo[1]+1);
+		parsedLine[fieldInfo[2]] = line.substring(fieldInfo[0]-1,fieldInfo[1]);
 		// NON RIMUOVE GLI SPAZI SUPERFLUI!!!
 	});
 	return parsedLine;
