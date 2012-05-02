@@ -16,14 +16,11 @@ var m_Database_Username;
 var m_Database_Password;
 
 var mf_fileDataRead = function(status, data, filename) {
-	console.log(status + " - " + filename);
-	// console.log(data.substring(0,50));
-	// console.log(data);
-	// console.log("-----------------------");
-	var ret = parsePdb.parsePDB(status, data, filename);
-	// console.log(ret);
-
-	insertDB.insert('127.0.0.1', 5984, 'pdbimporttest', filename, ret);
+	if ( status ) {
+	
+	}
+	var parsedJSON = parsePdb.parsePDB(status, data, filename);
+	insertDB.insert(filename, data, '127.0.0.1', 5984, m_Database_Name, filename, ret);
 	console.log("-----------------------");
 };
 

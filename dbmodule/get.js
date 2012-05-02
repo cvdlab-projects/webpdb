@@ -15,10 +15,10 @@ var retrieveByID = function(id, callbackFunction, userName, password, dbName,  h
 	var db = c.database(dbName);
 	db.get(id, function (err, doc) {
 		if ( err !== null ) {
+			callbackFunction(false, err);
+		} else {
 			delete doc._rev;
 			callbackFunction(true, doc);
-		} else {
-			callbackFunction(false, err);
 		}
 	});
 };
@@ -40,10 +40,10 @@ var retrieveByName = function(name, callbackFunction, userName, password, dbName
 		
 	db.view('proteinsByName/byName', {key: name}, function (err, doc) {
 		if ( err !== null ) {
+			callbackFunction(false, err);
+		} else {
 			delete doc._rev;
 			callbackFunction(true, doc);
-		} else {
-			callbackFunction(false, err);
 		}
 	});
 };
