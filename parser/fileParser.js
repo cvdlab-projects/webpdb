@@ -85,6 +85,9 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 			quindi la nuova line non e' necessariamente quella che seguiva la vecchia.
 		*/
 	}
+	
+	// NdFurio: magari la proteina la ritorniamo
+	return protein;
 };
 
 /// Exports
@@ -92,9 +95,9 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 
 exports.parsePDB = parsePDB;
 
-/// Testing
+/// Self Testing
 
-var testParserPro = function(what) {
+var selfTest = function(what) {
 	if (what.contains("l")){
 		var parsedLine = parseLine("ATOM     50  CG  GLU A   4      18.057  25.754   8.986  1.00  0.00           C  ","ATOM");
 		console.log(parsedLine);
