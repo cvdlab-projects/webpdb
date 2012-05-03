@@ -1,7 +1,7 @@
 
-var fs = require('fs'); //Fylesystem Module, needed to store the Json file. 
 var app = require('express').createServer();
-var dbmodule = require(‘./get’); 
+var dbmodule = require('./get'); 
+var store = require('./store');
 
 app.get('/', function(req, res){
   console.log("[200] " + req.method + " to " + req.url);
@@ -23,78 +23,18 @@ app.get('/', function(req, res){
 
 app.get('/retrieveById', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
-    req.on('data', function(chunk) {
-      fullBody += chunk.toString();
-    });
-    
     req.on('end', function() {
-     var option = {port:3000};
-     db.setup(option,function(){});
-     var conn = new (cradle.Connection);
-     couch = conn.database('prova');
-     id = req.query["username"];
-     	couch.get(id, function(error, doc) {
-	if(error) {
-	    res.write(JSON.stringify(error));
-	}
-	else {
-  fs.writeFile(id + '.json', doc , function(err) {
-    if(err) {
-        console.log(err);
-    } else {
-        console.log("The file was saved!");
-    }
-}); 
-
-	
-}
-     res.end();
+     id = req.query["proteinID"]; //Returns the value stored in the get request
+     dbmodule.retrieveByID(id, store.storeJson(false, ''), userName, password, dbName,  host, port);
     }); 
     });
-});
 
-app.get('/retrieveByName', function(req,res){
+app.get('/retrieveById', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
-    
-    req.on('data', function(chunk) {
-      fullBody += chunk.toString();
-    });1
     req.on('end', function() {
-     var option = {port:3000};
-     db.setup(option,function(){});
-     var conn = new (cradle.Connection);
-     couch = conn.database('prova');
-     id = req.query["username"];
-      couch.get(id, function(error, doc) {
-  if(error) {
-      res.write(JSON.stringify(error));
-  }
-  else {
-
-    // in poche parole se entra nel db, trova l'id passato come parametro, inserisce un nuovo dato nel db. 
-  /*couch.save({
-      force: 'dark', name: 'Darth'
-  }, function (err, res) {
-      if(err) //handle error
-        else //handle success
-  });*/
-  fs.writeFile(id + '.json', doc , function(err) {
-    if(err) {
-        console.log(err);
-    } else {
-        console.log("The file was saved!");
-    }
-}); 
-
-  
-}
-     res.end();
+     name = req.query["proteinName"]; //Returns the value stored in the get request
+     dbmodule.retrieveByName(name, store.storeJson(false, ''), userName, password, dbName,  host, port);
     }); 
     });
-});
-
-
-
-
 
 app.listen(3000);
