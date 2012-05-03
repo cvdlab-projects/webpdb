@@ -1,0 +1,11 @@
+NOT YET IMPLEMENTED
+
+1 - Admin Interface and UserID/Pass filters.
+
+2 - List-All-Proteins        -> Dario's task?
+  
+3 - List-All-Names method    -> Dario's task?
+
+4 - Every json file stored in the FS has always the default name. (Currently looking for a way to get an input filename from the user)
+
+5 - ...? Work in Progress.
