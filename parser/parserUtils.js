@@ -11,31 +11,32 @@ var LineScanner = function(string,startIndex) {
 	this.endOfLine;
 
 	this.currentLine;
-
-	this.setIndex = function(newIndex) {
-		this.ind = newIndex;
-	};
-	
-	this.getIndex = function() {
-		return this.ind;
-	};
-
-	this.nextLine = function() {
-			this.endOfLine = this.scannedString.indexOf("\n", this.ind);
-			if (this.endOfLine == -1) {
-				this.endOfLine = this.scannedStringLength
-			};
-
-			this.currentLine = this.scannedString.substring(this.ind, this.endOfLine);
-			this.ind = this.endOfLine+1;
-
-			return this.currentLine;
-	};
-
-	this.hasNextLine = function() {
-		return (this.ind < this.scannedStringLength);
-	};
 };
+
+LineScanner.prototype.setIndex = function(newIndex) {
+	this.ind = newIndex;
+};
+	
+LineScanner.prototype.getIndex = function() {
+	return this.ind;
+};
+
+LineScanner.prototype.nextLine = function() {
+	this.endOfLine = this.scannedString.indexOf("\n", this.ind);
+	if (this.endOfLine == -1) {
+		this.endOfLine = this.scannedStringLength
+	};
+
+	this.currentLine = this.scannedString.substring(this.ind, this.endOfLine);
+	this.ind = this.endOfLine+1;
+
+	return this.currentLine;
+};
+
+LineScanner.prototype.hasNextLine = function() {
+	return (this.ind < this.scannedStringLength);
+};
+
 // ---------------------------------funzioni per il parsing:---------------------------------
 
 var parseLineSimple = function(type,line,scanner) {
@@ -129,8 +130,8 @@ var getObjectParsingFunction = function (type){ //ritorna una function(line,scan
 
 // -------------------------------------------------------exports-----------------------------------------------------------------------
 
-exports.parseLineContent = parseLineContent;
 exports.LineScanner = LineScanner;
+exports.parseLineContent = parseLineContent;
 exports.getObjectParsingFunction = getObjectParsingFunction;
 
 // INUTILE? si.
