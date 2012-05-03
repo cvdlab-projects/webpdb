@@ -1,7 +1,7 @@
 var frModule = require('../fileexplore/fileReader');
 var drModule = require('../fileexplore/dirReader');
 var parserNub = require('./parserNub');
-var parserNew = require('./parserNub');
+var parserNew = require('./fileParser');
 
 var parserType;
 
