@@ -1,0 +1,55 @@
+RESIDUE   00A     49
+CONECT      O2P    2 P    HO2P
+CONECT      P      4 O2P  O1P  O3P  O5' 
+CONECT      O1P    1 P   
+CONECT      O3P    2 P    CC  
+CONECT      CC     3 O3P  C1C  O2  
+CONECT      C1C    3 CC   C2C  C6C 
+CONECT      C2C    3 C1C  C3C  H2C 
+CONECT      C3C    3 C2C  C4C  H3C 
+CONECT      C4C    3 C3C  CL4A C5C 
+CONECT      CL4A   1 C4C 
+CONECT      C5C    3 C4C  C6C  H5C 
+CONECT      C6C    3 C1C  C5C  H6C 
+CONECT      O2     1 CC  
+CONECT      O5'    2 P    C5' 
+CONECT      C5'    4 O5'  C4'  H5'  H5'A
+CONECT      C4'    4 C5'  C3'  O4'  H4' 
+CONECT      C3'    4 C4'  O3'  C2'  H3' 
+CONECT      O3'    2 C3'  HO3'
+CONECT      C2'    4 C3'  O2'  C1'  H2' 
+CONECT      O2'    2 C2'  HO2'
+CONECT      C1'    4 C2'  O4'  N9   H1' 
+CONECT      O4'    2 C4'  C1' 
+CONECT      N9     3 C1'  C4   C8  
+CONECT      C4     3 N9   C5   N3  
+CONECT      C5     3 C4   N7   C6  
+CONECT      N7     2 C5   C8  
+CONECT      C8     3 N9   N7   H8  
+CONECT      C6     3 C5   N6   N1  
+CONECT      N6     3 C6   HN6  HN6A
+CONECT      N1     2 C6   C2  
+CONECT      C2     3 N1   N3   H2  
+CONECT      N3     2 C4   C2  
+CONECT      HO2P   1 O2P 
+CONECT      H2C    1 C2C 
+CONECT      H3C    1 C3C 
+CONECT      H5C    1 C5C 
+CONECT      H6C    1 C6C 
+CONECT      H5'    1 C5' 
+CONECT      H5'A   1 C5' 
+CONECT      H4'    1 C4' 
+CONECT      H3'    1 C3' 
+CONECT      HO3'   1 O3' 
+CONECT      H2'    1 C2' 
+CONECT      HO2'   1 O2' 
+CONECT      H1'    1 C1' 
+CONECT      H8     1 C8  
+CONECT      HN6    1 N6  
+CONECT      HN6A   1 N6  
+CONECT      H2     1 C2  
+END   
+HET    00A             49
+HETNAM     00A 5'-O-[(S)-{[(4-chlorophenyl)carbonyl]oxy}(hydroxy)phosp
+HETNAM   2 00A horyl]adenosine
+FORMUL      00A    C17 H17 Cl1 N5 O8 P1

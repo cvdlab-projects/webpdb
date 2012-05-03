@@ -1,0 +1,26 @@
+RESIDUE   004     20
+CONECT      C      3 O    CA   OXT 
+CONECT      N      3 CA   HN   HNA 
+CONECT      O      1 C   
+CONECT      CA     4 C    N    CB   HA  
+CONECT      CB     3 CA   CG1  CG2 
+CONECT      CE     3 CD1  CD2  HE  
+CONECT      CD1    3 CE   CG1  HD1 
+CONECT      CD2    3 CE   CG2  HD2 
+CONECT      CG1    3 CB   CD1  HG1 
+CONECT      CG2    3 CB   CD2  HG2 
+CONECT      OXT    2 C    HXT 
+CONECT      HN     1 N   
+CONECT      HNA    1 N   
+CONECT      HA     1 CA  
+CONECT      HE     1 CE  
+CONECT      HD1    1 CD1 
+CONECT      HD2    1 CD2 
+CONECT      HG1    1 CG1 
+CONECT      HG2    1 CG2 
+CONECT      HXT    1 OXT 
+END   
+HET    004             20
+HETSYN     004 L-Phenylglycine
+HETNAM     004 (2S)-amino(phenyl)ethanoic acid
+FORMUL      004    C8 H9 N1 O2

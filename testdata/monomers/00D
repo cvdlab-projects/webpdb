@@ -1,0 +1,27 @@
+RESIDUE   00D     22
+CONECT      N      3 CA   HN   HNA 
+CONECT      CA     4 N    CB1  CB2  HA  
+CONECT      CB1    4 CA   CD1  CD2  CD3 
+CONECT      CB2    4 CA   HB2  HB2A HB2B
+CONECT      CD1    4 CB1  HD1  HD1A HD1B
+CONECT      CD2    4 CB1  HD2  HD2A HD2B
+CONECT      CD3    4 CB1  HD3  HD3A HD3B
+CONECT      HN     1 N   
+CONECT      HNA    1 N   
+CONECT      HA     1 CA  
+CONECT      HB2    1 CB2 
+CONECT      HB2A   1 CB2 
+CONECT      HB2B   1 CB2 
+CONECT      HD1    1 CD1 
+CONECT      HD1A   1 CD1 
+CONECT      HD1B   1 CD1 
+CONECT      HD2    1 CD2 
+CONECT      HD2A   1 CD2 
+CONECT      HD2B   1 CD2 
+CONECT      HD3    1 CD3 
+CONECT      HD3A   1 CD3 
+CONECT      HD3B   1 CD3 
+END   
+HET    00D             22
+HETNAM     00D (2R)-3,3-dimethylbutan-2-amine
+FORMUL      00D    C6 H15 N1

@@ -1,0 +1,14 @@
+RESIDUE   000      9
+CONECT      C      3 O    OA   OXT 
+CONECT      O      1 C   
+CONECT      OA     2 C    CB  
+CONECT      CB     4 OA   HB   HBA  HBB 
+CONECT      OXT    2 C    HXT 
+CONECT      HB     1 CB  
+CONECT      HBA    1 CB  
+CONECT      HBB    1 CB  
+CONECT      HXT    1 OXT 
+END   
+HET    000              9
+HETNAM     000 methyl hydrogen carbonate
+FORMUL      000    C2 H4 O3

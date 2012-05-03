@@ -1,0 +1,23 @@
+RESIDUE   00C     17
+CONECT      N      3 CA   HN   HNA 
+CONECT      CA     4 N    C    CB   HA  
+CONECT      C      3 CA   O    O4  
+CONECT      O      1 C   
+CONECT      CB     4 CA   SG   HB   HBA 
+CONECT      SG     4 CB   OD2  O3   OD1 
+CONECT      OD2    1 SG  
+CONECT      O3     1 SG  
+CONECT      O4     2 C    H6  
+CONECT      OD1    2 SG   HOD1
+CONECT      HN     1 N   
+CONECT      HNA    1 N   
+CONECT      HA     1 CA  
+CONECT      HB     1 CB  
+CONECT      HBA    1 CB  
+CONECT      H6     1 O4  
+CONECT      HOD1   1 OD1 
+END   
+HET    00C             17
+HETSYN     00C D-Cysteine sulfinic acid
+HETNAM     00C 3-sulfo-D-alanine
+FORMUL      00C    C3 H7 N1 O5 S1
