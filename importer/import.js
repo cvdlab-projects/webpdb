@@ -49,9 +49,9 @@ var mf_runImport = function(rootDir, isRecursive, username, password, dbname, ho
 	isRecursive = isRecursive || false;
 	
 	if ( isRecursive ) {
-		fileReader.fileExplorerRecursive(mmf_fileNamesRead, rootDir, fileUtils.filterCompressed);
+		dirReader.fileExplorerRecursive(mmf_fileNamesRead, rootDir, fileUtils.filterCompressed);
 	} else {
-		fileReader.fileExplorer(mmf_fileNamesRead, rootDir, fileUtils.filterCompressed);
+		dirReader.fileExplorer(mmf_fileNamesRead, rootDir, fileUtils.filterCompressed);
 	}
 };
 
