@@ -1,6 +1,7 @@
 // moduli generici
 // npm install futures Array.prototype.forEachAsync
 require('Array.prototype.forEachAsync');
+
 // Moduli progetto
 var fileReader = require('../fileexplore/fileReader');
 var fileUtils = require('../fileexplore/fileUtils');
