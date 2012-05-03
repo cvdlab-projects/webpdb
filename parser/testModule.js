@@ -1,8 +1,6 @@
-var frModule = require('./fileReader');
-var drModule = require('./dirReader');
+var frModule = require('../fileexplore/fileReader');
+var drModule = require('../fileexplore/dirReader');
 var parserNub = require('./parserNub');
-
-var path = require('path');
 
 var funCallFile = function(status, data, filename) {
 	// console.log(status + " - " + filename);

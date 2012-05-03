@@ -2,9 +2,9 @@
 // npm install futures Array.prototype.forEachAsync
 require('Array.prototype.forEachAsync');
 // Moduli progetto
-var fileReader = require('../parser/fileReader');
-var fileUtils = require('../parser/fileUtils');
-var dirReader = require('../parser/dirReader');
+var fileReader = require('../fileexplore/fileReader');
+var fileUtils = require('../fileexplore/fileUtils');
+var dirReader = require('../fileexplore/dirReader');
 var parsePdb = require('../parser/parserNub');
 var insertDB = require('../dbmodule/insert');
 
