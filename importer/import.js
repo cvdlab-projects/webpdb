@@ -28,7 +28,7 @@ var mf_runImport = function(rootDir, isRecursive, username, password, dbname, ho
 	};
 
 	var mmf_fileStartRead = function(next, current) {
-		fileReader.readPDBData(current, mf_fileDataRead);
+		fileReader.readPDBData(current, mmf_fileDataRead);
 		// Go next step
 		next();
 	};
