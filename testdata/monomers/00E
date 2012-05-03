@@ -1,0 +1,26 @@
+RESIDUE   00E     21
+CONECT      C      3 O    CA   OXT 
+CONECT      O      1 C   
+CONECT      CA     4 C    NB   HAA  HAB 
+CONECT      NB     3 CA   CD1  CD2 
+CONECT      OZ     2 CE1  CE2 
+CONECT      CD1    4 NB   CE1  HD1  HD1A
+CONECT      CD2    4 NB   CE2  HD2  HD2A
+CONECT      CE1    4 OZ   CD1  HE1  HE1A
+CONECT      CE2    4 OZ   CD2  HE2  HE2A
+CONECT      OXT    2 C    HXT 
+CONECT      HAA    1 CA  
+CONECT      HAB    1 CA  
+CONECT      HD1    1 CD1 
+CONECT      HD1A   1 CD1 
+CONECT      HD2    1 CD2 
+CONECT      HD2A   1 CD2 
+CONECT      HE1    1 CE1 
+CONECT      HE1A   1 CE1 
+CONECT      HE2    1 CE2 
+CONECT      HE2A   1 CE2 
+CONECT      HXT    1 OXT 
+END   
+HET    00E             21
+HETNAM     00E morpholin-4-ylacetic acid
+FORMUL      00E    C6 H11 N1 O3

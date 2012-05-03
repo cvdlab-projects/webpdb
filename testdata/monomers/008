@@ -1,0 +1,54 @@
+RESIDUE   008     48
+CONECT      F7     1 C1  
+CONECT      C1     3 F7   C2   C6  
+CONECT      C2     3 C1   C3   H2  
+CONECT      C3     3 C2   C4   H3  
+CONECT      C4     3 C3   C5   H4  
+CONECT      C5     3 C4   C6   H5  
+CONECT      C6     3 C1   C5   C8  
+CONECT      C8     4 C6   C9   H8C1 H8C2
+CONECT      C9     4 C8   N10  C11  H9  
+CONECT      N10    3 C9   H101 H102
+CONECT      C11    4 C9   C12  H111 H112
+CONECT      C12    3 C11  O13  N14 
+CONECT      O13    1 C12 
+CONECT      N14    3 C12  C19  C15 
+CONECT      C19    4 N14  C18  H191 H192
+CONECT      C18    3 C19  C20  C17 
+CONECT      C20    3 C18  C21  H20 
+CONECT      C21    3 C20  C22  H21 
+CONECT      C22    3 C21  C23  H22 
+CONECT      C17    3 C18  C23  C16 
+CONECT      C23    3 C22  C17  H23 
+CONECT      C16    4 C17  C15  H161 H162
+CONECT      C15    4 N14  C16  C24  H15 
+CONECT      C24    3 C15  O25  N26 
+CONECT      O25    1 C24 
+CONECT      N26    3 C24  H261 H262
+CONECT      H2     1 C2  
+CONECT      H3     1 C3  
+CONECT      H4     1 C4  
+CONECT      H5     1 C5  
+CONECT      H8C1   1 C8  
+CONECT      H8C2   1 C8  
+CONECT      H9     1 C9  
+CONECT      H101   1 N10 
+CONECT      H102   1 N10 
+CONECT      H111   1 C11 
+CONECT      H112   1 C11 
+CONECT      H191   1 C19 
+CONECT      H192   1 C19 
+CONECT      H20    1 C20 
+CONECT      H21    1 C21 
+CONECT      H22    1 C22 
+CONECT      H23    1 C23 
+CONECT      H161   1 C16 
+CONECT      H162   1 C16 
+CONECT      H15    1 C15 
+CONECT      H261   1 N26 
+CONECT      H262   1 N26 
+END   
+HET    008             48
+HETNAM     008 (S)-2-[(R)-3-AMINO-4-(2-FLUORO-PHENYL)-BUTYRYL]-1,2,3,4
+HETNAM   2 008 -TETRAHYDRO-ISOQUINOLINE-3-CARBOXYLIC ACID AMIDE
+FORMUL      008    C20 H22 F1 N3 O2

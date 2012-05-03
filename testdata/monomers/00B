@@ -1,0 +1,26 @@
+RESIDUE   00B     21
+CONECT      C      3 O    CA   OXT 
+CONECT      N      3 CA   CD   HN  
+CONECT      O      1 C   
+CONECT      CA     4 C    N    CB   HA  
+CONECT      CB     4 CA   CG1  CG2  SG3 
+CONECT      CD     4 N    SG3  HD   HDA 
+CONECT      CG1    4 CB   HG1  HG1A HG1B
+CONECT      CG2    4 CB   HG2  HG2A HG2B
+CONECT      SG3    2 CB   CD  
+CONECT      OXT    2 C    HXT 
+CONECT      HN     1 N   
+CONECT      HA     1 CA  
+CONECT      HD     1 CD  
+CONECT      HDA    1 CD  
+CONECT      HG1    1 CG1 
+CONECT      HG1A   1 CG1 
+CONECT      HG1B   1 CG1 
+CONECT      HG2    1 CG2 
+CONECT      HG2A   1 CG2 
+CONECT      HG2B   1 CG2 
+CONECT      HXT    1 OXT 
+END   
+HET    00B             21
+HETNAM     00B (4R)-5,5-dimethyl-1,3-thiazolidine-4-carboxylic acid
+FORMUL      00B    C6 H11 N1 O2 S1

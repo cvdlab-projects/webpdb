@@ -1,0 +1,42 @@
+RESIDUE   00F     36
+CONECT      N13    3 C15  HN13 HN1A
+CONECT      C15    4 N13  C16  P33  H15 
+CONECT      C16    4 C15  C17  H16  H16A
+CONECT      C17    3 C16  C18  C22 
+CONECT      C18    3 C17  C19  H18 
+CONECT      C19    3 C18  C20  H19 
+CONECT      C20    3 C19  C21  H20 
+CONECT      C21    3 C20  C22  H21 
+CONECT      C22    3 C17  C21  H22 
+CONECT      P33    4 C15  O36  C37  OP3 
+CONECT      O36    2 P33  HO36
+CONECT      C37    4 P33  C39  H37  H37A
+CONECT      C39    4 C37  C40  C45  H39 
+CONECT      C40    4 C39  H40  H40A H40B
+CONECT      C45    3 C39  O46  OXT 
+CONECT      O46    1 C45 
+CONECT      OP3    1 P33 
+CONECT      HN13   1 N13 
+CONECT      HN1A   1 N13 
+CONECT      H15    1 C15 
+CONECT      H16    1 C16 
+CONECT      H16A   1 C16 
+CONECT      H18    1 C18 
+CONECT      H19    1 C19 
+CONECT      H20    1 C20 
+CONECT      H21    1 C21 
+CONECT      H22    1 C22 
+CONECT      HO36   1 O36 
+CONECT      H37    1 C37 
+CONECT      H37A   1 C37 
+CONECT      H39    1 C39 
+CONECT      H40    1 C40 
+CONECT      H40A   1 C40 
+CONECT      H40B   1 C40 
+CONECT      OXT    2 C45  HXT 
+CONECT      HXT    1 OXT 
+END   
+HET    00F             36
+HETNAM     00F (2S)-3-[(R)-[(1R)-1-amino-2-phenylethyl](hydroxy)phosph
+HETNAM   2 00F oryl]-2-methylpropanoic acid
+FORMUL      00F    C12 H18 N1 O4 P1

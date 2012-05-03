@@ -1,0 +1,95 @@
+RESIDUE   009     88
+CONECT      C      3 O    N    C30 
+CONECT      O      1 C   
+CONECT      N      3 C    CA   HN  
+CONECT      CA     4 N    CB   C1   HA  
+CONECT      CB     4 CA   CG   HB   HBA 
+CONECT      CG     3 CB   CD1  CD2 
+CONECT      CD1    3 CG   CE1  HD1 
+CONECT      CD2    3 CG   CE2  HD2 
+CONECT      CE1    3 CD1  CZ   HE1 
+CONECT      CE2    3 CD2  CZ   HE2 
+CONECT      CZ     3 CE1  CE2  HZ  
+CONECT      C1     4 CA   OG   C2   H1  
+CONECT      OG     2 C1   HOG 
+CONECT      C2     4 C1   N2   H2   H2A 
+CONECT      N2     3 C2   C20  HN2 
+CONECT      C20    4 N2   C21  H20  H20A
+CONECT      C21    3 C20  C22  C26 
+CONECT      C22    3 C21  C23  H22 
+CONECT      C23    3 C22  C24  H23 
+CONECT      C24    3 C23  C25  H24 
+CONECT      C25    3 C24  C26  N27 
+CONECT      C26    3 C21  C25  H26 
+CONECT      N27    3 C25  C28  C29 
+CONECT      C28    4 N27  H28  H28A H28B
+CONECT      C29    4 N27  H29  H29A H29B
+CONECT      C30    4 C    N31  C35  C51 
+CONECT      N31    3 C30  C32  HN31
+CONECT      C32    3 N31  O33  N34 
+CONECT      O33    1 C32 
+CONECT      N34    3 C32  C35  C36 
+CONECT      C35    4 C30  N34  H35  H35A
+CONECT      C36    4 N34  C41  H36  H36A
+CONECT      C41    3 C36  C42  C43 
+CONECT      C42    3 C41  C45  H42 
+CONECT      C43    3 C41  C44  H43 
+CONECT      C44    3 C43  C46  H44 
+CONECT      C45    3 C42  C46  H45 
+CONECT      C46    3 C44  C45  H46 
+CONECT      C51    4 C30  C56  H51  H51A
+CONECT      C52    3 C53  C57  H52 
+CONECT      C53    3 C52  C54  H53 
+CONECT      C54    3 C53  C55  H54 
+CONECT      C55    3 C54  C56  H55 
+CONECT      C56    3 C51  C55  C57 
+CONECT      C57    3 C52  C56  H57 
+CONECT      HN     1 N   
+CONECT      HA     1 CA  
+CONECT      HB     1 CB  
+CONECT      HBA    1 CB  
+CONECT      HD1    1 CD1 
+CONECT      HD2    1 CD2 
+CONECT      HE1    1 CE1 
+CONECT      HE2    1 CE2 
+CONECT      HZ     1 CZ  
+CONECT      H1     1 C1  
+CONECT      HOG    1 OG  
+CONECT      H2     1 C2  
+CONECT      H2A    1 C2  
+CONECT      HN2    1 N2  
+CONECT      H20    1 C20 
+CONECT      H20A   1 C20 
+CONECT      H22    1 C22 
+CONECT      H23    1 C23 
+CONECT      H24    1 C24 
+CONECT      H26    1 C26 
+CONECT      H28    1 C28 
+CONECT      H28A   1 C28 
+CONECT      H28B   1 C28 
+CONECT      H29    1 C29 
+CONECT      H29A   1 C29 
+CONECT      H29B   1 C29 
+CONECT      HN31   1 N31 
+CONECT      H35    1 C35 
+CONECT      H35A   1 C35 
+CONECT      H36    1 C36 
+CONECT      H36A   1 C36 
+CONECT      H42    1 C42 
+CONECT      H43    1 C43 
+CONECT      H44    1 C44 
+CONECT      H45    1 C45 
+CONECT      H46    1 C46 
+CONECT      H51    1 C51 
+CONECT      H51A   1 C51 
+CONECT      H52    1 C52 
+CONECT      H53    1 C53 
+CONECT      H54    1 C54 
+CONECT      H55    1 C55 
+CONECT      H57    1 C57 
+END   
+HET    009             88
+HETNAM     009 (4S)-1,4-dibenzyl-N-[(1S,2R)-1-benzyl-3-{[3-(dimethylam
+HETNAM   2 009 ino)benzyl]amino}-2-hydroxypropyl]-2-oxoimidazolidine-4
+HETNAM   3 009 -carboxamide
+FORMUL      009    C37 H43 N5 O3

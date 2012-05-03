@@ -1,0 +1,32 @@
+RESIDUE   005     27
+CONECT      C      3 O    CA   OXT 
+CONECT      N      3 CB1  HN   HNA 
+CONECT      O      1 C   
+CONECT      CA     4 C    CB1  OB2  HA  
+CONECT      CD     3 CG   CE1  CE2 
+CONECT      CG     4 CD   CB1  HG   HGA 
+CONECT      CH     3 CZ1  CZ2  HH  
+CONECT      CB1    4 N    CA   CG   HB1 
+CONECT      OB2    2 CA   HOB2
+CONECT      CE1    3 CD   CZ1  HE1 
+CONECT      CE2    3 CD   CZ2  HE2 
+CONECT      CZ1    3 CH   CE1  HZ1 
+CONECT      CZ2    3 CH   CE2  HZ2 
+CONECT      OXT    2 C    HXT 
+CONECT      HN     1 N   
+CONECT      HNA    1 N   
+CONECT      HA     1 CA  
+CONECT      HG     1 CG  
+CONECT      HGA    1 CG  
+CONECT      HH     1 CH  
+CONECT      HB1    1 CB1 
+CONECT      HOB2   1 OB2 
+CONECT      HE1    1 CE1 
+CONECT      HE2    1 CE2 
+CONECT      HZ1    1 CZ1 
+CONECT      HZ2    1 CZ2 
+CONECT      HXT    1 OXT 
+END   
+HET    005             27
+HETNAM     005 (2S,3S)-3-amino-2-hydroxy-4-phenylbutanoic acid
+FORMUL      005    C10 H13 N1 O3
