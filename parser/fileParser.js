@@ -1,6 +1,6 @@
 // ----------------------require-----------------
 
-var utils = require('parserUtils');
+var utils = require('./parserUtils');
 
 var parseLineContent = utils.parseLineContent;
 var LineScanner = utils.LineScanner;
@@ -8,9 +8,8 @@ var getObjectParsingFunction = utils.getObjectParsingFunction;
 
 // ---------------------------------funzione da esportare:---------------------------------
 
-
-var parsePDB = function (allGoingWell,pdbString,proteinID){
-	if(!allGoingWell){
+var parsePDB = function (allGoingWell,pdbString,proteinID) {
+	if (!allGoingWell){
 		throw "Read unsuccesful";
 	}
 
@@ -26,23 +25,9 @@ var parsePDB = function (allGoingWell,pdbString,proteinID){
 //	var currentLineStartIndex = 0;
 //	var nl = "\n";
 
-
-
 	// -------funzioni che hanno bisogno di questo scope:-------
 
-	var parsingFunctions = {
-		"MODEL " : parseIncremental,
-		"HELIX " : parseIncremental,
-		"SHEET " : parseIncremental,
-		"REMARK" : parseIncremental, //migliorabile
-		"default" : parseUnique
-	};
-	var getParsingFunction = function(type){
-		return (parsingFunctions[type] || parsingFunctions["default"]);
-	}
-
-
-	var parseIncremental = function(protein,type,line,scanner){
+	var parseIncremental = function(protein,type,line,scanner) {
 		var NOF_fname = "NOF_"+type; // es : NOF_HELIX sta per Number Of Helix(es)
 
 		var quantity = protein[NOF_fname];
@@ -56,40 +41,51 @@ var parsePDB = function (allGoingWell,pdbString,proteinID){
 		var thisRecordNumber = quantity +1;
 
 		var objectParsingFunction = getObjectParsingFunction(type);
-		protein[type+"_"+thisRecordNumber] = objectParsingFunction(type,line,scanner);// parsa l' "oggetto" del pdb che inizia a quella linea (che puo' essere lungo una o piu' linee)
-																	//es: HELIX_1 = helix json parsato
-																 	//	 MODEL_1 = model json parsato che contiene tutti i suoi ATOM ecc.. parsati (nota: quindi potrebbe essere utilizzato nextline() dalla funzione)
-	}
+		protein[type+"_"+thisRecordNumber] = objectParsingFunction(type,line,scanner); 
+		/* 
+			parsa l' "oggetto" del pdb che inizia a quella linea (che puo' essere lungo una o piu' linee)
+			es: HELIX_1 = helix json parsato
+				MODEL_1 = model json parsato che contiene tutti i suoi ATOM ecc.. parsati 
+			(nota: quindi potrebbe essere utilizzato nextline() dalla funzione)
+		*/
+	};
 
-	var parseUnique = function(protein,type,line,scanner){
+	var parseUnique = function(protein,type,line,scanner) {
 		var objectParsingFunction = getObjectParsingFunction(type);
 		protein[type] = objectParsingFunction(type,line,scanner);
-	}
-
-
-
+	};
+	
+	// NdFurio: Prima le funzioni, poi l'array di funzioni o impazzisce.
+	
+	var parsingFunctions = {
+		"MODEL " : parseIncremental,
+		"HELIX " : parseIncremental,
+		"SHEET " : parseIncremental,
+		"REMARK" : parseIncremental, //migliorabile
+		"default" : parseUnique
+	};
+	
+	var getParsingFunction = function(type) {
+		return (parsingFunctions[type] || parsingFunctions["default"]);
+	};	
 
 	//---------------------------------------------------parsing:------------------------------------------------
-
-
 
 //	var line = nextLine(); (sostituito dallo scanner)
 	var line;
 
-	while(scanner.hasNextLine()){
-
+	while (scanner.hasNextLine()) {
 		line = scanner.nextLine();
 		var type = line.substring(0,6);
-
 		var parsingFunction = getParsingFunction(type);
-
-		parsingFunction(protein,type,line,scanner); //la linea corrente puo' anche essere ottenuta dallo scanner (scanner.currentLine());
-							//NOTA: la parsingFunction puo' fare uso della funzione scanner.nextLine(),
-							//quindi la nuova line non e' necessariamente quella che seguiva la vecchia.
+		parsingFunction(protein,type,line,scanner); 
+		/* 
+			la linea corrente puo' anche essere ottenuta dallo scanner (scanner.currentLine());
+			NOTA: la parsingFunction puo' fare uso della funzione scanner.nextLine(),
+			quindi la nuova line non e' necessariamente quella che seguiva la vecchia.
+		*/
 	}
-
-
-}
+};
 
 /// Exports
 
@@ -98,8 +94,8 @@ exports.parsePDB = parsePDB;
 
 /// Testing
 
-vat testParserPro = function(what){
-	if(what.contains("l")){
+var testParserPro = function(what) {
+	if (what.contains("l")){
 		var parsedLine = parseLine("ATOM     50  CG  GLU A   4      18.057  25.754   8.986  1.00  0.00           C  ","ATOM");
 		console.log(parsedLine);
 	}
