@@ -37,11 +37,19 @@ LineScanner.prototype.hasNextLine = function() {
 	return (this.ind < this.scannedStringLength);
 };
 
+var strim = function(string){
+	if(string.trimLeft != undefined || string.trimRight != undefined){
+		return string.trimRight().trimLeft();
+	} else if (string.ltrim != undefined || string.rtrim != undefined){
+		return string.ltrim().strim();
+	}
+}
+
 // ---------------------------------funzioni per il parsing:---------------------------------
 
 var parseLineSimple = function(type,line,scanner) {
 	var simpleParsedLine = {
-		"type" : type,
+		"type" : strim(type),
 		"content" : line.substring(6)
 	};
 
@@ -51,8 +59,7 @@ var parseLineSimple = function(type,line,scanner) {
 //scanner non usato, questa funzione guarda solo il contenuto di questa linea.
 var parseLineContent = function (type,line,scanner) { 
 
-	var cutSpaces = false; //TODO ?
-
+	
 	if (type == undefined || type == null || type == "") {
 		throw "Type undefined";
 	}
@@ -60,24 +67,14 @@ var parseLineContent = function (type,line,scanner) {
 	var assocs = parsingInfo[type];
 
 	var parsedLine = {
-		"type" : type
+		"type" : strim(type)
 	};
 
 	assocs.forEach(function(fieldInfo,index,array) {
 		// finfo[0]: start column
 		// finfo[1]: end column
 		// finfo[2]: fname
-		if(cutSpaces){
-			var tokens = line.substring(fieldInfo[0]-1,fieldInfo[1]).split(" ");
-			parsedLine[fieldInfo[2]] = tokens[0];
-			if(tokens.length>1){
-				console.log(tokens);
-				throw "Information loss while cutting blank spaces";
-			}
-		} else {
-			parsedLine[fieldInfo[2]] = line.substring(fieldInfo[0],fieldInfo[1]+1);
-		}	
-
+		parsedLine[fieldInfo[2]] = strim(line.substring(fieldInfo[0]-1,fieldInfo[1]));
 	});
 	
 	return parsedLine;
@@ -86,13 +83,13 @@ var parseLineContent = function (type,line,scanner) {
 
 var parseModel = function(type,line,scanner) {
 	if (type != "MODEL ") {
-		throw "this is not a model."
+		throw "this is not a model.";
 	};
 
 	var parsedModel = parseLineContent(type,line,scanner); //type e serial, e allo stesso json aggiungo gli atomi come R_1, R_2 ecc..
 
 	var endModel = false;
-	var i = 0;
+	var i = 1;
 	var modelLine;
 	var modelLineType;
 
@@ -107,6 +104,8 @@ var parseModel = function(type,line,scanner) {
 			endModel = true;
 		}
 	}
+
+	return parsedModel;
 };
 
 var objectParsingFunctions = {
@@ -133,3 +132,4 @@ var getObjectParsingFunction = function (type) { //ritorna una function(line,sca
 exports.LineScanner = LineScanner;
 exports.parseLineContent = parseLineContent;
 exports.getObjectParsingFunction = getObjectParsingFunction;
+exports.strim = strim;

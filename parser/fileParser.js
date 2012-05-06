@@ -5,6 +5,7 @@ var utils = require('./parserUtils');
 var parseLineContent = utils.parseLineContent;
 var LineScanner = utils.LineScanner;
 var getObjectParsingFunction = utils.getObjectParsingFunction;
+var strim = utils.strim;
 
 // ---------------------------------funzione da esportare:---------------------------------
 
@@ -28,7 +29,7 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 	// -------funzioni che hanno bisogno di questo scope:-------
 
 	var parseIncremental = function(protein,type,line,scanner) {
-		var NOF_fname = "NOF_"+type; // es : NOF_HELIX sta per Number Of Helix(es)
+		var NOF_fname = "NOF_"+strim(type); // es : NOF_HELIX sta per Number Of Helix(es)
 
 		var quantity = protein[NOF_fname];
 
@@ -41,7 +42,7 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 		var thisRecordNumber = quantity +1;
 
 		var objectParsingFunction = getObjectParsingFunction(type);
-		protein[type+"_"+thisRecordNumber] = objectParsingFunction(type,line,scanner); 
+		protein[strim(type)+"_"+thisRecordNumber] = objectParsingFunction(type,line,scanner); 
 		
 		//	parsa l' "oggetto" del pdb che inizia a quella linea (che puo' essere lungo una o piu' linee)
 		//	es: HELIX_1 = helix json parsato
@@ -52,7 +53,7 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 
 	var parseUnique = function(protein,type,line,scanner) {
 		var objectParsingFunction = getObjectParsingFunction(type);
-		protein[type] = objectParsingFunction(type,line,scanner);
+		protein[strim(type)] = objectParsingFunction(type,line,scanner);
 	};
 	
 	// NdFurio: Prima le funzioni, poi l'array di funzioni o impazzisce.
@@ -77,6 +78,9 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 	while (scanner.hasNextLine()) {
 		line = scanner.nextLine();
 		var type = line.substring(0,6);
+		if(type == "END   "){
+			break;
+		}
 		var parsingFunction = getParsingFunction(type);
 		parsingFunction(protein,type,line,scanner); 
 
