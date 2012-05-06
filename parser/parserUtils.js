@@ -50,7 +50,7 @@ var strim = function(string){
 var parseLineSimple = function(type,line,scanner) {
 	var simpleParsedLine = {
 		"type" : strim(type),
-		"content" : line.substring(6)
+		"content" : strim(line.substring(6))
 	};
 
 	return simpleParsedLine;
