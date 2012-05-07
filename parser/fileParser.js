@@ -63,6 +63,26 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 		"HELIX " : parseIncremental,
 		"SHEET " : parseIncremental,
 		"REMARK" : parseIncremental, //migliorabile
+
+		"ANISOU" : parseIncremental, //1 line multiple times
+		"CISPEP" : parseIncremental,
+		"CONECT" : parseIncremental,
+		"DBREF " : parseIncremental,
+		"HET   " : parseIncremental,
+		"LINK  " : parseIncremental,
+		"MTRIX1" : parseIncremental,
+		"MTRIX2" : parseIncremental,
+		"MTRIX3" : parseIncremental,		      
+		"REVDAT" : parseIncremental,
+		"SEQADV" : parseIncremental,
+		"SSBOND" : parseIncremental,
+
+		"FORMUL" : parseIncremental, //multiple lines multiple times
+		"HETNAM" : parseIncremental,
+		"HETSYN" : parseIncremental,
+		"SEQRES" : parseIncremental,
+		"SITE  " : parseIncremental,
+
 		"default" : parseUnique
 	};
 	
