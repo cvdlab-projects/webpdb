@@ -1,6 +1,6 @@
 var fs = require('fs'); //Fylesystem Module, needed to store the Json file. 
 
-var storeJson = export.storeJson = function(bool, Data){
+var storeJson = exports.storeJson = function(bool, Data){
 	if(bool){
 		fs.writeFile('Protein.json', Data , function(err) {
     		if(err) {

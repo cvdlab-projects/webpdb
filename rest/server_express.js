@@ -1,6 +1,6 @@
 
 var app = require('express').createServer();
-var dbmodule = require('./get'); 
+var dbmodule = require('../get'); 
 var store = require('./store');
 
 app.get('/', function(req, res){
