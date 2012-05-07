@@ -1,7 +1,7 @@
-var fs = require('fs'); //Fylesystem Module, needed to store the Json file. 
+var fs = require('fs'); //Filesystem Module, needed to store the Json file. 
 
 /*
-bool: TRUE if ok, false otherwise
+bool: TRUE if success, false otherwise
 */
 var storeJson = exports.storeJson = function(bool, Data){
 	if(bool){
