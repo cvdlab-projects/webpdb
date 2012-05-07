@@ -1,7 +1,15 @@
 
 var app = require('express').createServer();
-var dbmodule = require('../get'); 
+var dbmodule = require('../dbmodule/get'); 
 var store = require('./store');
+var config = require('./config');
+
+var params = config.getParameters();
+var userName = params[0];
+var password = params[1];
+var dbName = params[2];
+var host = params[3];
+var port = params[4];
 
 app.get('/', function(req, res){
   console.log("[200] " + req.method + " to " + req.url);

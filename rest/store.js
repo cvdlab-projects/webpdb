@@ -5,9 +5,11 @@ var storeJson = exports.storeJson = function(bool, Data){
 		fs.writeFile('Protein.json', Data , function(err) {
     		if(err) {
         	console.log(err);
-    		} else {
-        	console.log("The file was saved!");
     		}
-		}
-	}	else{console.log(Data);}
+    		else {
+        	console.log("The file was saved!");
+  			}
+		});
+	}	
+	else{console.log(Data);}
 }
