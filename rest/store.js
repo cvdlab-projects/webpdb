@@ -1,7 +1,12 @@
 var fs = require('fs'); //Fylesystem Module, needed to store the Json file. 
 
+/*
+bool: TRUE if ok, false otherwise
+*/
 var storeJson = exports.storeJson = function(bool, Data){
 	if(bool){
+		console.log('bool: '+bool);
+		console.log(Data);
 		/*
 		fs.writeFile('Protein.json', Data , function(err) {
     		if(err) {
@@ -12,5 +17,8 @@ var storeJson = exports.storeJson = function(bool, Data){
   			}
 		});*/
 	}	
-	else{console.log(Data);}
+	else{
+		console.log('bool: '+bool);
+		console.log(Data);
+	}
 }
