@@ -33,7 +33,6 @@ app.get('/retrieveById', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
      id = req.query["proteinID"]; //Returns the value stored in the get request
-     //dbmodule.retrieveByID(id, store.storeJson(false, ''), userName, password, dbName,  host, port);
      dbmodule.retrieveByID(id, store.storeJson, userName, password, dbName,  host, port);
     }); 
     });
@@ -42,7 +41,7 @@ app.get('/retrieveByName', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
      name = req.query["proteinName"]; //Returns the value stored in the get request
-     dbmodule.retrieveByName(name, store.storeJson(false, ''), userName, password, dbName,  host, port);
+     dbmodule.retrieveByName(name, store.storeJson, userName, password, dbName,  host, port);
     }); 
     });
 
