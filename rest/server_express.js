@@ -29,7 +29,7 @@ app.get('/retrieveById', function(req,res){
     }); 
     });
 
-app.get('/retrieveById', function(req,res){
+app.get('/retrieveByName', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
      name = req.query["proteinName"]; //Returns the value stored in the get request
