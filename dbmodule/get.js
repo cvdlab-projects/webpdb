@@ -1,5 +1,5 @@
 var cradle = require('cradle');
-
+var queryGen = require('./queryGenerator')
 /*
 	callbackFunction(success:BOOL, result:JSON);
 */
@@ -35,18 +35,13 @@ var retrieveByName = function(name, callbackFunction, userName, password, dbName
 
 	db.save('_design/proteinsByName', {
 		byName: {
-			map: function (doc) { if (doc.name) { emit(doc.name, doc); } }}
+			map: queryGen.mapContains("name", name); } }}
 		});
-		
-	db.view('proteinsByName/byName', {key: name}, function (err, doc) {
-		if ( err !== null ) {
-			callbackFunction(false, err);
-		} else {
-			delete doc._rev;
-			callbackFunction(true, doc);
-		}
 	});
 };
 
+
+
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
+
