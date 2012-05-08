@@ -2,6 +2,14 @@
 var app = require('express').createServer();
 var dbmodule = require('../dbmodule/get'); 
 var store = require('./store');
+var config = require('./config');
+
+var params = config.parameters();
+var userName = params.username;
+var password = params.password;
+var dbName = params.dbName;
+var host = params.host;
+var port = params.port;
 
 app.get('/', function(req, res){
   console.log("[200] " + req.method + " to " + req.url);
@@ -25,16 +33,16 @@ app.get('/retrieveById', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
      id = req.query["proteinID"]; //Returns the value stored in the get request
-     dbmodule.retrieveByID(id, store.storeJson(false, ''), userName, password, dbName,  host, port);
+     dbmodule.retrieveByID(id, store.storeJson, userName, password, dbName,  host, port);
     }); 
-    });
+});
 
 app.get('/retrieveByName', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
      name = req.query["proteinName"]; //Returns the value stored in the get request
-     dbmodule.retrieveByName(name, store.storeJson(false, ''), userName, password, dbName,  host, port);
+     dbmodule.retrieveByName(name, store.storeJson, userName, password, dbName,  host, port);
     }); 
-    });
+});
 
 app.listen(3000);
