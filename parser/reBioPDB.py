@@ -1,5 +1,6 @@
-from Bio.PDB import *
+import sys
 
+from Bio.PDB import *
 from Bio.Data.IUPACData import atom_weights # Allowed Elements 
 from Bio.PDB.PDBIO import _ATOM_FORMAT_STRING
 from Bio.PDB.PDBIO import Select
@@ -11,7 +12,7 @@ class NotDisordered(Select):
 
 class NMROutputSelector2( Select ): # Inherit methods from Select class
 	def accept_atom( self, atom ):
-		if ( not atom.is_disordered() ) or atom.get_altloc() ==  'A':
+		if ( not atom.is_disordered() ) or atom.get_altloc() == 'A':
 			atom.set_altloc( ' ' ) # Eliminate alt location ID before output.
 			return True
 		else: # Alt location was not one to be output.
@@ -84,23 +85,25 @@ def _savetoString(structure, select=Select(), write_end=0):
 	return ''.join(str_list)
 
 def extractPDB(id, path):
-	parser = PDBParser()
+	parser = PDBParser(True,True)
 	s = parser.get_structure(id, path) # 'my_pdb', 'my_pdb.pdb'
-	return s;
+	return [parser.get_header(), s, parser.get_trailer()];
 
 def writePDB(structure, path):
 	io = PDBIO()
 	io.set_structure(structure)
-	io.save(path, select=NMROutputSelector2())	# 
+	io.save(path)	# select=NMROutputSelector2()
 	
 def stringPDB(structure):
 	print _savetoString(structure, select=NMROutputSelector2())
 
-struct = extractPDB('2lgh', 'C:/Android/biopythonTest/pdb2lgh.ent')
-# writePDB(struct, 'C:/Android/biopythonTest/2lgh.pdb')
-stringPDB(struct)
-
 '''
-- Use pipe as input ??? Trsnformation between filehandler of PDBIO e pipe???
 - Need to print header and trailer too
 '''
+
+if __name__=="__main__": 
+	if len(sys.argv) != 3: 
+		print 'Usage: %s <id> <path>' % (sys.argv[0]) 
+	else:
+		dataPDB = extractPDB(sys.argv[1], sys.argv[2]) # '2lgh', 'C:/Android/biopythonTest/pdb2lgh.ent'
+		stringPDB(dataPDB[1]) # writePDB(struct, 'C:/Android/biopythonTest/2lgh.pdb')
