@@ -1,11 +1,10 @@
-NOT YET IMPLEMENTED
+Cambiamenti:
 
-1 - Admin Interface and UserID/Pass filters.
+- istanza del db, ora viene caricato una volta sola e usata per le query.
+- istanza del db viene caricata da file config.json esterno (contenente porta, host, ...).
+- Implementata pagina admin: mancano i metodi propri per l'amministratore.
+- Implementati filtri, in modo tale che solo gli utenti autenticati possono accedere a pagina admin.
+- Aggiunto il controllo della sessione Web con Redis. (gestione cookie per l'autenticazione).
+- Aggiunti nuovi routing (es /login, /logout, ecc ecc).
 
-2 - List-All-Proteins        -> Dario's task?
-  
-3 - List-All-Names method    -> Dario's task?
-
-4 - Every json file stored in the FS has always the default name. (Currently looking for a way to get an input filename from the user)
-
-5 - ...? Work in Progress.
+- Modificata leggermente l'interfaccia per renderla più chiara.
