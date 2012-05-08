@@ -35,7 +35,7 @@ app.get('/retrieveById', function(req,res){
      id = req.query["proteinID"]; //Returns the value stored in the get request
      dbmodule.retrieveByID(id, store.storeJson, userName, password, dbName,  host, port);
     }); 
-    });
+});
 
 app.get('/retrieveByName', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
@@ -43,6 +43,6 @@ app.get('/retrieveByName', function(req,res){
      name = req.query["proteinName"]; //Returns the value stored in the get request
      dbmodule.retrieveByName(name, store.storeJson, userName, password, dbName,  host, port);
     }); 
-    });
+});
 
 app.listen(3000);
