@@ -1,4 +1,5 @@
-var fs = require('fs'); //Filesystem Module, needed to store the Json file. 
+var fs = require('fs'); 
+//Filesystem Module, needed to store the Json file. 
 
 /*
 bool: TRUE if success, false otherwise
