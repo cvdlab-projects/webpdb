@@ -69,7 +69,6 @@ app.get('/admin_functions', checkAuth, function (req, res) {
   res.write('<html><head><title>Admin Control Panel</title></head><body>');
   res.write('<div align=Center><h1>Control Panel:</h1></div>');
   res.write('<form enctype="application/x-www-form-urlencoded" action="/logout" method="post">');
-  res.write('<br />');
   res.write('<input type="submit" value = "Logout" /></div>');
   res.write('</form></html>');
   res.end();
