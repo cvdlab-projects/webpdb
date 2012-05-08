@@ -33,10 +33,17 @@ var retrieveByName = function(name, callbackFunction, userName, password, dbName
 
 	var db = c.database(dbName);
 
-	db.save('_design/proteinsByName', {
-		byName: {
-			map: queryGen.mapContains("name", name); } }}
-		});
+	db.save('_design/proteinsView', {
+		view: {
+			map: queryGen.mapContains("name", name);}});
+	
+	db.view('proteinsview/view', function (err, doc) {
+		if ( err !== null ) {
+			callbackFunction(false, err);
+		} else {
+			delete doc._rev;
+			callbackFunction(true, doc);
+		}
 	});
 };
 
