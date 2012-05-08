@@ -1,9 +1,16 @@
-var username = 'webpdb';
-var password = 'w3bpdb';
-var dbName = 'pdbimporttest';
-var host = '127.0.0.1';
-var port = '5984';
 
-exports.getParameters = function() {
-	return [username,password,dbName,host,port];
+var params = {
+	'username': 'webpdb',
+ 	'password': 'w3bpdb',
+	'dbName': 'pdbimporttest',
+	'host': '127.0.0.1',
+	'port': '5984'
 }
+
+/* Returns the json with all the initial settings */
+var getParameters = function() {
+	return params;
+}
+
+
+exports.parameters = getParameters;
