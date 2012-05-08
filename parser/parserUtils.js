@@ -1,8 +1,8 @@
 var mdata = require('./parserMetaData');
 var parsingInfo = mdata.parsingInfo;
 
-//oggetto scanner
-//da istanziare come oggetto, TODO aggiungere il magheggio per controllare che sia stato costruito come oggetto
+// oggetto scanner
+// da istanziare come oggetto, TODO aggiungere il magheggio per controllare che sia stato costruito come oggetto
 var LineScanner = function(string,startIndex) { 
 	this.scannedString = string;
 	this.scannedStringLength = this.scannedString.length;
@@ -37,12 +37,20 @@ LineScanner.prototype.hasNextLine = function() {
 	return (this.ind < this.scannedStringLength);
 };
 
+var strim = function(string){
+	if(string.trimLeft != undefined || string.trimRight != undefined){
+		return string.trimRight().trimLeft();
+	} else if (string.ltrim != undefined || string.rtrim != undefined){
+		return string.ltrim().strim();
+	}
+}
+
 // ---------------------------------funzioni per il parsing:---------------------------------
 
 var parseLineSimple = function(type,line,scanner) {
 	var simpleParsedLine = {
-		"type" : type,
-		"content" : line.substring(6)
+		"type" : strim(type),
+		"content" : strim(line.substring(6))
 	};
 
 	return simpleParsedLine;
@@ -51,8 +59,7 @@ var parseLineSimple = function(type,line,scanner) {
 //scanner non usato, questa funzione guarda solo il contenuto di questa linea.
 var parseLineContent = function (type,line,scanner) { 
 
-	var cutSpaces = false; //TODO ?
-
+	
 	if (type == undefined || type == null || type == "") {
 		throw "Type undefined";
 	}
@@ -60,24 +67,14 @@ var parseLineContent = function (type,line,scanner) {
 	var assocs = parsingInfo[type];
 
 	var parsedLine = {
-		"type" : type
+		"type" : strim(type)
 	};
 
 	assocs.forEach(function(fieldInfo,index,array) {
 		// finfo[0]: start column
 		// finfo[1]: end column
 		// finfo[2]: fname
-		if(cutSpaces){
-			var tokens = line.substring(fieldInfo[0]-1,fieldInfo[1]).split(" ");
-			parsedLine[fieldInfo[2]] = tokens[0];
-			if(tokens.length>1){
-				console.log(tokens);
-				throw "Information loss while cutting blank spaces";
-			}
-		} else {
-			parsedLine[fieldInfo[2]] = line.substring(fieldInfo[0],fieldInfo[1]+1);
-		}	
-
+		parsedLine[fieldInfo[2]] = strim(line.substring(fieldInfo[0]-1,fieldInfo[1]));
 	});
 	
 	return parsedLine;
@@ -86,13 +83,13 @@ var parseLineContent = function (type,line,scanner) {
 
 var parseModel = function(type,line,scanner) {
 	if (type != "MODEL ") {
-		throw "this is not a model."
+		throw "this is not a model.";
 	};
 
 	var parsedModel = parseLineContent(type,line,scanner); //type e serial, e allo stesso json aggiungo gli atomi come R_1, R_2 ecc..
 
 	var endModel = false;
-	var i = 0;
+	var i = 1;
 	var modelLine;
 	var modelLineType;
 
@@ -107,6 +104,8 @@ var parseModel = function(type,line,scanner) {
 			endModel = true;
 		}
 	}
+
+	return parsedModel;
 };
 
 var objectParsingFunctions = {
@@ -124,18 +123,13 @@ var objectParsingFunctions = {
 	"default": parseLineSimple //TODO (semplice, schiaffa la stringa intera apparte il type, da usare per i 1 line 1 time da non interpretare)
 };
 	
-var getObjectParsingFunction = function (type){ //ritorna una function(line,scanner) relativa al tipo di oggetto desiderato
+var getObjectParsingFunction = function (type) { //ritorna una function(line,scanner) relativa al tipo di oggetto desiderato
 	return objectParsingFunctions[type] || objectParsingFunctions["default"];
 };
 
-// -------------------------------------------------------exports-----------------------------------------------------------------------
+// ------------- EXPORTS ------------------
 
 exports.LineScanner = LineScanner;
 exports.parseLineContent = parseLineContent;
 exports.getObjectParsingFunction = getObjectParsingFunction;
-
-// INUTILE? si.
-/*var getLine = function (startIndex,string){	// startIndex : indice del primo carattere della linea (NON una "\n")
-											// ritorna la linea fino al prossimo "\n" (NON incluso)
-	return string.substring(startIndex, string.indexOf("\n",startIndex));
-}*/
+exports.strim = strim;
