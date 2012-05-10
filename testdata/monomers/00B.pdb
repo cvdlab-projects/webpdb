@@ -1,0 +1,48 @@
+HEADER    NONAME 05-Jun-11
+TITLE     Produced by PDBeChem
+COMPND    00B      
+AUTHOR    EBI-PDBe Generated
+REVDAT   1  05-Jun-11     0
+ATOM      1  C   00B     0      24.113   9.417  54.053  1.00 20.00           C+0
+ATOM      2  N   00B     0      26.218   8.858  55.281  1.00 20.00           N+0
+ATOM      3  O   00B     0      24.444   8.647  53.185  1.00 20.00           O+0
+ATOM      4  CA  00B     0      25.136   9.987  55.069  1.00 20.00           C+0
+ATOM      5  CB  00B     0      25.893  11.245  54.527  1.00 20.00           C+0
+ATOM      6  CD  00B     0      27.546   9.183  54.587  1.00 20.00           C+0
+ATOM      7  CG1 00B     0      25.048  12.140  53.609  1.00 20.00           C+0
+ATOM      8  CG2 00B     0      26.395  12.054  55.733  1.00 20.00           C+0
+ATOM      9  SG3 00B     0      27.269  10.563  53.652  1.00 20.00           S+0
+ATOM     10  OXT 00B     0      22.742   9.814  54.146  1.00 20.00           O+0
+ATOM     11  HN  00B     0      26.388   8.761  56.262  1.00 20.00           H+0
+ATOM     12  HA  00B     0      24.599  10.281  55.983  1.00 20.00           H+0
+ATOM     13  HD  00B     0      28.334   9.373  55.331  1.00 20.00           H+0
+ATOM     14  HDA 00B     0      27.864   8.344  53.951  1.00 20.00           H+0
+ATOM     15  HG1 00B     0      25.652  12.996  53.274  1.00 20.00           H+0
+ATOM     16 HG1A 00B     0      24.718  11.560  52.735  1.00 20.00           H+0
+ATOM     17 HG1B 00B     0      24.169  12.505  54.161  1.00 20.00           H+0
+ATOM     18  HG2 00B     0      26.932  12.946  55.379  1.00 20.00           H+0
+ATOM     19 HG2A 00B     0      25.538  12.363  56.349  1.00 20.00           H+0
+ATOM     20 HG2B 00B     0      27.074  11.432  56.334  1.00 20.00           H+0
+ATOM     21  HXT 00B     0      22.241   9.386  53.462  1.00 20.00           H+0
+CONECT    1    4    3   10
+CONECT    2    4    6   11
+CONECT    3    1
+CONECT    4    1    5   12    2
+CONECT    5    4    7    8    9
+CONECT    6   13   14    2    9
+CONECT    7    5   15   16   17
+CONECT    8    5   18   19   20
+CONECT    9    5    6
+CONECT   10    1   21
+CONECT   11    2
+CONECT   12    4
+CONECT   13    6
+CONECT   14    6
+CONECT   15    7
+CONECT   16    7
+CONECT   17    7
+CONECT   18    8
+CONECT   19    8
+CONECT   20    8
+CONECT   21   10
+END
