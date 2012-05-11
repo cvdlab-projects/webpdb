@@ -41,17 +41,21 @@ var parserDellaMuerte = function(string){
 var stampaBene = function (arr){
 	var linea;
 	var a;
+	var assocsString = "";
 
-	for (var i=1; i<arr.length;i++){ //singola assocs
+	for (var i=0; i<arr.length;i++){ //singola assocs
 		a = arr[i];
-		linea = "var "+a[0][2]+"Assocs = [";
+		linea = "var "+putils.strim(a[0][2])+"Assocs = [";
 		for(var j=1;j<a.length;j++){
-			linea = linea+"["+a[j][0]+","+a[j][1]+",\""+a[j][2]+"\""+"]"+",";
+			linea = linea+"["+a[j][0]+","+(a[j][1]==""? (Number(a[j][0])+1) : a[j][1] )+",\""+a[j][2]+"\""+"]"+(j==a.length-1? "" : ",");
 		}
 		linea = linea+"];"
 
 		console.log(linea);
+
+		assocsString = assocsString+"	\""+a[0][2]+"\" : "+putils.strim(a[0][2])+"Assocs,\n"
 	}
+		console.log(assocsString);
 
 }
 
@@ -124,5 +128,5 @@ var cback = function(bool,string,strname){
 }
 
 
-reader.readPDBData("./parserception.log",cback);
+reader.readPDBData("./primiRecords.log",cback);
 

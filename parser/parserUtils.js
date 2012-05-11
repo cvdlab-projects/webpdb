@@ -1,5 +1,6 @@
 var mdata = require('./parserMetaData');
 var parsingInfo = mdata.parsingInfo;
+var getParsingInfo = mdata.getParsingInfo;
 
 // oggetto scanner
 // da istanziare come oggetto, TODO aggiungere il magheggio per controllare che sia stato costruito come oggetto
@@ -73,7 +74,7 @@ var parseLineContent = function (type,line,scanner) {
 		throw "Type undefined";
 	}
 	
-	var assocs = parsingInfo[type];
+	var assocs = getParsingInfo(type);
 
 	var parsedLine = {
 		"type" : strim(type)
