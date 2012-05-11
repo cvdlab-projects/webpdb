@@ -21,7 +21,16 @@ LineScanner.prototype.getIndex = function() {
 	return this.ind;
 };
 
+LineScanner.prototype.getCurrentLine = function(){
+	return this.currentLine;
+}
+
 LineScanner.prototype.nextLine = function() {
+
+	if(this.ind >= this.scannedStringLength){
+		throw "EOF";
+	}
+
 	this.endOfLine = this.scannedString.indexOf("\n", this.ind);
 	if (this.endOfLine == -1) {
 		this.endOfLine = this.scannedStringLength
