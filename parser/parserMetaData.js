@@ -52,7 +52,9 @@ var LINKAssocs = [[1,6,"type"],[13,16,"name1"],[17,18,"altLoc1"],[18,20,"resName
 var CISPEPAssocs = [[1,6,"type"],[8,10,"serNum"],[12,14,"pep1"],[16,17,"chainID1"],[18,21,"seqNum1"],[22,23,"icode1"],[26,28,"pep2"],[30,31,"chainID2"],[32,35,"seqNum2"],[36,37,"icode2"],[44,46,"modNum"],[54,59,"measure"]];
 var SITEAssocs = [[1,6,"type"],[8,10,"seqNum"],[12,14,"siteID"],[16,17,"numRes"],[19,21,"resName1"],[23,24,"chainID1"],[24,27,"seq1"],[28,29,"iCode1"],[30,32,"resName2"],[34,35,"chainID2"],[35,38,"seq2"],[39,40,"iCode2"],[41,43,"resName3"],[45,46,"chainID3"],[46,49,"seq3"],[50,51,"iCode3"],[52,54,"resName4"],[56,57,"chainID4"],[57,60,"seq4"],[61,62,"iCode4"]];
 var CRYST1Assocs = [[1,6,"type"],[7,15,"a"],[16,24,"b"],[25,33,"c"],[34,40,"alpha"],[41,47,"beta"],[48,54,"gamma"],[56,66,"sGroup"],[67,70,"z"]];
-var ORIGXnAssocs = [[1,6,"type"],[11,20,"o[n][1]"],[21,30,"o[n][2]"],[31,40,"o[n][3]"],[46,55,"t[n]"]];
+var ORIGX1Assocs = [[1,6,"type"],[11,20,"o[1][1]"],[21,30,"o[1][2]"],[31,40,"o[1][3]"],[46,55,"t[1]"]];
+var ORIGX2Assocs = [[1,6,"type"],[11,20,"o[2][1]"],[21,30,"o[2][2]"],[31,40,"o[2][3]"],[46,55,"t[2]"]];
+var ORIGX3Assocs = [[1,6,"type"],[11,20,"o[3][1]"],[21,30,"o[3][2]"],[31,40,"o[3][3]"],[46,55,"t[3]"]];
 var SCALE1Assocs = [[1,6,"type"],[11,20,"s[1][1]"],[21,30,"s[1][2]"],[31,40,"s[1][3]"],[46,55,"u[1]"]];
 var SCALE2Assocs = [[1,6,"type"],[11,20,"s[2][1]"],[21,30,"s[2][2]"],[31,40,"s[2][3]"],[46,55,"u[2]"]];
 var SCALE3Assocs = [[1,6,"type"],[11,20,"s[3][1]"],[21,30,"s[3][2]"],[31,40,"s[3][3]"],[46,55,"u[3]"]];
@@ -117,7 +119,9 @@ var parsingInfo = { // la chiave e' di 6 caratteri, comprende gli spazi finali
 	"CISPEP" : CISPEPAssocs,
 	"SITE  " : SITEAssocs,
 	"CRYST1" : CRYST1Assocs,
-	"ORIGXn" : ORIGXnAssocs,
+	"ORIGX1" : ORIGX1Assocs,
+	"ORIGX2" : ORIGX2Assocs,
+	"ORIGX3" : ORIGX3Assocs,
 	"SCALE1" : SCALE1Assocs,
 	"SCALE2" : SCALE2Assocs,
 	"SCALE3" : SCALE3Assocs,
