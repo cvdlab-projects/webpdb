@@ -145,7 +145,7 @@ var parsingInfo = { // la chiave e' di 6 caratteri, comprende gli spazi finali
 };
 
 var getParsingInfo = function(type){
-	return parsingInfo[type] || parsingInfo[strim(type)] || parsingInfo["default"];
+	return parsingInfo[type] || parsingInfo[putils.strim(type)] || parsingInfo["default"];
 }
 
 exports.parsingInfo = parsingInfo;
