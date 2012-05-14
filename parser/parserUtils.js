@@ -84,7 +84,18 @@ var parseLineContent = function (type,line,scanner) {
 		// finfo[0]: start column
 		// finfo[1]: end column
 		// finfo[2]: fname
-		parsedLine[fieldInfo[2]] = strim(line.substring(fieldInfo[0]-1,fieldInfo[1]));
+		var fname = fieldInfo[2];
+
+		var fnameFixed = fname;
+		var i=0;
+
+		while(! parsedLine[fnameFixed] == undefined){
+			i++;
+			fnameFixed = fname+"_"+i;
+		}
+
+
+		parsedLine[fnameFixed] = strim(line.substring(fieldInfo[0]-1,fieldInfo[1]));
 	});
 	
 	return parsedLine;
