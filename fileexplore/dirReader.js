@@ -12,13 +12,15 @@ var m_DIRECTORYSEPARATOR = "/";
   given a directory this fetches all the files inside it
 
   params:
-  callbackFun FUNCTION a fun to be called with argument
+  callbackFun FUNCTION a fun to be called with arguments ([string|array], [false|true])
   directory STRING sirectory to walk
   
 */
-var mf_RunWalkerFile = function(callbackFun, directory, filterFunction) {
+
+var mf_RunWalkerFile = function(callbackFun, directory, filterFunction, asyncCall) {
   var listResults = [];
   filterFunction = filterFunction || fileutils.filterAlways;
+  asyncCall = asyncCall || false;
 
   var emitter = walk(directory)
     .filterDir(function(dir, stat) {
@@ -27,14 +29,21 @@ var mf_RunWalkerFile = function(callbackFun, directory, filterFunction) {
     .on('file', function(file, stat) {
       if ( filterFunction(file) ) {
         listResults.push(file);
+	if (asyncCall === true) {
+	  callbackFun(file, false);
+	}
       }
     })
     .on('end', function() {
-      callbackFun(listResults);
+      if (asyncCall === true) {
+	callbackFun(listResults, true);
+      } else {
+	callbackFun(listResults);
+      }
     });
 };
 
-var mf_RunWalkerFileRecursive = function(callbackFun, directory, filterFunction) {
+var mf_RunWalkerFileRecursive = function(callbackFun, directory, filterFunction, asyncCall) {
   var listResults = [];
   filterFunction = filterFunction || fileutils.filterAlways;
 
@@ -42,10 +51,17 @@ var mf_RunWalkerFileRecursive = function(callbackFun, directory, filterFunction)
     .on('file', function(file, stat) {
       if ( filterFunction(file) ) {
         listResults.push(file);
+	if (asyncCall === true) {
+	  callbackFun(file, false);
+	}	
       }
     })
     .on('end', function() {
-      callbackFun(listResults);
+      if (asyncCall === true) {
+	callbackFun(listResults, true);
+      } else {
+	callbackFun(listResults);
+      }
     });
 };
 
@@ -86,7 +102,11 @@ var mf_RunWalkerDirRecursive = function(callbackFun, directory, filterFunction) 
     });
 };
 
+/*** EXPORTS ***/
 exports.fileExplorer = mf_RunWalkerFile;
 exports.fileExplorerRecursive = mf_RunWalkerFileRecursive;
+exports.fileExplorerAsync = function(a,b,c) { mf_RunWalkerFile(a,b,c,true); };
+exports.fileExplorerRecursiveAsync = function(a,b,c) { mf_RunWalkerFileRecursive(a,b,c,true); };
+// No need for async methods here
 exports.directoryExplorer = mf_RunWalkerDir;
 exports.directoryExplorerRecursive = mf_RunWalkerDirRecursive;
