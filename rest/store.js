@@ -19,4 +19,4 @@ var storeJson = exports.storeJson = function(bool, Data){
 	else{
 		console.log('error in storeJson');
 	}
-}
+};

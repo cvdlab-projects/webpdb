@@ -1,8 +1,8 @@
 var cradle = require('cradle');
 var queryGen = require('./queryGenerator');
-var db = require('./db.js');
+var db = require('./db');
 
-database = db.setup();
+database = null; // db.setup();
 /*
 	callbackFunction(success:BOOL, result:JSON);
 */
@@ -21,7 +21,9 @@ var retrieveByID = function(id, callbackFunction) {
 var retrieveByName = function(name, callbackFunction){
 	database.save('_design/proteinsView', {
 		view: {
-			map: queryGen.mapContains("name", name);}});
+			map: queryGen.mapContains("name", name)
+		}
+	});
 	
 	database.view('proteinsview/view', function (err, doc) {
 		if ( err !== null ) {
@@ -33,8 +35,5 @@ var retrieveByName = function(name, callbackFunction){
 	});
 };
 
-
-
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
-
