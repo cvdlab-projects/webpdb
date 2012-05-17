@@ -1,5 +1,6 @@
 var mdata = require('./parserMetaData');
 var parsingInfo = mdata.parsingInfo;
+var getParsingInfo = mdata.getParsingInfo;
 
 // oggetto scanner
 // da istanziare come oggetto, TODO aggiungere il magheggio per controllare che sia stato costruito come oggetto
@@ -21,7 +22,16 @@ LineScanner.prototype.getIndex = function() {
 	return this.ind;
 };
 
+LineScanner.prototype.getCurrentLine = function(){
+	return this.currentLine;
+}
+
 LineScanner.prototype.nextLine = function() {
+
+	if(this.ind >= this.scannedStringLength){
+		throw "EOF";
+	}
+
 	this.endOfLine = this.scannedString.indexOf("\n", this.ind);
 	if (this.endOfLine == -1) {
 		this.endOfLine = this.scannedStringLength
@@ -64,7 +74,7 @@ var parseLineContent = function (type,line,scanner) {
 		throw "Type undefined";
 	}
 	
-	var assocs = parsingInfo[type];
+	var assocs = getParsingInfo(type);
 
 	var parsedLine = {
 		"type" : strim(type)
@@ -120,7 +130,7 @@ var objectParsingFunctions = {
 	//...
 
 	"REMARK" : parseLineSimple, //migliorabile
-	"default": parseLineSimple //TODO (semplice, schiaffa la stringa intera apparte il type, da usare per i 1 line 1 time da non interpretare)
+	"default": parseLineContent //TODO (semplice, schiaffa la stringa intera apparte il type, da usare per i 1 line 1 time da non interpretare)
 };
 	
 var getObjectParsingFunction = function (type) { //ritorna una function(line,scanner) relativa al tipo di oggetto desiderato
