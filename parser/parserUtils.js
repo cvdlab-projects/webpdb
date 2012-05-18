@@ -138,6 +138,7 @@ var parseModel = function(type,line,scanner) {
 };
 
 var objectParsingFunctions = {
+
 	"MODEL " : parseModel, //TODO
 	"HELIX " : parseLineContent, //variare qui le funzioni per stabilire se fare cutSpaces o no
 	"SHEET " : parseLineContent,

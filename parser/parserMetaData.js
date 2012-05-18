@@ -18,7 +18,7 @@ var sheetAssocs = [[1,6,"type"],[8,10,"strand"],[12,14,"sheetID"],[15,16,"numStr
 
 //title section
 
-var HEADERAssocs = [[1,6,"type"],[11,50,"classificatio"],[51,59,"depDate"],[63,66,"idCode"]];
+var HEADERAssocs = [[1,6,"type"],[11,50,"classification"],[51,59,"depDate"],[63,66,"idCode"]];
 var OBSLTEAssocs = [[1,6,"type"],[9,10,"continuation"],[12,20,"repDate"],[22,25,"idCode"],[32,35,"rIdCode"],[37,40,"rIdCode"],[42,45,"rIdCode"],[47,50,"rIdCode"],[52,55,"rIdCode"],[57,60,"rIdCode"],[62,65,"rIdCode"],[67,70,"rIdCode"],[72,75,"rIdCode"]];
 var TITLEAssocs = [[1,6,"type"],[9,10,"continuation"],[11,80,"title"]];
 var SPLITAssocs = [[1,6,"type"],[9,10,"continuation"],[12,15,"idCode"],[17,20,"idCode"],[22,25,"idCode"],[27,30,"idCode"],[32,35,"idCode"],[37,40,"idCode"],[42,45,"idCode"],[47,50,"idCode"],[52,55,"idCode"],[57,60,"idCode"],[62,65,"idCode"],[67,70,"idCode"],[72,75,"idCode"],[77,80,"idCode"]];

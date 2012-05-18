@@ -59,6 +59,9 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 	// NdFurio: Prima le funzioni, poi l'array di funzioni o impazzisce.
 	
 	var parsingFunctions = {
+
+		"ATOM  " : parseIncremental, // questo modo di parsate l'ATOM viene utilizzato SOLO se l'ATOM NON è dentro un MODEL
+
 		"MODEL " : parseIncremental,
 		"HELIX " : parseIncremental,
 		"SHEET " : parseIncremental,
