@@ -70,12 +70,19 @@ app.get('/rest/protein/id/:id', function(req, res) {
 	
 	if (utils.checkIdProtein(id)) {
 		res.send('Viewing protein id ' + req.params.id);
+		dbmodule.retrieveByID(id, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR':id+': Invalid protein id or db error'});
+			}
+			res.end();
+		} );
 	}
 	else {
 		res.send({'ERROR':id+': Invalid protein id'});
+		res.end();
 	}
-
-	res.end();
 });
 
 app.get('/rest/protein/name/:name', function(req,res){
@@ -84,9 +91,24 @@ app.get('/rest/protein/name/:name', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
 
 	res.contentType('application/json');
-	res.send('Viewing protein name ' + name);
 	
-	res.end();
+
+	if (utils.checkName(name)) {
+		res.send('Viewing protein name ' + name);
+		dbmodule.retrieveByName(name, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR':name+': Invalid protein name or db error'});
+			}
+			res.end();
+		} );
+	}
+	else {
+		res.send({'ERROR':name+': Invalid protein name'});
+		res.end();
+	}
+
 });
 
 app.get('/rest/molecule/id/:id', function(req,res){
@@ -97,18 +119,43 @@ app.get('/rest/molecule/id/:id', function(req,res){
 	res.contentType('application/json');
 	
 	if (utils.checkIdMolecule(id)) {
-		res.send('Viewing molecule id ' + id);
+		res.send('Viewing protein id ' + req.params.id);
+		dbmodule.retrieveByID(id, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR':id+': Invalid molecule id or db error'});
+			}
+			res.end();
+		} );
 	}
 	else {
 		res.send({'ERROR':id+': Invalid molecule id'});
+		res.end();
 	}
-
-	res.end();
 });
 
 app.get('/rest/molecule/name/:name', function(req,res){
-    console.log("[200] " + req.method + " to " + req.url);
-	console.log(req.params.name);
+  	var name = req.params.name;
+	console.log("[200] " + req.method + " to " + req.url);
+	console.log(name);
+
+	if (utils.checkName(name)) {
+		res.send('Viewing protein name ' + name);
+		dbmodule.retrieveByName(name, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR':name+': Invalid molecule name or db error'});
+			}
+			res.end();
+		} );
+	}
+	else {
+		res.send({'ERROR':name+': Invalid molecule name'});
+		res.end();
+	}
+	
 });
 
 // servizio admin

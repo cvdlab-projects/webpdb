@@ -59,7 +59,34 @@ var checkIdMolecule = function(id) {
 }
 
 
+var checkName = function(name) {
+	if (!name) {
+		console.log('invalid name');
+		return false;
+	}
+
+	var length = name.length;
+	var i=0;
+	var c = name.charAt(i);
+
+	while (c && i<length) {
+		c = name.charAt(i);
+
+		if((c>='A' && c<='Z') || (c>='0' && c<='9') || c=='_' || c=='-' ) {
+			//console.log('char '+i+': '+c+' matched');
+		}
+		else {
+			console.log(c+': invalid character! ( valid characters: A-Z,0-9,_,- )');
+			return false;
+		}
+		i = i+1;
+	}
+	return true;
+}
+
+
 
 
 exports.checkIdMolecule = checkIdMolecule;
 exports.checkIdProtein = checkIdProtein;
+exports.checkName = checkName;
