@@ -17,7 +17,7 @@ var funCallFile = function(status, data, filename) {
 var funCallFileLaunchRead = function(fileList) {
   for (var i = fileList.length - 1; i >= 0; i--) {
     // console.log(fileList[i]);
-    if (fileList[i].indexOf("2lgb.pdb1.gz") !== -1 ){
+    if (fileList[i].indexOf("000.pdb") !== -1 ){
       frModule.readPDBData(fileList[i], funCallFile);
     }
   };
@@ -25,12 +25,12 @@ var funCallFileLaunchRead = function(fileList) {
 
 var testParserNUB = function() {
 	parserType = parserNub;
-	drModule.fileExplorer(funCallFileLaunchRead, "../testdata");
+	drModule.fileExplorer(funCallFileLaunchRead, "../testdata/monomers");
 };
 
 var testParserNEW = function() {
 	parserType = parserNew;
-	drModule.fileExplorer(funCallFileLaunchRead, "../testdata");
+	drModule.fileExplorer(funCallFileLaunchRead, "../testdata/monomers");
 };
 
 testParserNEW();

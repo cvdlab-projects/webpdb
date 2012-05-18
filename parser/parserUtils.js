@@ -84,15 +84,23 @@ var parseLineContent = function (type,line,scanner) {
 		// finfo[0]: start column
 		// finfo[1]: end column
 		// finfo[2]: fname
+
 		var fname = fieldInfo[2];
+
+		// console.log("fname: "+fname);
 
 		var fnameFixed = fname;
 		var i=0;
 
-		while(! parsedLine[fnameFixed] == undefined){
+		while(! ((typeof parsedLine[fnameFixed]) === "undefined")){
+			// console.log("ff1 :"+parsedLine[fnameFixed]);
 			i++;
 			fnameFixed = fname+"_"+i;
+			// console.log("ff2 :"+parsedLine[fnameFixed]);
 		}
+
+		// console.log("fnameFixed: "+fnameFixed)
+
 
 
 		parsedLine[fnameFixed] = strim(line.substring(fieldInfo[0]-1,fieldInfo[1]));
