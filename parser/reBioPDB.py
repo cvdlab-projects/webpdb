@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 
 from Bio.PDB import *
@@ -28,7 +29,7 @@ def _get_atom_line(atom, hetfield, segid, atom_number, resname, resseq, icode, c
 	if atom.element:
 		element = atom.element.strip().upper()
 		if element.capitalize() not in atom_weights:
-			raise ValueError("Unrecognised element %r" % atom.element)
+			raise ValueError("ERROR: Unrecognised element %r" % atom.element)
 		element = element.rjust(2)
 	else:
 		element = " "
@@ -103,7 +104,7 @@ def stringPDB(structure):
 
 if __name__=="__main__": 
 	if len(sys.argv) != 3: 
-		print 'Usage: %s <id> <path>' % (sys.argv[0]) 
+		print 'ERROR: Usage: %s <id> <path>' % (sys.argv[0]) 
 	else:
 		dataPDB = extractPDB(sys.argv[1], sys.argv[2]) # '2lgh', 'C:/Android/biopythonTest/pdb2lgh.ent'
 		stringPDB(dataPDB[1]) # writePDB(struct, 'C:/Android/biopythonTest/2lgh.pdb')

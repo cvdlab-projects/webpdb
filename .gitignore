@@ -33,6 +33,7 @@ ehthumbs.db
 Icon?
 Thumbs.db
 *~
+.directory
 
 # Node.JS #
 ###########

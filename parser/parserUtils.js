@@ -141,7 +141,7 @@ var objectParsingFunctions = {
 	//...
 
 	"REMARK" : parseLineSimple, //migliorabile
-	"default": parseLineSimple //TODO (semplice, schiaffa la stringa intera apparte il type, da usare per i 1 line 1 time da non interpretare)
+	"default": parseLineContent //TODO (semplice, schiaffa la stringa intera apparte il type, da usare per i 1 line 1 time da non interpretare)
 };
 	
 var getObjectParsingFunction = function (type) { //ritorna una function(line,scanner) relativa al tipo di oggetto desiderato

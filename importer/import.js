@@ -9,6 +9,8 @@ var dirReader = require('../fileexplore/dirReader');
 var parsePdb = require('../parser/parserNub');
 var insertDB = require('../dbmodule/insert');
 
+// Riscrivere per usare "async" come importMonomerFiles
+
 var mf_runImport = function(rootDir, isRecursive, username, password, dbname, hostname, port) {
 	var m_Database_Name;
 	var m_Database_Address;
