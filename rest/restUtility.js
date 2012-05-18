@@ -27,7 +27,7 @@ var checkIdProtein = function(id) {
 
 
 /* Check if id is made by 1 to 3 characters in the range A-Z or 0-9 */
-var checkIdMonomer = function(id) {
+var checkIdMolecule = function(id) {
 
 	if (!id || id.length>3) {
 		console.log('Wrong ID! It must have 1 to 3 characters (numbers and/or capital letters)');
@@ -61,5 +61,5 @@ var checkIdMonomer = function(id) {
 
 
 
-exports.checkIdMonomer = checkIdMonomer;
+exports.checkIdMolecule = checkIdMolecule;
 exports.checkIdProtein = checkIdProtein;

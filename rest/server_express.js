@@ -5,7 +5,8 @@ require
 */
 
 var express = require('express');
-var app = require('express').createServer();
+var app = express.createServer();
+var utils = require('./restUtility'); 
 var dbmodule = require('../dbmodule/get'); 
 var store = require('./store');
 // var RedisStore = require('connect-redis')(express);
@@ -55,29 +56,57 @@ app.get('/form/retrieve', function(req,res){
 
 // il vero servizio rest
 app.get('/rest/protein/id/:id', function(req, res) {
+	var id = req.params.id;
+
     console.log("[200] " + req.method + " to " + req.url);
-	console.log(req.params.id);
+	console.log(id);
 	//
 	// writeHeaderOk(res, 'text/html');
 	// res.write('Viewing protein id ' + req.params.id);
 	// res.header('Content-Type', 'text/plain');
 	// res.send('text', { 'Content-Type': 'text/plain' }, 201);
+	
 	res.contentType('application/json');
-	res.send('Viewing protein id ' + req.params.id);
+	
+	if (utils.checkIdProtein(id)) {
+		res.send('Viewing protein id ' + req.params.id);
+	}
+	else {
+		res.send({'ERROR':id+': Invalid protein id'});
+	}
+
 	res.end();
 });
 
 app.get('/rest/protein/name/:name', function(req,res){
+    var name = req.params.name;
+
     console.log("[200] " + req.method + " to " + req.url);
-	console.log(req.params.name);
+
+	res.contentType('application/json');
+	res.send('Viewing protein name ' + name);
+	
+	res.end();
 });
 
-app.get('/retrieve/molecule/id/:id', function(req,res){
+app.get('/rest/molecule/id/:id', function(req,res){
+    var id = req.params.id;
+
     console.log("[200] " + req.method + " to " + req.url);
-	console.log(req.params.id);
+	
+	res.contentType('application/json');
+	
+	if (utils.checkIdMolecule(id)) {
+		res.send('Viewing molecule id ' + id);
+	}
+	else {
+		res.send({'ERROR':id+': Invalid molecule id'});
+	}
+
+	res.end();
 });
 
-app.get('/retrieve/molecule/name/:name', function(req,res){
+app.get('/rest/molecule/name/:name', function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
 	console.log(req.params.name);
 });
