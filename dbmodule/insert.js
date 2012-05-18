@@ -1,7 +1,7 @@
 var cradle = require('cradle');
 var queryGen = require('./queryGenerator');
 var db = require('./db.js');
-
+var options = '';
 
 /*
 	callbackFunction(success:BOOL, id:STRING);
