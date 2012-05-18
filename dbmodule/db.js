@@ -12,12 +12,10 @@ var userName = parsedJSON.database.userName;
 var password = parsedJSON.database.password;
 
 	//Useful if you don't want to change this js file.
-	if (typeof options == 'undefined') {
-		options = '';
+
 		options.host = host;
 		options.port = port;
-	}
-
+	
 	cradle.setup({
 		host: options.host,
 		port: options.port,
@@ -26,13 +24,11 @@ var password = parsedJSON.database.password;
   	var c = new(cradle.Connection)(host, port, {
 		auth: {username: userName, password: password}
 	});
-  
   var db =  c.database(getDB(options.keyDB));
-  console.log(getDB(options.keyDB));
-  return db; // Returns the istance of the db.     
+  return db; // Returns the istance of the
 };
 
 var getDB = function(key){
-return JSONDB.key;
+return JSONDB[key];
 }
 
