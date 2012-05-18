@@ -63,7 +63,7 @@ var translateAmminoFiles = function(pathIn, pathOut) {
 	drModule.fileExplorer(mf_fileNamesRead, PATH_IN, frUtils.filterExtension(PDB_EXTENSION));
 };
 
-translateAmminoFiles("../../monomers/in", "../../monomers/out");
+translateAmminoFiles("C:/Android/biopythonTest/in", "C:/Android/biopythonTest/out");
 
 var testingConvert = function() {
   frModule.readPDBData("../testdata/monomers/000.pdb", function(status, data, filename) {
