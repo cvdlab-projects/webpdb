@@ -51,6 +51,12 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 		
 	};
 
+	var parseFakeModel = function (protein,type,line,scanner){
+		protein['NOF_MODEL'] = 1;
+		protein['MODEL_1'] = getObjectParsingFunction("MODEL ")(type,line,scanner);
+	}
+
+
 	var parseUnique = function(protein,type,line,scanner) {
 		var objectParsingFunction = getObjectParsingFunction(type);
 		protein[strim(type)] = objectParsingFunction(type,line,scanner);
@@ -60,14 +66,23 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 	
 	var parsingFunctions = {
 
-		"ATOM  " : parseIncremental, // questo modo di parsate l'ATOM viene utilizzato SOLO se l'ATOM NON è dentro un MODEL
+//		"ATOM  " : parseIncremental, // questo modo di parsate l'ATOM viene utilizzato SOLO se l'ATOM NON è dentro un MODEL
+//		"ANISOU" : parseIncremental, // idem
+//		"HETATM" : parseIncremental, // idem
+//		"TER   " : parseIncremental, // idem
+
+		"ATOM  " : parseFakeModel, // questo modo di parsate l'ATOM viene utilizzato SOLO se l'ATOM NON è dentro un MODEL
+		"ANISOU" : parseFakeModel, // idem
+		"HETATM" : parseFakeModel, // idem
+		"TER   " : parseFakeModel, // idem
+
 
 		"MODEL " : parseIncremental,
 		"HELIX " : parseIncremental,
 		"SHEET " : parseIncremental,
 		"REMARK" : parseIncremental, //migliorabile
 
-		"ANISOU" : parseIncremental, //1 line multiple times
+		 //1 line multiple times
 		"CISPEP" : parseIncremental,
 		"CONECT" : parseIncremental,
 		"DBREF " : parseIncremental,
