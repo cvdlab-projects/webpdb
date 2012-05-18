@@ -77,7 +77,7 @@ var parseLineContent = function (type,line,scanner) {
 	var assocs = getParsingInfo(type);
 
 	var parsedLine = {
-		"type" : strim(type)
+		//"type" : strim(type)
 	};
 
 	assocs.forEach(function(fieldInfo,index,array) {
