@@ -52,7 +52,7 @@ var mf_fileNamesRead = function(fileList) {
 var mf_extractUlimit = function(callbackFun) {
 	if ( require("os").platform().indexOf("win") != -1 ) {
 		// Fixed value
-		callbackFun(300);
+		callbackFun(256);
 	} else {
 		var ulimitProcess = spawn('ulimit', ['-n']);
 		var finalData = "";
@@ -85,7 +85,7 @@ var translateAmminoFiles = function(pathIn, pathOut) {
 	});
 };
 
-// translateAmminoFiles("C:/Android/biopythonTest/in", "C:/Android/biopythonTest/out");
+translateAmminoFiles("C:/Android/biopythonTest/in", "C:/Android/biopythonTest/out");
 
 /*
 var testingConvert = function() {

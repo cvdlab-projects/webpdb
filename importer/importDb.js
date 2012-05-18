@@ -64,7 +64,7 @@ var mf_runImport = function(rootDir, isRecursive, what) {
 var mf_extractUlimit = function(callbackFun) {
 	if ( require("os").platform().indexOf("win") != -1 ) {
 		// Fixed value
-		callbackFun(300);
+		callbackFun(256);
 	} else {
 		var ulimitProcess = spawn('ulimit', ['-n']);
 		var finalData = "";
