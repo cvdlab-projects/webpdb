@@ -6,8 +6,15 @@ var m_GZ_EXTENSION = ".gz";
 var mF_fileName = function(fileName) {
 	var parsedName = path.basename(fileName);
 
-	while (parsedName.indexOf(".") != -1) {
-		parsedName = path.basename(parsedName, path.extname(parsedName));
+	if (typeof parsedName === "undefined") {
+	  parsedName = "";
+	} else if ( parsedName.indexOf(".") == 0 ) {
+	  // name starts with .
+	  parsedName = parsedName;
+	} else {
+	  while (parsedName.indexOf(".") != -1) {
+		  parsedName = path.basename(parsedName, path.extname(parsedName));
+	  }
 	}
 
 	return parsedName;
@@ -29,7 +36,7 @@ var mf_filterCompressed = function(filename) {
 	return path.extname(filename) ===  m_GZ_EXTENSION;
 };
 
-var mf_genearateFilterforExtension = function(ext) {
+var mf_generateFilterforExtension = function(ext) {
 	return (function(filename) {  return path.extname(filename) ===  ext; });
 }
 
@@ -40,6 +47,6 @@ exports.filterAlways = mf_filterAlways;
 exports.filterNever = mf_filterNever;
 exports.filterNoextension = mf_filterNoextension;
 exports.filterCompressed = mf_filterCompressed;
-exports.filterExtension = mf_genearateFilterforExtension;
+exports.filterExtension = mf_generateFilterforExtension;
 // Alias
 exports.isFileCompressed = mf_filterCompressed;

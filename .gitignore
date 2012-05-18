@@ -17,6 +17,7 @@
 *.jar
 *.rar
 *.tar
+*.tar.gz
 *.zip
 
 # Logs and databases #
@@ -32,6 +33,7 @@ ehthumbs.db
 Icon?
 Thumbs.db
 *~
+.directory
 
 # Node.JS #
 ###########
