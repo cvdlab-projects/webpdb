@@ -30,8 +30,12 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
-			delete doc._rev;
-			callbackFunction(true, doc);
+			var docs = [];
+			for(d in doc){
+				delete doc[d].value._rev;
+				docs.push(doc[d].value);
+			}
+			callbackFunction(docs);
 		}
 	});
 };
