@@ -22,11 +22,11 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 var retrieveByName = function(name, callbackFunction, keyDB){
 	options.keyDB = keyDB;
 	database = db.setup(options);
-	database.save('_design/proteinsView', {
+	database.save('_design/'+ keyDB +'View', {
 		view: {
 			map: queryGen.mapContains("name", name);}});
 	
-	database.view('proteinsview/view', function (err, doc) {
+	database.view(keyDB + 'View/view', function (err, doc) {
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
