@@ -24,7 +24,7 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 	database = db.setup(options);
 	database.save('_design/'+ keyDB +'View', {
 		view: {
-			map: queryGen.mapContains("TYPE.content", name);}});
+			map: queryGen.mapContains("TITLE.content", name);}});
 	
 	database.view(keyDB + 'View/view', function (err, doc) {
 		if ( err !== null ) {
