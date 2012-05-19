@@ -41,96 +41,112 @@ app.get('/', function(req, res){
 	res.end();
 });
 
+var sendFormError = function(res) {
+    res.send({'ERROR' : 'Invalid get request'});
+    res.end();
+};
+
 // per la form
 app.get('/form/retrieve', function(req,res){
-    console.log("[200] " + req.method + " to " + req.url);
-    req.on('end', function() {
-     id = req.query["proteinID"]; //Returns the value stored in the get request
-	 name = req.query["proteinName"]; //Returns the value stored in the get request
-	 
-     //dbmodule.retrieveByID(id, store.storeJson, userName, password, dbName,  host, port);
-      dbmodule.retrieveByID(id, store.storeJson);
-	  // dbmodule.retrieveByName(name, store.storeJson);
+	console.log("[200] " + req.method + " to " + req.url);
+	
+	res.contentType('application/json');
+	req.on('end', function() {
+	  if ( req.query.hasOwnProperty("proteinID") ) {
+		var id = req.query["proteinID"];
+		if (utils.checkIdProtein(id)) {
+			dbmodule.retrieveByID(id, function(bool,data){
+				if (bool) {
+					res.send(data);
+					res.end();
+				} else {
+					sendFormError(res);
+				}
+			}, "proteins");
+		} else {
+		  sendFormError(res);
+		}
+	  } else if ( req.query.hasOwnProperty("proteinName") ) {
+		var name = req.query["proteinName"];
+		if (utils.checkName(name)) {
+			dbmodule.retrieveByName(name, function(bool,data){
+				if (bool) {
+					res.send(data);
+					res.end();
+				} else {
+					sendFormError(res);
+				}
+			}, "proteins");
+		} else {
+		  sendFormError(res);
+		}
+	  } else {
+	    sendFormError(res);
+	  }
     }); 
 });
 
 // il vero servizio rest
 app.get('/rest/protein/id/:id', function(req, res) {
 	var id = req.params.id;
+	console.log("[200] " + req.method + " to " + req.url);
 
-    console.log("[200] " + req.method + " to " + req.url);
-	console.log(id);
-	//
-	// writeHeaderOk(res, 'text/html');
-	// res.write('Viewing protein id ' + req.params.id);
-	// res.header('Content-Type', 'text/plain');
-	// res.send('text', { 'Content-Type': 'text/plain' }, 201);
-	
 	res.contentType('application/json');
-	
 	if (utils.checkIdProtein(id)) {
-		res.send('Viewing protein id ' + req.params.id);
 		dbmodule.retrieveByID(id, function(bool,data){
 			if (bool) {
 				res.send(data);
 			} else {
-				res.send({'ERROR':id+': Invalid protein id or db error'});
+				res.send({'ERROR' : 'Invalid protein id "' + id + '" or db error'});
 			}
 			res.end();
-		} );
+		}, "proteins");
 	}
 	else {
-		res.send({'ERROR':id+': Invalid protein id'});
+		res.send({'ERROR' : 'Invalid protein id "' + id + '"'});
 		res.end();
 	}
 });
 
 app.get('/rest/protein/name/:name', function(req,res){
-    var name = req.params.name;
-
-    console.log("[200] " + req.method + " to " + req.url);
+	var name = req.params.name;
+	console.log("[200] " + req.method + " to " + req.url);
 
 	res.contentType('application/json');
-	
-
 	if (utils.checkName(name)) {
-		res.send('Viewing protein name ' + name);
 		dbmodule.retrieveByName(name, function(bool,data){
 			if (bool) {
 				res.send(data);
 			} else {
-				res.send({'ERROR':name+': Invalid protein name or db error'});
+				res.send({'ERROR' : 'Invalid protein name "' + name + '" or db error'});
 			}
 			res.end();
-		} );
+		}, "proteins");
 	}
 	else {
-		res.send({'ERROR':name+': Invalid protein name'});
+		res.send({'ERROR' : 'Invalid protein name "' + name + '"'});
 		res.end();
 	}
 
 });
 
 app.get('/rest/molecule/id/:id', function(req,res){
-    var id = req.params.id;
-
-    console.log("[200] " + req.method + " to " + req.url);
+	var id = req.params.id;
+	console.log("[200] " + req.method + " to " + req.url);
 	
 	res.contentType('application/json');
-	
 	if (utils.checkIdMolecule(id)) {
-		res.send('Viewing protein id ' + req.params.id);
 		dbmodule.retrieveByID(id, function(bool,data){
 			if (bool) {
 				res.send(data);
 			} else {
-				res.send({'ERROR':id+': Invalid molecule id or db error'});
+				res.send({'ERROR' : 'Invalid molecule id "' + id + '" or db error'});
 			}
 			res.end();
-		} );
+		}, "monomers");
 	}
 	else {
-		res.send({'ERROR':id+': Invalid molecule id'});
+		res.send({'ERROR' : 'Invalid molecule id "' + id + '"'});
 		res.end();
 	}
 });
@@ -138,21 +154,20 @@ app.get('/rest/molecule/id/:id', function(req,res){
 app.get('/rest/molecule/name/:name', function(req,res){
   	var name = req.params.name;
 	console.log("[200] " + req.method + " to " + req.url);
-	console.log(name);
 
+	res.contentType('application/json');
 	if (utils.checkName(name)) {
-		res.send('Viewing protein name ' + name);
 		dbmodule.retrieveByName(name, function(bool,data){
 			if (bool) {
 				res.send(data);
 			} else {
-				res.send({'ERROR':name+': Invalid molecule name or db error'});
+				res.send({'ERROR' : 'Invalid molecule name "' + name + '" or db error'});
 			}
 			res.end();
-		} );
+		}, "monomers");
 	}
 	else {
-		res.send({'ERROR':name+': Invalid molecule name'});
+		res.send({'ERROR' : 'Invalid molecule name "' + name + '"'});
 		res.end();
 	}
 	
