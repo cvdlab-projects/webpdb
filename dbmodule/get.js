@@ -1,7 +1,7 @@
 var cradle = require('cradle');
 var queryGen = require('./queryGenerator');
-var db = require('./db.js');
-var options = '';
+var db = require('./db');
+var options = {};
 /*
 	callbackFunction(success:BOOL, result:JSON);
 */
@@ -24,7 +24,7 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 	database = db.setup(options);
 	database.save('_design/'+ keyDB +'View', {
 		view: {
-			map: queryGen.mapContains("TITLE.content", name);}});
+			map: queryGen.mapContains("TITLE.content", name)}});
 	
 	database.view(keyDB + 'View/view', function (err, doc) {
 		if ( err !== null ) {

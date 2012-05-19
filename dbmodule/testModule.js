@@ -6,13 +6,9 @@ var callbackFunction = function(success, s){
 	console.log(s);
 };
 
-var tryInsert = function() {
-	dbInsert.insert('ssss', {name: "fabrizio"}, callbackFunction, '', '', 'starwars');
-};
-
 var tryGet = function() {
-	dbGet.retrieveByID('ssss', callbackFunction, '', '', 'starwars');
+	dbGet.retrieveByName('0', callbackFunction, 'starwars');
 };
 
-// tryGet();
+ tryGet();
 // tryInsert();

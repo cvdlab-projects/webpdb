@@ -1,6 +1,6 @@
 var maxPos = 100;
 
-var mapContains = function(field, string){
+var mapContains = exports.mapContains = function(field, string){
 	return "function(doc){if(doc."+field+".match(\'.*"+string+"\') !== null) emit(doc."+field+", doc)}";
 }
 

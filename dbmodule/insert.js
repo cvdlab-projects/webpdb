@@ -8,7 +8,6 @@ var options = {};
 */
 
 var insert = function(id, json, callbackFunction, keyDB){
-	console.log(keyDB);
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	database.save(id, json, function (err, res) {
