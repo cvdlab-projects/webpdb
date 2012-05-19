@@ -13,9 +13,12 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
-			delete doc._rev;
-			callbackFunction(true, doc);
+			var docs = {};
+			for(d in doc){
+				delete doc[d].value._rev;
+				docs[d] = doc[d].value;
 		}
+		callbackFunction(docs);
 	});
 };
 
@@ -24,16 +27,16 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 	database = db.setup(options);
 	database.save('_design/'+ keyDB +'View', {
 		view: {
-			map: queryGen.mapContains("TITLE.content", name)}});
+			map: queryGen.mapContains("name", name)}});
 	
 	database.view(keyDB + 'View/view', function (err, doc) {
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
-			var docs = [];
+			var docs = {};
 			for(d in doc){
 				delete doc[d].value._rev;
-				docs.push(doc[d].value);
+				docs[d] = doc[d].value;
 			}
 			callbackFunction(docs);
 		}
