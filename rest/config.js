@@ -10,7 +10,7 @@ var params = {
 var getParameters = function(name) {
 	name = name || params.dbName;
 	params.dbName = name;
-	
+
 	return params;
 };
 

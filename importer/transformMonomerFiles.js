@@ -6,7 +6,7 @@ var pdbparser = require('../parser/fileParser');
 // From https://github.com/caolan/asyncMod
 var asyncMod = require('async');
 
-// Adjust this in regards to ulimit -n
+// 
 var BATCH_LIMIT = 300;
 var PATH_IN;
 var PATH_OUT;
@@ -49,15 +49,45 @@ var mf_fileNamesRead = function(fileList) {
 	});
 };
 
+var mf_extractUlimit = function(callbackFun) {
+	if ( require("os").platform().indexOf("win") != -1 ) {
+		// Fixed value
+		callbackFun(256);
+	} else {
+		var ulimitProcess = spawn('ulimit', ['-n']);
+		var finalData = "";
+
+		ulimitProcess.stdout.on('data', function (data) {
+			// Qui data e' un Buffer
+			finalData += data;
+		});
+
+		ulimitProcess.on('exit', function (code) {
+			callbackFun(parseInt(finalData));
+		});	
+	}
+};
+
+var mf_startImport = function(rootDir, isRecursive, what) {
+	mf_extractUlimit(function(value) {
+		BATCH_LIMIT = value;
+		mf_runImport(rootDir, isRecursive, what);
+	});
+};
+
 // complete with input/output dir xD
 var translateAmminoFiles = function(pathIn, pathOut) {
 	PATH_IN = pathIn;
-	PATH_OUT = pathOut;	
-	drModule.fileExplorer(mf_fileNamesRead, PATH_IN, frUtils.filterExtension(PDB_EXTENSION));
+	PATH_OUT = pathOut;
+	mf_extractUlimit(function(value) {
+		BATCH_LIMIT = value;
+		drModule.fileExplorer(mf_fileNamesRead, PATH_IN, frUtils.filterExtension(PDB_EXTENSION));
+	});
 };
 
 translateAmminoFiles("C:/Android/biopythonTest/in", "C:/Android/biopythonTest/out");
 
+/*
 var testingConvert = function() {
   frModule.readPDBData("../testdata/monomers/000.pdb", function(status, data, filename) {
 	if ( status === true ) {
@@ -65,5 +95,5 @@ var testingConvert = function() {
 	}
   });
 };
-
+*/
 // testingConvert();
