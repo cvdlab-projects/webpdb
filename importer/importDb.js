@@ -49,7 +49,7 @@ var mf_runImport = function(rootDir, isRecursive, what) {
 		});
 	};
 
-	m_Database_Name = dbname;
+	m_Database_Name = what;
 	//
 	isRecursive = isRecursive || false;
 	
