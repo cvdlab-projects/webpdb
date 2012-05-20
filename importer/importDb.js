@@ -50,7 +50,7 @@ var mf_runImport = function(rootDir, isRecursive, dbName, fileFilter) {
 		});
 	};
 
-	m_Database_Name = what;
+	m_Database_Name = dbName;
 	//
 	isRecursive = isRecursive || false;
 	fileFilter = fileFilter || fileUtils.filterCompressed;
