@@ -12,8 +12,9 @@ var BATCH_LIMIT = 300;
 
 // rootDir: [string] root directory
 // isRecursive: [boolean] recursive explore rootDir
-// what: [string] a string representing the type (check db/databases.json)
-var mf_runImport = function(rootDir, isRecursive, what) {
+// dbName: [string] a string representing the type (check db/databases.json)
+// fileFilter: [filter] to grab files
+var mf_runImport = function(rootDir, isRecursive, dbName, fileFilter) {
 	var m_Database_Name;
 	
 	var mmf_gen_fileDataInserted = function(cbDone) {
@@ -52,11 +53,12 @@ var mf_runImport = function(rootDir, isRecursive, what) {
 	m_Database_Name = what;
 	//
 	isRecursive = isRecursive || false;
+	fileFilter = fileFilter || fileUtils.filterCompressed;
 	
 	if ( isRecursive ) {
-		dirReader.fileExplorerRecursive(mmf_fileNamesRead, rootDir, fileUtils.filterCompressed);
+		dirReader.fileExplorerRecursive(mmf_fileNamesRead, rootDir, fileFilter);
 	} else {
-		dirReader.fileExplorer(mmf_fileNamesRead, rootDir, fileUtils.filterCompressed);
+		dirReader.fileExplorer(mmf_fileNamesRead, rootDir, fileFilter);
 	}
 };
 
@@ -73,16 +75,16 @@ var mf_extractUlimit = function(callbackFun) {
 		      callbackFun(defaultSafeLimit);
 		    } else {
 		      var newLimit = parseInt( stdout.replace(/^\s\s*/, '').replace(/\s\s*$/, '') );
-		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : newLimit );
+		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : (newLimit/2) );
 		    }
 		  });
 	}
 };
 
-var mf_startImport = function(rootDir, isRecursive, what) {
+var mf_startImport = function(rootDir, isRecursive, dbName, fileFilter) {
 	mf_extractUlimit(function(value) {
 		BATCH_LIMIT = value;
-		mf_runImport(rootDir, isRecursive, what);
+		mf_runImport(rootDir, isRecursive, dbName, fileFilter);
 	});
 };
 
