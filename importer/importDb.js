@@ -38,7 +38,7 @@ var mf_runImport = function(rootDir, isRecursive, dbName, fileFilter) {
 	};
 	
 	var mmf_fileStartRead = function(item, callback) {
-		fileReader.readPDBData(current, mmf_gen_fileDataRead(cbDone));
+		fileReader.readPDBData(item, mmf_gen_fileDataRead(cbDone));
 	};
 
 	var mmf_fileNamesRead = function(fileList) {
