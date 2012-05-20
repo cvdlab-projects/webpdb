@@ -1,5 +1,5 @@
 {
 	"starwars" : "starwars",
-	"proteins" : "proteinsDB",
-	"monomers" : "monomersDB"
+	"proteins" : "proteins_db",
+	"monomers" : "monomers_db"
 }
