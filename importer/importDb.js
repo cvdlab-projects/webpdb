@@ -62,21 +62,20 @@ var mf_runImport = function(rootDir, isRecursive, what) {
 
 // callbackFun: [function] a function to call with the value of result
 var mf_extractUlimit = function(callbackFun) {
+	var defaultSafeLimit = 256;
 	if ( require("os").platform().indexOf("win") != -1 ) {
 		// Fixed value
-		callbackFun(256);
+		callbackFun(defaultSafeLimit);
 	} else {
-		var ulimitProcess = require('child_process').spawn('ulimit', ['-n']);
-		var finalData = "";
-
-		ulimitProcess.stdout.on('data', function (data) {
-			// Qui data e' un Buffer
-			finalData += data;
-		});
-
-		ulimitProcess.on('exit', function (code) {
-			callbackFun(parseInt(finalData));
-		});	
+		var ulimitProcess = require('child_process').exec('ulimit -n',
+		  function(error, stdout, stderr) {
+		    if (error !== null) {
+		      callbackFun(defaultSafeLimit);
+		    } else {
+		      var newLimit = parseInt( stdout.replace(/^\s\s*/, '').replace(/\s\s*$/, '') );
+		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : newLimit );
+		    }
+		  });
 	}
 };
 
