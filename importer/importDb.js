@@ -66,7 +66,7 @@ var mf_extractUlimit = function(callbackFun) {
 		// Fixed value
 		callbackFun(256);
 	} else {
-		var ulimitProcess = spawn('ulimit', ['-n']);
+		var ulimitProcess = require('child_process').spawn('ulimit', ['-n']);
 		var finalData = "";
 
 		ulimitProcess.stdout.on('data', function (data) {
