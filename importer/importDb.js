@@ -4,7 +4,7 @@ var asyncMod = require('async');
 var fileReader = require('../fileexplore/fileReader');
 var fileUtils = require('../fileexplore/fileUtils');
 var dirReader = require('../fileexplore/dirReader');
-var parsePdb = require('../parser/parserNub');
+var parsePdb = require('../parser/fileParser');
 var insertDB = require('../dbmodule/insert');
 
 // Default Value
@@ -32,7 +32,7 @@ var mf_runImport = function(rootDir, isRecursive, dbName, fileFilter) {
 			if ( status === true ) {
 				insertDB.insert(filename, parsePdb.parsePDB(status, data, filename), mmf_gen_fileDataInserted(cbDone), m_Database_Name);
 			} else {
-				console.log("Reading data for protein " + filename + " has failed.");
+				console.log("Reading data for fileID " + filename + " has failed.");
 			}
 		});	
 	};
@@ -75,7 +75,7 @@ var mf_extractUlimit = function(callbackFun) {
 		      callbackFun(defaultSafeLimit);
 		    } else {
 		      var newLimit = parseInt( stdout.replace(/^\s\s*/, '').replace(/\s\s*$/, '') );
-		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : (newLimit/2) );
+		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : (newLimit/3) );
 		    }
 		  });
 	}
