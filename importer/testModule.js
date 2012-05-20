@@ -1,4 +1,13 @@
-var importer = require("./importDb")
+var importer = require("./importDb");
+var frUtils = require('../fileexplore/fileUtils');
 
-// (rootDir, isRecursive, dbType)
-importer.runImport("../testdata/lg", false, "proteins");
+var PDB_EXTENSION = ".pdb";
+
+// Proteins - Limited
+importer.runImport("/home/hhcsuper/proteinData/lg", false, "proteins");
+
+// Proteins
+// importer.runImport("/home/hhcsuper/proteinData", false, "proteins");
+
+// Monomers
+// importer.runImport("/home/hhcsuper/monomerspdb", false, "monomers", frUtils.filterExtension(PDB_EXTENSION));
