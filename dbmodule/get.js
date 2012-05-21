@@ -13,12 +13,11 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
-			var docs = {};
-			for(d in doc){
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
+			delete doc._id;
+			delete doc._rev;
+			callbackFunction(true, doc);
 		}
-		callbackFunction(docs);
+		
 	}
 	});
 };
@@ -39,13 +38,10 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 				delete doc[d].value._rev;
 				docs[d] = doc[d].value;
 			}
-			callbackFunction(docs);
+			callbackFunction(true, docs);
 		}
 	});
 };
 
-
-
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
-
