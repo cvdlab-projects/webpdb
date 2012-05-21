@@ -22,7 +22,9 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 	});
 };
 
-var retrieveByName = function(name, callbackFunction, keyDB){
+var retrieveByName = function(name, callbackFunction, keyDB, start, end){
+	start = start || 0;
+	end = end || 50;
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	database.save('_design/'+ keyDB +'View', {
@@ -34,7 +36,8 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 			callbackFunction(false, err);
 		} else {
 			var docs = {};
-			for(d in doc){
+			for(var d = start; d < doc.length && d < end; d++){
+				delete doc[d].value._id;
 				delete doc[d].value._rev;
 				docs[d] = doc[d].value;
 			}
@@ -45,4 +48,3 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
-retrieveByName("sul", function(t, n){console.log(n)}, "starwars");
