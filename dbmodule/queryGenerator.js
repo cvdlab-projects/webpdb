@@ -47,4 +47,4 @@ var mapElementAtLessPositionThan =function(pos, elems){
 	}
 	temp = temp.substring(0, temp.length - 4);
 	return query + temp + ") emit(doc._id, doc)}";
-};
+}; 
