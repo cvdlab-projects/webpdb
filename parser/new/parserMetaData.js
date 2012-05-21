@@ -32,6 +32,8 @@ var MDLTYPAssocs = [[1,6,"type"],[9,10,"continuation"],[11,80,"comment"]];
 var AUTHORAssocs = [[1,6,"type"],[9,10,"continuation"],[11,79,"authorList"]];
 var REVDATAssocs = [[1,6,"type"],[8,10,"modNum"],[11,12,"continuation"],[14,22,"modDate"],[24,27,"modId"],[32,33,"modType"],[40,45,"record"],[47,52,"record"],[54,59,"record"],[61,66,"record"]];
 var SPRSDEAssocs = [[1,6,"type"],[9,10,"continuation"],[12,20,"sprsdeDate"],[22,25,"idCode"],[32,35,"sIdCode"],[37,40,"sIdCode"],[42,45,"sIdCode"],[47,50,"sIdCode"],[52,55,"sIdCode"],[57,60,"sIdCode"],[62,65,"sIdCode"],[67,70,"sIdCode"],[72,75,"sIdCode"]];
+var REMARKAssocs = [[1,6,"type"],[8,10,"remarkNum"],[12,80,"content"]];
+
 
 //primary - heterogeneous
 var DBREFAssocs = [[1,6,"type"],[8,11,"idCode"],[13,14,"chainID"],[15,18,"seqBegin"],[19,20,"insertBegin"],[21,24,"seqEnd"],[25,26,"insertEnd"],[27,32,"database"],[34,41,"dbAccession"],[43,54,"dbIdCode"],[56,60,"dbseqBegin"],[61,62,"idbnsBeg"],[63,67,"dbseqEnd"],[68,69,"dbinsEnd"]];
@@ -102,6 +104,7 @@ var parsingInfo = { // la chiave e' di 6 caratteri, comprende gli spazi finali
 	"AUTHOR" : AUTHORAssocs,
 	"REVDAT" : REVDATAssocs,
 	"SPRSDE" : SPRSDEAssocs,
+	"REMARK" : REMARKAssocs,
 
 	"DBREF " : DBREFAssocs, // primary - heterogenous
 	"DBREF1" : DBREF1Assocs,

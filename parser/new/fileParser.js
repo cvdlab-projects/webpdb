@@ -52,6 +52,15 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 
 	}
 	
+
+	var rmks = protein["REMARK"];
+
+	for(var rmk in rmks){
+		console.log(rmk);
+		console.log(rmks[rmk]);
+	}
+
+
 	// NdFurio: magari la proteina la ritorniamo
 	return protein;
 };
