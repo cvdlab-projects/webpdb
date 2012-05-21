@@ -18,7 +18,7 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 			callbackFunction(true, doc);
 		}
 		
-	}
+	
 	});
 };
 
@@ -45,3 +45,4 @@ var retrieveByName = function(name, callbackFunction, keyDB){
 
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
+retrieveByName("sul", function(t, n){console.log(n)}, "starwars");
