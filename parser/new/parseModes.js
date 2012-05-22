@@ -6,6 +6,7 @@ var rp = require("./recordParser");
 var LineScanner = putils.LineScanner;
 var strim = putils.strim;
 var getRecordParsingFunction = rp.getRecordParsingFunction;
+var insertNested = putils.insertNested;
 
 
 
@@ -16,24 +17,29 @@ var getRecordParsingFunction = rp.getRecordParsingFunction;
 
 	var parseNested = function (protein,type,line,scanner){
 
-		if(  (typeof protein[strim(type)]) === "undefined" ){ //e' il primo record di questo tipo, creo la struttura
-			protein[strim(type)] = {
-				"count" : 0 		//il numero di record di questo tipo presenti nella collezione
-			};
-		}
-
-		//i record vengono inseriti in questo modo
-		// 1 : {json}
-		// 2 : {json}
-		// ecc.. dove la chiave è anche il numero seriale del record.
-
-
-
-		var thisRecordNumber = ++protein[strim(type)]["count"];  //calcolo il numero seriale di questo record, e aggiorno il "size"
-
 		var recordParsingFunction = getRecordParsingFunction(type);
+		var parsedRecord = recordParsingFunction(type,line,scanner);
 
-		protein[strim(type)][thisRecordNumber] = recordParsingFunction(type,line,scanner);
+		insertNested(protein,type,parsedRecord);
+
+		// if(  (typeof protein[strim(type)]) === "undefined" ){ //e' il primo record di questo tipo, creo la struttura
+		// 	protein[strim(type)] = {
+		// 		"count" : 0 		//il numero di record di questo tipo presenti nella collezione
+		// 	};
+		// }
+
+		// //i record vengono inseriti in questo modo
+		// // 1 : {json}
+		// // 2 : {json}
+		// // ecc.. dove la chiave è anche il numero seriale del record.
+
+
+
+		// var thisRecordNumber = ++protein[strim(type)]["count"];  //calcolo il numero seriale di questo record, e aggiorno il "size"
+
+		// var recordParsingFunction = getRecordParsingFunction(type);
+
+		// protein[strim(type)][thisRecordNumber] = recordParsingFunction(type,line,scanner);
 	}
 
 	var parseRemark = function (protein,type,line,scanner){
