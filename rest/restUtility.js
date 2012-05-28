@@ -84,6 +84,21 @@ var checkName = function(name) {
 	return true;
 }
 
+
+var checkIdListMolecule = function(list) {
+	var arr = list.split(",");
+	arr.map(function(item,position,array) {
+		if(!checkIdMolecule(item)) {
+			console.log('Invalid id for amino "'+item+'"');
+			return false;
+		}
+	});
+	return true;
+}
+
+
+
 exports.checkIdMolecule = checkIdMolecule;
 exports.checkIdProtein = checkIdProtein;
 exports.checkName = checkName;
+exports.checkIdListMolecule = checkIdListMolecule;

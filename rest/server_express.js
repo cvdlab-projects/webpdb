@@ -173,6 +173,50 @@ app.get('/rest/molecule/name/:name', function(req,res){
 	
 });
 
+app.get('/rest/protein/byamino/atleastone/:list', function(req, res) {
+	var list = req.params.list;
+	console.log("[200] " + req.method + " to " + req.url);
+
+	res.contentType('application/json');
+	if (utils.checkIdListMolecule(list)) {
+		dbmodule.NUOVA_FUNZIONE_DARIO(list, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'No match found for aminos "' + list + '" or db error'});
+			}
+			res.end();
+		}, "proteins");
+	}
+	else {
+		res.send({'ERROR' : 'Invalid aminos id "' + list + '"'});
+		res.end();
+	}
+});
+
+
+app.get('/rest/protein/byamino/all/:list', function(req, res) {
+	var list = req.params.list;
+	console.log("[200] " + req.method + " to " + req.url);
+
+	res.contentType('application/json');
+	if (utils.checkIdListMolecule(list)) {
+		dbmodule.NUOVA_FUNZIONE_DARIO(list, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'No match found for aminos "' + list + '" or db error'});
+			}
+			res.end();
+		}, "proteins");
+	}
+	else {
+		res.send({'ERROR' : 'Invalid aminos id "' + list + '"'});
+		res.end();
+	}
+});
+
+
 // servizio admin
 app.post('/login', function (req, res) {
   var post = req.body;
