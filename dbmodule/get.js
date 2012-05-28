@@ -2,9 +2,12 @@ var cradle = require('cradle');
 var queryGen = require('./queryGenerator');
 var db = require('./db');
 var options = {};
+var crypto = require('crypto');
 /*
 	callbackFunction(success:BOOL, result:JSON);
 */
+
+//Returns the protein (or monomer) with the specified id
 
 var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
@@ -22,16 +25,22 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 	});
 };
 
+//Returns the proteins (or monomers) with the specified string "name" in the field 'TITLE.content', 
+//as a JSON formatted as a list {1: protein1, 2: protein2, 3: protein3, ...}
+
 var retrieveByName = function(name, callbackFunction, keyDB, start, end){
+	var hash = crypto.createHash('md5');
+	shasum.update("retrieveByName"+keyDB+name);
+	var hashName = shasum.digest('hex');
 	start = start || 0;
 	end = end || 50;
 	options.keyDB = keyDB;
 	database = db.setup(options);
-	database.save('_design/'+ keyDB +'View', {
+	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.mapContains("TITLE.content", name)}});
 	
-	database.view(keyDB + 'View/view', function (err, doc) {
+	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
@@ -45,6 +54,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 		}
 	});
 };
+
 
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
