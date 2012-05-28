@@ -7,6 +7,8 @@ var crypto = require('crypto');
 	callbackFunction(success:BOOL, result:JSON);
 */
 
+//Returns the protein (or monomer) with the specified id
+
 var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
 	database = db.setup(options);
@@ -22,6 +24,9 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 	
 	});
 };
+
+//Returns the proteins (or monomers) with the specified string "name" in the field 'TITLE.content', 
+//as a JSON formatted as a list {1: protein1, 2: protein2, 3: protein3, ...}
 
 var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	var hash = crypto.createHash('md5');
