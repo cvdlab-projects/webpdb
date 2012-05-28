@@ -2,7 +2,7 @@ var cradle = require('cradle');
 var queryGen = require('./queryGenerator');
 var db = require('./db');
 var options = {};
-var crypto = require('crypto');
+var hash = require('./hash');
 /*
 	callbackFunction(success:BOOL, result:JSON);
 */
@@ -29,9 +29,8 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 //as a JSON formatted as a list {1: protein1, 2: protein2, 3: protein3, ...}
 
 var retrieveByName = function(name, callbackFunction, keyDB, start, end){
-	var hash = crypto.createHash('md5');
-	shasum.update("retrieveByName"+keyDB+name);
-	var hashName = shasum.digest('hex');
+	var input = ["retrieveByName", keyDB, name];
+	var hashName = hash.createHash(input);
 	start = start || 0;
 	end = end || 50;
 	options.keyDB = keyDB;
