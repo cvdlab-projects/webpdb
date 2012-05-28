@@ -52,7 +52,37 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 
 	}
 	
-	// NdFurio: magari la proteina la ritorniamo
+
+	var printRemarks = function(protein){
+		var rmks = protein["REMARK"];
+
+		for(var rmk in rmks){
+			console.log("Remark n° "+rmk);
+			console.log(rmks[rmk]);
+		}
+	}
+	var printModels = function(protein){
+		var mdls = protein["MODEL"];
+
+		for(var mdl in mdls){
+			console.log("Model n° "+mdl);
+			console.log(mdls[mdl]);
+		}
+	}
+	var printModeln = function(protein,n){
+		n = n || 1;
+		
+		console.log("Model n° "+n);
+		console.log(protein["MODEL"][n]);
+		
+	}
+
+	//printRemarks(protein);
+	
+	printModeln(protein);
+
+	
+
 	return protein;
 };
 

@@ -5,6 +5,7 @@ var getParsingInfo = mdata.getParsingInfo;
 var putils = require("./parserUtils");
 var LineScanner = putils.LineScanner;
 var strim = putils.strim;
+var insertNested = putils.insertNested;
 
 
 var parseLineSimple = function(type,line,scanner) {
@@ -63,12 +64,16 @@ var parseLineContent = function (type,line,scanner) {
 var parseModel = function(type,line,scanner) {
 	var isFakeModel = false;
 
-	if (type != "MODEL ") { //fake model, succede se i record ATOM ecc non sono racchiusi in un model.
-		var parsedModel = {"type" : "MODEL", serial : "1"}; //TODO init fake model info
+	var lineType = line.substring(0,6);
+
+	var parsedModel;
+
+	if (lineType != "MODEL ") { //fake model, succede se i record ATOM ecc non sono racchiusi in un model.
+		parsedModel = {"type" : "MODEL", serial : 1}; //init fake model info
 		isFakeModel = true;
 		scanner.goBack1();
 	} else {
-		var parsedModel = parseLineContent(type,line,scanner); //type e serial, e allo stesso json aggiungo gli atomi come R_1, R_2 ecc..
+		parsedModel = parseLineContent(type,line,scanner); //type e serial, e allo stesso json aggiungo gli atomi come R_1, R_2 ecc..
 	}
 
 	var endModel = false;
@@ -89,27 +94,32 @@ var parseModel = function(type,line,scanner) {
 		}
 
 		if ( modelLineType != "ENDMDL" ) {
-			parsedModel["r_"+i] = parseLineContent(modelLineType,modelLine);
-			i++;
+
+			var parsedLine = parseLineContent(modelLineType,modelLine);
+
+			insertNested(parsedModel,parsedLine["type"],parsedLine);
+
+			i++; //Inutile ?
 		} else {
 			return parsedModel;
 		}
 	}
 };
 
+
 var recordParsingFunctions = {
 
 	"MODEL " : parseModel,
-	"HELIX " : parseLineContent, //variare qui le funzioni per stabilire se fare cutSpaces o no
+	"HELIX " : parseLineContent,
 	"SHEET " : parseLineContent,
 	"ATOM  " : parseLineContent,
 	"HETATM" : parseLineContent,
 	"ANISOU" : parseLineContent,
 	"TER   " : parseLineContent,
-
+	"REMARK" : parseLineContent,
+	
 	//...
 
-	"REMARK" : parseLineSimple, //migliorabile
 	"default": parseLineContent //TODO (semplice, schiaffa la stringa intera apparte il type, da usare per i 1 line 1 time da non interpretare)
 };
 	

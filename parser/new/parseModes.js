@@ -6,51 +6,60 @@ var rp = require("./recordParser");
 var LineScanner = putils.LineScanner;
 var strim = putils.strim;
 var getRecordParsingFunction = rp.getRecordParsingFunction;
+var insertNested = putils.insertNested;
 
 
-	var parseIncremental = function(protein,type,line,scanner) {
-		var NOF_fname = "NOF_"+strim(type); // es : NOF_HELIX sta per Number Of Helix(es)
-
-		var quantity = protein[NOF_fname];
-
-		if (quantity == undefined){ //inizializzo il campo
-			protein[NOF_fname] = 0;
-			quantity = 0;
-		}
-
-		protein[NOF_fname] = protein[NOF_fname]+1;
-		var thisRecordNumber = quantity +1;
-
-		var recordParsingFunction = getRecordParsingFunction(type);
-		protein[strim(type)+"_"+thisRecordNumber] = recordParsingFunction(type,line,scanner); 
-		
-		//	parsa l' "oggetto" del pdb che inizia a quella linea (che puo' essere lungo una o piu' linee)
-		//	es: HELIX_1 = helix json parsato
-		//		MODEL_1 = model json parsato che contiene tutti i suoi ATOM ecc.. parsati 
-		//	(nota: quindi potrebbe essere utilizzato nextline() dalla funzione)
-		
-	};
 
 	var parseFakeModel = function (protein,type,line,scanner){
-		protein['NOF_MODEL'] = 1;
-		protein['MODEL_1'] = getRecordParsingFunction("MODEL ")(type,line,scanner);
+		var parsingMode = getParsingMode("MODEL ");
+		parsingMode(protein,"MODEL ",line,scanner);
 	}
 
 	var parseNested = function (protein,type,line,scanner){
 
-		if(  (typeof protein[type]) === "undefined" ){ //e' il primo record di questo tipo, creo la struttura
-			protein[type] = {
-				"size" : 0 		//il numero di record di questo tipo presenti nella collezione
-			};
+		var recordParsingFunction = getRecordParsingFunction(type);
+		var parsedRecord = recordParsingFunction(type,line,scanner);
+
+		insertNested(protein,type,parsedRecord);
+
+		// if(  (typeof protein[strim(type)]) === "undefined" ){ //e' il primo record di questo tipo, creo la struttura
+		// 	protein[strim(type)] = {
+		// 		"count" : 0 		//il numero di record di questo tipo presenti nella collezione
+		// 	};
+		// }
+
+		// //i record vengono inseriti in questo modo
+		// // 1 : {json}
+		// // 2 : {json}
+		// // ecc.. dove la chiave è anche il numero seriale del record.
+
+
+
+		// var thisRecordNumber = ++protein[strim(type)]["count"];  //calcolo il numero seriale di questo record, e aggiorno il "size"
+
+		// var recordParsingFunction = getRecordParsingFunction(type);
+
+		// protein[strim(type)][thisRecordNumber] = recordParsingFunction(type,line,scanner);
+	}
+
+	var parseRemark = function (protein,type,line,scanner){
+
+
+		var recordParsingFunction = getRecordParsingFunction(type);
+		var parsedRemark = recordParsingFunction(type,line,scanner);
+
+		var remarkName  = parsedRemark["remarkNum"]
+
+		if(  (typeof protein[strim(type)]) === "undefined" ){
+			protein[strim(type)] = {};
 		}
 
-		//i record vengono inseriti in questo modo
-		// 1 : {json}
-		// 2 : {json}
-		// ecc.. dove la chiave è anche il numero seriale del record.
-
-		//TODO
-
+	if(  (typeof (protein[strim(type)][remarkName]) ) === "undefined" ){
+		protein[strim(type)][remarkName] = parsedRemark;
+		protein[strim(type)][remarkName]["content"] = [protein[strim(type)][remarkName]["content"]]; //metto il content sotto forma di array di stringhe
+	} else {
+		protein[strim(type)][remarkName]["content"].push(parsedRemark["content"]);
+	}
 
 	}
 
@@ -59,7 +68,6 @@ var getRecordParsingFunction = rp.getRecordParsingFunction;
 		protein[strim(type)] = recordParsingFunction(type,line,scanner);
 	};
 	
-	// NdFurio: Prima le funzioni, poi l'array di funzioni o impazzisce.
 	
 	var parsingMode = {
 
@@ -74,29 +82,29 @@ var getRecordParsingFunction = rp.getRecordParsingFunction;
 		"TER   " : parseFakeModel, // idem
 
 
-		"MODEL " : parseIncremental,
-		"HELIX " : parseIncremental,
-		"SHEET " : parseIncremental,
-		"REMARK" : parseIncremental, //migliorabile
+		"MODEL " : parseNested,
+		"HELIX " : parseNested,
+		"SHEET " : parseNested,
+		"REMARK" : parseRemark, //migliorabile
 
 		 //1 line multiple times
-		"CISPEP" : parseIncremental,
-		"CONECT" : parseIncremental,
-		"DBREF " : parseIncremental,
-		"HET   " : parseIncremental,
-		"LINK  " : parseIncremental,
-		"MTRIX1" : parseIncremental,
-		"MTRIX2" : parseIncremental,
-		"MTRIX3" : parseIncremental,		      
-		"REVDAT" : parseIncremental,
-		"SEQADV" : parseIncremental,
-		"SSBOND" : parseIncremental,
+		"CISPEP" : parseNested,
+		"CONECT" : parseNested,
+		"DBREF " : parseNested,
+		"HET   " : parseNested,
+		"LINK  " : parseNested,
+		"MTRIX1" : parseNested,
+		"MTRIX2" : parseNested,
+		"MTRIX3" : parseNested,		      
+		"REVDAT" : parseNested,
+		"SEQADV" : parseNested,
+		"SSBOND" : parseNested,
 
-		"FORMUL" : parseIncremental, //multiple lines multiple times
-		"HETNAM" : parseIncremental,
-		"HETSYN" : parseIncremental,
-		"SEQRES" : parseIncremental,
-		"SITE  " : parseIncremental,
+		"FORMUL" : parseNested, //multiple lines multiple times
+		"HETNAM" : parseNested,
+		"HETSYN" : parseNested,
+		"SEQRES" : parseNested,
+		"SITE  " : parseNested,
 
 		"default" : parseUnique
 	};

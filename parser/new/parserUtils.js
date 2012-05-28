@@ -79,6 +79,22 @@ var strim = function(string){
 	return ltrim(rtrim(string));
 }
 
+var insertNested = function (container,type,parsedRecord){
+	if(  (typeof container[strim(type)]) === "undefined" ){ //e' il primo record di questo tipo, creo la struttura
+			container[strim(type)] = {
+				"count" : 0 		//il numero di record di questo tipo presenti nella collezione
+			};
+		}
+
+		//i record vengono inseriti in questo modo
+		// 1 : parsedRecord
+		// 2 : parsedRecord
+		// ecc.. dove la chiave è anche il numero seriale del record.
+
+		var thisRecordNumber = ++container[strim(type)]["count"];  //calcolo il numero seriale di questo record, e aggiorno il "size"
+
+		container[strim(type)][thisRecordNumber] = parsedRecord;
+}
 
 
 // ---------------------------------funzioni per il parsing:---------------------------------
@@ -88,3 +104,4 @@ var strim = function(string){
 
 exports.LineScanner = LineScanner;
 exports.strim = strim;
+exports.insertNested = insertNested;
