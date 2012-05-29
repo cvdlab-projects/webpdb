@@ -121,7 +121,8 @@ var printJsonRecursive = function (json){
 var replacer = undefined;
 var space = '\t';
 
-console.log(JSON.stringify(json,replacer,space));
+// console.log(JSON.stringify(json,replacer,space));
+console.log(JSON.stringify(json));
 	
 //--------------------------------
 
