@@ -97,9 +97,10 @@ var parseModel = function(type,line,scanner) {
 
 			var parsedLine = parseLineContent(modelLineType,modelLine);
 
-			insertNested(parsedModel,parsedLine["type"],parsedLine);
+			insertNested(parsedModel,parsedLine["type"],parsedLine,i);
 
-			i++; //Inutile ?
+			i++;
+			
 		} else {
 			return parsedModel;
 		}

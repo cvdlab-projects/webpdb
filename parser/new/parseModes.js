@@ -54,14 +54,44 @@ var insertNested = putils.insertNested;
 			protein[strim(type)] = {};
 		}
 
-	if(  (typeof (protein[strim(type)][remarkName]) ) === "undefined" ){
-		protein[strim(type)][remarkName] = parsedRemark;
-		protein[strim(type)][remarkName]["content"] = [protein[strim(type)][remarkName]["content"]]; //metto il content sotto forma di array di stringhe
-	} else {
-		protein[strim(type)][remarkName]["content"].push(parsedRemark["content"]);
-	}
+		if(  (typeof (protein[strim(type)][remarkName]) ) === "undefined" ){
+			protein[strim(type)][remarkName] = parsedRemark;
+			protein[strim(type)][remarkName]["content"] = [protein[strim(type)][remarkName]["content"]]; //metto il content sotto forma di array di stringhe
+		} else {
+			protein[strim(type)][remarkName]["content"].push(parsedRemark["content"]);
+		}
 
 	}
+
+	var parseConect = function(protein,type,line,scanner){
+
+		var recordParsingFunction = getRecordParsingFunction(type);
+		var parsedRecord = recordParsingFunction(type,line,scanner);
+
+		var index = parsedRecord["serial"];
+
+		var pr2arr = function(pr){
+			var name ="serial_";
+			var i = 1;
+			var arr = [];
+
+			var fname = name+i;
+			var acnt = pr[fname];
+
+			while(!(((typeof acnt)==="undefined") ||(acnt == "") )){
+				arr.push(acnt);
+
+			i++;
+			var fname = name+i;
+			var acnt = pr[fname];			
+			}
+
+			return arr;
+		}
+
+		insertNested(protein,type,pr2arr(parsedRecord),index);
+	}
+
 
 	var parseUnique = function(protein,type,line,scanner) {
 		var recordParsingFunction = getRecordParsingFunction(type);
@@ -89,7 +119,7 @@ var insertNested = putils.insertNested;
 
 		 //1 line multiple times
 		"CISPEP" : parseNested,
-		"CONECT" : parseNested,
+		"CONECT" : parseConect,
 		"DBREF " : parseNested,
 		"HET   " : parseNested,
 		"LINK  " : parseNested,
