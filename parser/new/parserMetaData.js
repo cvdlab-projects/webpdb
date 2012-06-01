@@ -74,7 +74,7 @@ var ENDMDLAssocs = [[1,6,"type"]];
 
 //connectivity to end
 var CONECTAssocs = [[1,6,"type"],[7,11,"serial"],[12,16,"serial"],[17,21,"serial"],[22,26,"serial"],[27,31,"serial"]];
-var MASTERAssocs = [[1,6,"type"],[11,15,"numRemark"],[16,20,"0"],[21,25,"numHet"],[26,30,"numHelix"],[31,35,"numSheet"],[36,40,"numTurn"],[41,45,"numSite"],[46,50,"numXform"],[,1,""],[51,55,"numCoord"],[,1,""],[56,60,"numTer"],[61,65,"numConect"],[66,70,"numSeq"]];
+var MASTERAssocs = [[1,6,"type"],[11,15,"numRemark"],[16,20,"0"],[21,25,"numHet"],[26,30,"numHelix"],[31,35,"numSheet"],[36,40,"numTurn"],[41,45,"numSite"],[46,50,"numXform"],[51,55,"numCoord"],[56,60,"numTer"],[61,65,"numConect"],[66,70,"numSeq"]];
 var ENDAssocs = [[1,6,"type"]];
 
 //default

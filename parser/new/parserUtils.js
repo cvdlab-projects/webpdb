@@ -79,10 +79,10 @@ var strim = function(string){
 	return ltrim(rtrim(string));
 }
 
-var insertNested = function (container,type,parsedRecord){
+var insertNested = function (container,type,parsedRecord,index){
 	if(  (typeof container[strim(type)]) === "undefined" ){ //e' il primo record di questo tipo, creo la struttura
 			container[strim(type)] = {
-				"count" : 0 		//il numero di record di questo tipo presenti nella collezione
+				"_count" : 0 		//il numero di record di questo tipo presenti nella collezione
 			};
 		}
 
@@ -91,17 +91,53 @@ var insertNested = function (container,type,parsedRecord){
 		// 2 : parsedRecord
 		// ecc.. dove la chiave è anche il numero seriale del record.
 
-		var thisRecordNumber = ++container[strim(type)]["count"];  //calcolo il numero seriale di questo record, e aggiorno il "size"
+		var thisRecordNumber = ++container[strim(type)]["_count"];  //calcolo il numero seriale di questo record, e aggiorno il "size"
+
+		var useRecordIndex = function(tname){
+			return (tname === "ATOM" || tname === "CONECT" || tname === "HETATM");
+		}
+
+
+		if(useRecordIndex(type)){
+			thisRecordNumber = index;
+		}
+
 
 		container[strim(type)][thisRecordNumber] = parsedRecord;
 }
 
+var printJsonRecursive = function (json){
 
-// ---------------------------------funzioni per il parsing:---------------------------------
+//come console.log
+//console.dir(json);
 
+//--------------------------------
+	//console.log("log");
+	//console.log(json);
+
+//  buono, ma non mette le newline
+//	console.log(JSON.stringify(json));
+
+var replacer = undefined;
+var space = '\t';
+
+// console.log(JSON.stringify(json,replacer,space));
+console.log(JSON.stringify(json));
+	
+//--------------------------------
+
+	// console.log("{");
+
+	// for (var key in json){
+
+	// }
+
+	// console.log("}");
+}
 
 // ------------- EXPORTS ------------------
 
 exports.LineScanner = LineScanner;
 exports.strim = strim;
 exports.insertNested = insertNested;
+exports.printJsonRecursive = printJsonRecursive;

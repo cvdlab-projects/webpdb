@@ -79,7 +79,7 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 
 	//printRemarks(protein);
 	
-	printModeln(protein);
+	//printModeln(protein);
 
 	
 

@@ -2,6 +2,7 @@ var frModule = require('../../fileexplore/fileReader');
 var drModule = require('../../fileexplore/dirReader');
 var parserNub = require('./../parserNub');
 var parserNew = require('./fileParser');
+var putils = require('./parserUtils');
 
 var parserType;
 
@@ -11,7 +12,7 @@ var funCallFile = function(status, data, filename) {
 	// console.log(data);
 	// console.log("-----------------------");
 	var ret = parserType.parsePDB(status, data, filename);
-	console.log(ret);
+	putils.printJsonRecursive(ret);
 };
 
 var funCallFileLaunchRead = function(fileList) {
