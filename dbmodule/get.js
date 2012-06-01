@@ -37,7 +37,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	database = db.setup(options);
 	database.save('_design/'+ hashName +'View', {
 		view: {
-			map: queryGen.mapContains("TITLE.content", name)}});
+			map: queryGen.mapContains("TITLE.title", name)}});
 	
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
@@ -54,6 +54,59 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	});
 };
 
+var retrieveByAlmostOneAminoacids = function(aminoacids, callbackFunction, keyDB, start, end){
+	var input = ["retrieveByAlmostOneAminoacids", keyDB, aminoacids];
+	var hashName = hash.createHash(input);
+	start = start || 0;
+	end = end || 50;
+	options.keyDB = keyDB;
+	database = db.setup(options);
+	database.save('_design/'+ hashName +'View', {
+		view: {
+			map: queryGen.almostOneAminoacid(aminoacids)}});
+
+	database.view(hashName + 'View/view', function (err, doc) {
+		if ( err !== null ) {
+			callbackFunction(false, err);
+		} else {
+			var docs = {};
+			for(var d = start; d < doc.length && d < end; d++){
+				delete doc[d].value._id;
+				delete doc[d].value._rev;
+				docs[d] = doc[d].value;
+			}
+			callbackFunction(true, docs);
+		}
+	});
+}
+
+var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, start, end){
+	var input = ["retrieveByAllAminoacids", keyDB, aminoacids];
+	var hashName = hash.createHash(input);
+	start = start || 0;
+	end = end || 50;
+	options.keyDB = keyDB;
+	database = db.setup(options);
+	database.save('_design/'+ hashName +'View', {
+		view: {
+			map: queryGen.allAminoacids(aminoacids)}});
+
+	database.view(hashName + 'View/view', function (err, doc) {
+		if ( err !== null ) {
+			callbackFunction(false, err);
+		} else {
+			var docs = {};
+			for(var d = start; d < doc.length && d < end; d++){
+				delete doc[d].value._id;
+				delete doc[d].value._rev;
+				docs[d] = doc[d].value;
+			}
+			callbackFunction(true, docs);
+		}
+	});
+}
 
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
+exports.retrieveByAlmostOneAminoacids = retrieveByAlmostOneAminoacids;
+exports.retrieveByAllAminoacids = retrieveByAllAminoacids;

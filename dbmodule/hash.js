@@ -1,11 +1,12 @@
+var crypto = require('crypto');
+
 var createHash = function(input){
 var s = "";
 for(el in input){
-	s+= input[el]; 
+	s+= input[el].toString; 
 }	
-//var hash = crypto.createHash('md5');
-//shasum.update(input.join);
-console.log(s);}
-//var hashName = shasum.digest('hex');}
+var hash = crypto.createHash('md5');
+hash.update(s);
+return hash.digest('hex');}
 
-createHash(["ciao", "dolfi", "come", "stai"]);
+exports.createHash = createHash;
