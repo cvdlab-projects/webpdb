@@ -32,11 +32,12 @@ app.get('/', function(req, res){
 	res.write('<div align=left> Enter the Protein\'s <b>Identifier</b>:<input type="text" name="proteinID" value="Protein_ID" />');
 	res.write('<input type="submit" value = "Search" />');
 	res.write('</form>');
-/*
+
 	res.write('<form enctype="application/x-www-form-urlencoded" action="form/retrieve" method="get">');
 	res.write('<div align=left>Enter the Protein\'s <b>Name</b>: <input type="text" name="proteinName" value="Protein_Name" />');
 	res.write('<input type="submit" value = "Search" /></div>');
-	res.write('</form></html>');
+	res.write('</form>');
+/*
 	res.write('<div align=left><h1>Log in as Administrator:</h1>');
 	res.write('<form enctype="application/x-www-form-urlencoded" action="login" method="post">');
 	res.write('<div align=left> <b>Username</b>:<input type="text" name="user" value="Username" />');
