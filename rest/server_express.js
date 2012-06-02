@@ -25,7 +25,8 @@ app.use(express.cookieParser());
 
 app.get('/', function(req, res){
 	console.log("[200] " + req.method + " to " + req.url);
-	res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+	// res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+	res.contentType('text/html');
 	res.write('<html><head><title>Search for Protein</title></head><body>');
 	res.write('<div align=left><h1>Search a protein by ID or by Name:</h1>');
 	res.write('<form enctype="application/x-www-form-urlencoded" action="form/retrieve" method="get">');
@@ -95,11 +96,16 @@ app.get('/form/retrieve', function(req,res){
 });
 
 // il vero servizio rest
+var setResponseReastHeader = function(res) {
+	res.contentType('application/json');
+	res.header('Access-Control-Allow-Origin', '*');  
+};
+
 app.get('/rest/protein/id/:id', function(req, res) {
 	var id = req.params.id;
 	console.log("[200] " + req.method + " to " + req.url);
+	setResponseReastHeader(res);
 
-	res.contentType('application/json');
 	if (utils.checkIdProtein(id)) {
 		dbmodule.retrieveByID(id, function(bool,data){
 			if (bool) {
@@ -119,8 +125,8 @@ app.get('/rest/protein/id/:id', function(req, res) {
 app.get('/rest/protein/name/:name', function(req,res){
 	var name = req.params.name;
 	console.log("[200] " + req.method + " to " + req.url);
-
-	res.contentType('application/json');
+	setResponseReastHeader(res);
+	
 	if (utils.checkName(name)) {
 		dbmodule.retrieveByName(name, function(bool,data){
 			if (bool) {
@@ -141,8 +147,8 @@ app.get('/rest/protein/name/:name', function(req,res){
 app.get('/rest/molecule/id/:id', function(req,res){
 	var id = req.params.id;
 	console.log("[200] " + req.method + " to " + req.url);
+	setResponseReastHeader(res);
 	
-	res.contentType('application/json');
 	if (utils.checkIdMolecule(id)) {
 		dbmodule.retrieveByID(id, function(bool,data){
 			if (bool) {
@@ -162,8 +168,8 @@ app.get('/rest/molecule/id/:id', function(req,res){
 app.get('/rest/molecule/name/:name', function(req,res){
   	var name = req.params.name;
 	console.log("[200] " + req.method + " to " + req.url);
-
-	res.contentType('application/json');
+	setResponseReastHeader(res);
+	
 	if (utils.checkName(name)) {
 		dbmodule.retrieveByName(name, function(bool,data){
 			if (bool) {
@@ -184,8 +190,8 @@ app.get('/rest/molecule/name/:name', function(req,res){
 app.get('/rest/protein/byamino/atleastone/:list', function(req, res) {
 	var list = utils.transformToList(req.params.list, ",");
 	console.log("[200] " + req.method + " to " + req.url);
-
-	res.contentType('application/json');
+	setResponseReastHeader(res);
+	
 	if (utils.checkIdListMolecule(list)) {
 		dbmodule.retrieveByAlmostOneAminoacids(list, function(bool,data){
 			if (bool) {
@@ -206,8 +212,8 @@ app.get('/rest/protein/byamino/atleastone/:list', function(req, res) {
 app.get('/rest/protein/byamino/all/:list', function(req, res) {
 	var list = utils.transformToList(req.params.list, ",");
 	console.log("[200] " + req.method + " to " + req.url);
-
-	res.contentType('application/json');
+	setResponseReastHeader(res);
+	
 	if (utils.checkIdListMolecule(list)) {
 		dbmodule.retrieveByAllAminoacids(list, function(bool,data){
 			if (bool) {
@@ -240,7 +246,8 @@ app.post('/login', function (req, res) {
 
 app.get('/admin_functions', checkAuth, function (req, res) {
  console.log("[200] " + req.method + " to " + req.url);
-  res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+  // res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+  res.contentType('text/html');
   res.write('<html><head><title>Admin Control Panel</title></head><body>');
   res.write('<div align=Center><h1>Control Panel:</h1></div>');
   res.write('<form enctype="application/x-www-form-urlencoded" action="logout" method="post">');
@@ -260,10 +267,6 @@ function checkAuth(req, res, next) {
   } else {
     next();
   }
-};
-
-var writeHeaderOk = function(response, contentType) {
-	response.writeHead(200, "OK", {'Content-Type': contentType});
 };
 
 app.listen(WEBPORT);
