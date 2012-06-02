@@ -7,8 +7,6 @@ require
 
 var express = require('express');
 var app = express.createServer();
-var httpProxy = require('http-proxy');
-var httpProxyObject = new httpProxy.RoutingProxy();
 // var RedisStore = require('connect-redis')(express);
 
 // Project Modules
@@ -218,15 +216,6 @@ app.get('/rest/protein/byamino/all/:list', function(req, res) {
 		res.send({'ERROR' : 'Invalid aminos id "' + list + '"'});
 		res.end();
 	}
-});
-
-// servizio proxy
-app.get('/_couchdb', function (req, res) {
-  req.url = req.url.substr('/_couchdb'.length);
-  httpProxyObject.proxyRequest(req, res, {
-    host: 'localhost',
-    port: 5984
-  });
 });
 
 // servizio admin
