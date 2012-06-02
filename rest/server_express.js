@@ -25,17 +25,17 @@ app.get('/', function(req, res){
 	res.writeHead(200, "OK", {'Content-Type': 'text/html'});
 	res.write('<html><head><title>Search for Protein</title></head><body>');
 	res.write('<div align=left><h1>Search a protein by ID or by Name:</h1>');
-	res.write('<form enctype="application/x-www-form-urlencoded" action="/form/retrieve" method="get">');
+	res.write('<form enctype="application/x-www-form-urlencoded" action="form/retrieve" method="get">');
 	res.write('<div align=left> Enter the Protein\'s <b>Identifier</b>:<input type="text" name="proteinID" value="Protein_ID" />');
 	res.write('<input type="submit" value = "Search" />');
 	res.write('</form>');
 
-	res.write('<form enctype="application/x-www-form-urlencoded" action="/form/retrieve" method="get">');
+	res.write('<form enctype="application/x-www-form-urlencoded" action="form/retrieve" method="get">');
 	res.write('<div align=left>Enter the Protein\'s <b>Name</b>: <input type="text" name="proteinName" value="Protein_Name" />');
 	res.write('<input type="submit" value = "Search" /></div>');
 	res.write('</form></html>');
 	res.write('<div align=left><h1>Log in as Administrator:</h1>');
-	res.write('<form enctype="application/x-www-form-urlencoded" action="/login" method="post">');
+	res.write('<form enctype="application/x-www-form-urlencoded" action="login" method="post">');
 	res.write('<div align=left> <b>Username</b>:<input type="text" name="user" value="Username" />');
 	res.write('<b>Password</b>: <input type="password" name="password" value="Password" />');
 	res.write('<input type="submit" value = "Login" /></div>');
@@ -59,7 +59,7 @@ app.get('/form/retrieve', function(req,res){
 		if (utils.checkIdProtein(id)) {
 			dbmodule.retrieveByID(id, function(bool,data){
 				if (bool) {
-					res.send(data);
+					res.send(JSON.stringify(data));
 					res.end();
 				} else {
 					sendFormError(res);
@@ -73,7 +73,7 @@ app.get('/form/retrieve', function(req,res){
 		if (utils.checkName(name)) {
 			dbmodule.retrieveByName(name, function(bool,data){
 				if (bool) {
-					res.send(data);
+					res.send(JSON.stringify(data));
 					res.end();
 				} else {
 					sendFormError(res);
@@ -224,7 +224,7 @@ app.post('/login', function (req, res) {
   if (post.user == 'admins' && post.password == 'admins') {
   //if (req.query["user"] == 'admins' && req.query["password"] == 'admins') {
     req.session.authenticated = true;
-    res.redirect('/admin_functions');
+    res.redirect('./admin_functions');
   } else {
     res.send('Bad user/pass');
     //console.log(req.query["user"] + req.query["password"]);
@@ -237,7 +237,7 @@ app.get('/admin_functions', checkAuth, function (req, res) {
   res.writeHead(200, "OK", {'Content-Type': 'text/html'});
   res.write('<html><head><title>Admin Control Panel</title></head><body>');
   res.write('<div align=Center><h1>Control Panel:</h1></div>');
-  res.write('<form enctype="application/x-www-form-urlencoded" action="/logout" method="post">');
+  res.write('<form enctype="application/x-www-form-urlencoded" action="logout" method="post">');
   res.write('<input type="submit" value = "Logout" /></div>');
   res.write('</form></html>');
   res.end();
@@ -245,7 +245,7 @@ app.get('/admin_functions', checkAuth, function (req, res) {
 
 app.post('/logout', function (req, res) {
   delete req.session.authenticated;
-  res.redirect('/');
+  res.redirect('./');
 });
 
 function checkAuth(req, res, next) {
