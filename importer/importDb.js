@@ -4,11 +4,11 @@ var asyncMod = require('async');
 var fileReader = require('../fileexplore/fileReader');
 var fileUtils = require('../fileexplore/fileUtils');
 var dirReader = require('../fileexplore/dirReader');
-var parsePdb = require('../parser/fileParser');
+var parsePdb = require('../parser/new/fileParser');
 var insertDB = require('../dbmodule/insert');
 
 // Default Value
-var BATCH_LIMIT = 300;
+var BATCH_LIMIT = 512;
 
 // rootDir: [string] root directory
 // isRecursive: [boolean] recursive explore rootDir
@@ -64,10 +64,10 @@ var mf_runImport = function(rootDir, isRecursive, dbName, fileFilter) {
 
 // callbackFun: [function] a function to call with the value of result
 var mf_extractUlimit = function(callbackFun) {
-	var defaultSafeLimit = 256;
+	var defaultSafeLimit = 128;
 	if ( require("os").platform().indexOf("win") != -1 ) {
 		// Fixed value
-		callbackFun(defaultSafeLimit);
+		callbackFun(defaultSafeLimit*2);
 	} else {
 		var ulimitProcess = require('child_process').exec('ulimit -n',
 		  function(error, stdout, stderr) {
