@@ -14,6 +14,9 @@ var utils = require('./restUtility');
 var dbmodule = require('../dbmodule/get'); 
 var store = require('./store');
 
+// Var application settings
+var WEBPORT = 3000;
+
 // Express settings
 app.use(express.bodyParser());
 app.use(express.cookieParser());
@@ -260,4 +263,4 @@ var writeHeaderOk = function(response, contentType) {
 	response.writeHead(200, "OK", {'Content-Type': contentType});
 };
 
-app.listen(3000);
+app.listen(WEBPORT);
