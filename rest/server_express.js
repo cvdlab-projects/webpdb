@@ -1,22 +1,26 @@
 /*
 require
 * express
+* http-proxy
 * connect-redis (cookies)
 */
 
 var express = require('express');
 var app = express.createServer();
+var httpProxy = require('http-proxy');
+var httpProxyObject = new httpProxy.RoutingProxy();
+// var RedisStore = require('connect-redis')(express);
+
+// Project Modules
 var utils = require('./restUtility'); 
 var dbmodule = require('../dbmodule/get'); 
 var store = require('./store');
-// var RedisStore = require('connect-redis')(express);
 
 // Express settings
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-// app.use(express.session({ secret: "s7d8sh7sahd7ah78dsa", store: new RedisStore }))
-
 /* Redis is necessary to store cookies in session (ex: user and pass) */
+// app.use(express.session({ secret: "s7d8sh7sahd7ah78dsa", store: new RedisStore }))
 
 app.get('/', function(req, res){
 	console.log("[200] " + req.method + " to " + req.url);
@@ -174,12 +178,12 @@ app.get('/rest/molecule/name/:name', function(req,res){
 });
 
 app.get('/rest/protein/byamino/atleastone/:list', function(req, res) {
-	var list = req.params.list;
+	var list = utils.transformToList(req.params.list, ",");
 	console.log("[200] " + req.method + " to " + req.url);
 
 	res.contentType('application/json');
 	if (utils.checkIdListMolecule(list)) {
-		dbmodule.NUOVA_FUNZIONE_DARIO(list, function(bool,data){
+		dbmodule.retrieveByAlmostOneAminoacids(list, function(bool,data){
 			if (bool) {
 				res.send(data);
 			} else {
@@ -196,12 +200,12 @@ app.get('/rest/protein/byamino/atleastone/:list', function(req, res) {
 
 
 app.get('/rest/protein/byamino/all/:list', function(req, res) {
-	var list = req.params.list;
+	var list = utils.transformToList(req.params.list, ",");
 	console.log("[200] " + req.method + " to " + req.url);
 
 	res.contentType('application/json');
 	if (utils.checkIdListMolecule(list)) {
-		dbmodule.NUOVA_FUNZIONE_DARIO(list, function(bool,data){
+		dbmodule.retrieveByAllAminoacids(list, function(bool,data){
 			if (bool) {
 				res.send(data);
 			} else {
@@ -216,6 +220,14 @@ app.get('/rest/protein/byamino/all/:list', function(req, res) {
 	}
 });
 
+// servizio proxy
+app.get('/_couchdb', function (req, res) {
+  req.url = req.url.substr('/_couchdb'.length);
+  httpProxyObject.proxyRequest(req, res, {
+    host: 'localhost',
+    port: 5984
+  });
+});
 
 // servizio admin
 app.post('/login', function (req, res) {
@@ -250,7 +262,6 @@ app.post('/logout', function (req, res) {
 function checkAuth(req, res, next) {
   if (!req.session.authenticated) {
     res.send('You are not authorized to view this page');
-    
   } else {
     next();
   }

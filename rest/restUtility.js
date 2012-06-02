@@ -20,7 +20,7 @@ var checkIdProtein = function(id) {
 			console.log(c+': wrong character! it must be a number or a capital letter');
 			return false;
 		}
-		i= i+1;;
+		i= i+1;
 	}
 	return true;
 }
@@ -53,7 +53,7 @@ var checkIdMolecule = function(id) {
 			console.log(c+': wrong character! it must be a number or a capital letter');
 			return false;
 		}
-		i= i+1;;
+		i= i+1;
 	}
 	return true;
 }
@@ -84,21 +84,21 @@ var checkName = function(name) {
 	return true;
 }
 
+var transformToList = function(string, separator) {
+  if (string.indexOf(separator) != -1) {
+   return string.split(separator); 
+  } else {
+   return [string];
+  }
+};
 
 var checkIdListMolecule = function(list) {
-	var arr = list.split(",");
-	arr.map(function(item,position,array) {
-		if(!checkIdMolecule(item)) {
-			console.log('Invalid id for amino "'+item+'"');
-			return false;
-		}
-	});
-	return true;
+  return list.every(function(item) { return checkIdMolecule(item); });
 }
 
-
-
+// Exports
 exports.checkIdMolecule = checkIdMolecule;
 exports.checkIdProtein = checkIdProtein;
 exports.checkName = checkName;
 exports.checkIdListMolecule = checkIdListMolecule;
+exports.transformToList = transformToList;
