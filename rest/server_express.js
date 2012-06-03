@@ -166,6 +166,7 @@ app.get('/rest/molecule/id/:id', function(req,res){
 	}
 });
 
+/*
 app.get('/rest/molecule/name/:name', function(req,res){
   	var name = req.params.name;
 	console.log("[200] " + req.method + " to " + req.url);
@@ -187,6 +188,7 @@ app.get('/rest/molecule/name/:name', function(req,res){
 	}
 	
 });
+*/
 
 app.get('/rest/protein/byamino/atleastone/:list', function(req, res) {
 	var list = utils.transformToList(req.params.list, ",");
@@ -217,6 +219,27 @@ app.get('/rest/protein/byamino/all/:list', function(req, res) {
 	
 	if (utils.checkIdListMolecule(list)) {
 		dbmodule.retrieveByAllAminoacids(list, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'No match found for aminos "' + list + '" or db error'});
+			}
+			res.end();
+		}, "proteins");
+	}
+	else {
+		res.send({'ERROR' : 'Invalid aminos id "' + list + '"'});
+		res.end();
+	}
+});
+
+app.get('/rest/protein/byamino/atleastone_seqaverage/:list', function(req, res) {
+	var list = utils.transformToList(req.params.list, ",");
+	console.log("[200] " + req.method + " to " + req.url);
+	setResponseReastHeader(res);
+	
+	if (utils.checkIdListMolecule(list)) {
+		dbmodule.retrieveByAlmostOneAminoacidSeqResAverage(list, function(bool,data){
 			if (bool) {
 				res.send(data);
 			} else {
