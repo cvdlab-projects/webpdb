@@ -13,7 +13,7 @@ var checkIdProtein = function(id) {
 	while (c && i<4) {
 		c = id.charAt(i);
 
-		if((c>='A' && c<='Z') || (c>='a' && c<='z') || (c>='0' && c<='9')) {
+		if((c>='A' && c<='Z') || (c>='0' && c<='9')) {
 			//console.log('char '+i+': '+c+' matched');
 		}
 		else {
@@ -46,7 +46,7 @@ var checkIdMolecule = function(id) {
 			return true;
 		}
 
-		if((c>='A' && c<='Z') || (c>='a' && c<='z') || (c>='0' && c<='9')) {
+		if((c>='A' && c<='Z') || (c>='0' && c<='9')) {
 			//console.log('char '+i+': '+c+' matched');
 		}
 		else {

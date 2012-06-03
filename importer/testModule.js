@@ -4,7 +4,7 @@ var frUtils = require('../fileexplore/fileUtils');
 var PDB_EXTENSION = ".pdb";
 
 // Proteins - Limited
-// importer.runImport("/home/hhcsuper/proteinData/lg", false, "proteins");
+// importer.runImport("/Users/hhcuser/webpdbProject/proteinData/d7", false, "proteins");
 
 // Proteins
 // importer.runImport("/home/hhcsuper/proteinData", false, "proteins");
