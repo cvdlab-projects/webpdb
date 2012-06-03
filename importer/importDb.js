@@ -75,7 +75,7 @@ var mf_extractUlimit = function(callbackFun) {
 		      callbackFun(defaultSafeLimit);
 		    } else {
 		      var newLimit = parseInt( stdout.replace(/^\s\s*/, '').replace(/\s\s*$/, '') );
-		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : (newLimit/3) );
+		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : (newLimit/4) );
 		    }
 		  });
 	}
