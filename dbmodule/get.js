@@ -124,7 +124,6 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	
-	console.log("GET" + "::" + "retrieveByAlmostOneAminoacidSeqResAverage" + "::" + aminoacids);
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.almostOneAminoacidCountValue(aminoacids),
@@ -132,7 +131,6 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveByAlmostOneAminoacidSeqResAverage" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			var docs = {average: doc[0].value};
