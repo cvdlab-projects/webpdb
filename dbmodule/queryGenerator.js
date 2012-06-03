@@ -76,26 +76,6 @@ var allAminoacids = function(aminoacids){
 return query;
 }
 
-var allAminoacids1 = function(aminoacids){
-	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')){"
-	query += "var numeSeq = doc['SEQRES']; var ams = [];"
-	query += " for(var i=1; i<=numeSeq['_count'];i++){";
-	query+= "var curreSeq = numeSeq[i];";
-		query+= "ams.push(curreSeq['resname']);";
-		for(var j=1; j<=12; j++){
-			query+="ams.push(curreSeq['resname_" + j + "']); emit(doc._id, curreSeq.resName);";
-		}
-		query+="}";
-		query+= "}}"
-
-return query;
-}
-
-var almostOneAminoacid1 = function(aminoacids){
-	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')) emit(doc._id, doc['SEQRES']._count)}";
-return query;
-}
-
 exports.mapContains = mapContains;
 exports.almostOneAminoacid = almostOneAminoacid;
 exports.allAminoacids = allAminoacids;
