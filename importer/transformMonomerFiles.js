@@ -2,12 +2,12 @@ var fs = require('fs');
 var frUtils = require('../fileexplore/fileUtils');
 var frModule = require('../fileexplore/fileReader');
 var drModule = require('../fileexplore/dirReader');
-var pdbparser = require('../parser/fileParser');
+var pdbparser = require('../parser/new/fileParser');
 // From https://github.com/caolan/asyncMod
 var asyncMod = require('async');
 
 // 
-var BATCH_LIMIT = 300;
+var BATCH_LIMIT = 512;
 var PATH_IN;
 var PATH_OUT;
 var PDB_EXTENSION = ".pdb";
@@ -50,10 +50,10 @@ var mf_fileNamesRead = function(fileList) {
 };
 
 var mf_extractUlimit = function(callbackFun) {
-	var defaultSafeLimit = 256;
+	var defaultSafeLimit = 128;
 	if ( require("os").platform().indexOf("win") != -1 ) {
 		// Fixed value
-		callbackFun(defaultSafeLimit);
+		callbackFun(defaultSafeLimit*2);
 	} else {
 		var ulimitProcess = require('child_process').exec('ulimit -n',
 		  function(error, stdout, stderr) {
@@ -61,7 +61,7 @@ var mf_extractUlimit = function(callbackFun) {
 		      callbackFun(defaultSafeLimit);
 		    } else {
 		      var newLimit = parseInt( stdout.replace(/^\s\s*/, '').replace(/\s\s*$/, '') );
-		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : newLimit );
+		      callbackFun( isNaN(newLimit) ? defaultSafeLimit : newLimit/4 );
 		    }
 		  });
 	}
