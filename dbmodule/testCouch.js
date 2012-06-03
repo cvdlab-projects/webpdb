@@ -59451,3 +59451,7 @@ var foo = {
 		"numSeq": "30"
 	}
 };
+
+var yay = JSON.stringify(foo);
+
+console.log(yay)

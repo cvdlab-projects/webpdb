@@ -13,8 +13,10 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	
+	console.log("GET" + "::" + "retrieveByID" + "::" + id);
 	database.get(id, function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + "DONE");
@@ -36,6 +38,8 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	end = end || 50;
 	options.keyDB = keyDB;
 	database = db.setup(options);
+	
+	console.log("GET" + "::" + "retrieveByName" + "::" + name);
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.mapContains("TITLE.title", name)
@@ -43,6 +47,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
@@ -65,12 +70,15 @@ var retrieveByAlmostOneAminoacid = function(aminoacids, callbackFunction, keyDB,
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	
+	console.log("GET" + "::" + "retrieveByAlmostOneAminoacid" + "::" + aminoacids);
+	
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.almostOneAminoacid(aminoacids)}});
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "DONE");
@@ -92,6 +100,8 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 	end = end || 50;
 	options.keyDB = keyDB;
 	database = db.setup(options);
+	
+	console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids);
 	
 	database.save('_design/'+ hashName +'View', {
 		view: {
