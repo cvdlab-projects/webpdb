@@ -1,7 +1,4 @@
-var get = require('./get');
-
-<<<<<<< HEAD
-var json = {
+var foo = {
 	"ID": "2CRK",
 	"HEADER": {
 		"type": "HEADER",
@@ -59453,9 +59450,4 @@ var json = {
 		"numConect": "20",
 		"numSeq": "30"
 	}
-}
-
-get.retrieveAllNameID(function(n,v){console.log(v);}, 'starwars');
-=======
-get.retrieveByAlmostOneAminoacidSeqResAverage(["GLY","VAL"], function(n,v){console.log(v);}, 'proteins');
->>>>>>> a5e7ff64625316054030dacb5ebbd2a08b2f6a7b
+};

@@ -3,12 +3,12 @@ var queryGen = require('./queryGenerator');
 var db = require('./db');
 var options = {};
 var hash = require('./hash');
+
 /*
 	callbackFunction(success:BOOL, result:JSON);
 */
 
 //Returns the protein (or monomer) with the specified id
-
 var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
 	database = db.setup(options);
@@ -17,6 +17,7 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
+			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + "DONE");
 			delete doc._id;
 			delete doc._rev;
 			callbackFunction(true, doc);
@@ -28,7 +29,6 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 
 //Returns the proteins (or monomers) with the specified string "name" in the field 'TITLE.content', 
 //as a JSON formatted as a list {1: protein1, 2: protein2, 3: protein3, ...}
-
 var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	var input = ["retrieveByName", keyDB, name];
 	var hashName = hash.createHash(input);
@@ -45,6 +45,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
+			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
 				delete doc[d].value._id;
@@ -72,6 +73,7 @@ var retrieveByAlmostOneAminoacids = function(aminoacids, callbackFunction, keyDB
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
+			console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
 				delete doc[d].value._id;
@@ -97,8 +99,10 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
+			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
 				delete doc[d].value._id;
@@ -118,6 +122,7 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	
+	console.log("GET" + "::" + "retrieveByAlmostOneAminoacidSeqResAverage" + "::" + aminoacids);
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.almostOneAminoacidCountValue(aminoacids),
@@ -125,8 +130,10 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByAlmostOneAminoacidSeqResAverage" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
+			console.log("GET" + "::" + "retrieveByAlmostOneAminoacidSeqResAverage" + "::" + aminoacids + "::" + "DONE");
 			var docs = {average: doc[0].value};
 			callbackFunction(true, docs);
 		}
