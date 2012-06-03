@@ -59,7 +59,6 @@ var almostOneAminoacid = function(aminoacids){
 		query+=" || "
 	}
 	query+=" false) emit(doc._id, doc)}}}";
-console.log(query)
 return query;
 }
 
@@ -94,7 +93,6 @@ return query;
 
 var almostOneAminoacid1 = function(aminoacids){
 	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')) emit(doc._id, doc['SEQRES']._count)}";
-console.log(query)
 return query;
 }
 

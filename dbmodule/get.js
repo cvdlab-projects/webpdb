@@ -106,7 +106,37 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 	});
 }
 
+var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFunction, keyDB, start, end){
+	var input = ["retrieveByAlmostOneAminoacidSeqResAverage", keyDB, aminoacids];
+	var hashName = hash.createHash(input);
+	start = start || 0;
+	end = end || 50;
+	options.keyDB = keyDB;
+	database = db.setup(options);
+	database.save('_design/'+ hashName +'View', {
+		view: {
+			map: queryGen.almostOneAminoacid(aminoacids),
+			reduce: function(key, values, rereduce){ 
+				return {'average' : sum(values) / values.length};
+			} }});
+
+	database.view(hashName + 'View/view', function (err, doc) {
+		if ( err !== null ) {
+			callbackFunction(false, err);
+		} else {
+			var docs = {};
+			for(var d = start; d < doc.length && d < end; d++){
+				delete doc[d].value._id;
+				delete doc[d].value._rev;
+				docs[d] = doc[d].value;
+			}
+			callbackFunction(true, docs);
+		}
+	});
+}
+
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
 exports.retrieveByAlmostOneAminoacids = retrieveByAlmostOneAminoacids;
 exports.retrieveByAllAminoacids = retrieveByAllAminoacids;
+exports.retrieveByAlmostOneAminoacidSeqResAverage = retrieveByAlmostOneAminoacidSeqResAverage;
