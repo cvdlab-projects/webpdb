@@ -12,8 +12,11 @@ var hash = require('./hash');
 var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
 	database = db.setup(options);
+	
+	console.log("GET" + "::" + "retrieveByID" + "::" + id);
 	database.get(id, function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			delete doc._id;
@@ -40,8 +43,10 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 			map: queryGen.mapContains("TITLE.title", name)
 			}});
 	
+	console.log("GET" + "::" + "retrieveByName" + "::" + name);
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			var docs = {};
@@ -62,12 +67,15 @@ var retrieveByAlmostOneAminoacids = function(aminoacids, callbackFunction, keyDB
 	end = end || 50;
 	options.keyDB = keyDB;
 	database = db.setup(options);
+	
+	console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids);
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.almostOneAminoacid(aminoacids)}});
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			var docs = {};
@@ -88,12 +96,15 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 	end = end || 50;
 	options.keyDB = keyDB;
 	database = db.setup(options);
+	
+	console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids);
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.allAminoacids(aminoacids)}});
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err)):
 			callbackFunction(false, err);
 		} else {
 			var docs = {};
@@ -114,6 +125,8 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 	end = end || 50;
 	options.keyDB = keyDB;
 	database = db.setup(options);
+	
+	console.log("GET" + "::" + "retrieveByAlmostOneAminoacidSeqResAverage" + "::" + aminoacids);
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.almostOneAminoacid(aminoacids),
@@ -121,6 +134,7 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveByAlmostOneAminoacidSeqResAverage" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			var docs = {average: doc[0].value};
