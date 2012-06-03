@@ -59454,4 +59454,4 @@ var json = {
 	}
 }
 
-get.retrieveByAlmostOneAminoacidSeqResAverage(["GLY"], function(n,v){console.log(v);}, 'starwars');
+get.retrieveAllNameID(function(n,v){console.log(v);}, 'starwars');

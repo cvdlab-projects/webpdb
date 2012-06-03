@@ -89,6 +89,16 @@ var allAminoacids = function(aminoacids){
 return query;
 }
 
+var hasID = function(){
+	var query = "function(doc){if(doc._id){emit(doc._id, doc._id)}}"
+	return query;
+}
+
+var hasNameID = function(){
+	var query = "function(doc){if(doc._id && doc.TITLE.title){emit(doc.TITLE.title, doc._id)}}"
+	return query;
+}
+
 var allAminoacids1 = function(aminoacids){
 	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')){"
 	query += "var numeSeq = doc['SEQRES']; var ams = [];"
@@ -109,7 +119,9 @@ var almostOneAminoacid1 = function(aminoacids){
 return query;
 }
 
+exports.hasNameID = hasNameID;
 exports.mapContains = mapContains;
 exports.almostOneAminoacid = almostOneAminoacid;
 exports.allAminoacids = allAminoacids;
 exports.almostOneAminoacidCountValue = almostOneAminoacidCountValue;
+exports.hasID = hasID;
