@@ -49,7 +49,7 @@ var mapElementAtLessPositionThan =function(pos, elems){
 	return query + temp + ") emit(doc._id, doc)}";
 }; 
 
-var almostOneAminoacid = function(aminoacids){
+var almostOneAminoacidCountValue = function(aminoacids){
 	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')){var numeSeq = doc['SEQRES']; for(var i=1; i<=numeSeq['_count'];i++){if(";
 	for(a in aminoacids){
 		query+= " numeSeq[i].resName == '" + aminoacids[a] + "'";
@@ -59,6 +59,19 @@ var almostOneAminoacid = function(aminoacids){
 		query+=" || "
 	}
 	query+=" false) emit(doc._id, numeSeq['_count'])}}}";
+return query;
+}
+
+var almostOneAminoacid = function(aminoacids){
+	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')){var numeSeq = doc['SEQRES']; for(var i=1; i<=numeSeq['_count'];i++){if(";
+	for(a in aminoacids){
+		query+= " numeSeq[i].resName == '" + aminoacids[a] + "'";
+		for(var j=1; j<=12; j++){
+			query+=" || numeSeq[i].resName_" + j + " == '" + aminoacids[a] + "'";
+		}
+		query+=" || "
+	}
+	query+=" false) emit(doc._id, doc)}}}";
 return query;
 }
 
@@ -76,6 +89,27 @@ var allAminoacids = function(aminoacids){
 return query;
 }
 
+var allAminoacids1 = function(aminoacids){
+	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')){"
+	query += "var numeSeq = doc['SEQRES']; var ams = [];"
+	query += " for(var i=1; i<=numeSeq['_count'];i++){";
+	query+= "var curreSeq = numeSeq[i];";
+		query+= "ams.push(curreSeq['resname']);";
+		for(var j=1; j<=12; j++){
+			query+="ams.push(curreSeq['resname_" + j + "']); emit(doc._id, curreSeq.resName);";
+		}
+		query+="}";
+		query+= "}}"
+
+return query;
+}
+
+var almostOneAminoacid1 = function(aminoacids){
+	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')) emit(doc._id, doc['SEQRES']._count)}";
+return query;
+}
+
 exports.mapContains = mapContains;
 exports.almostOneAminoacid = almostOneAminoacid;
 exports.allAminoacids = allAminoacids;
+exports.almostOneAminoacidCountValue = almostOneAminoacidCountValue;

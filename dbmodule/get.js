@@ -116,7 +116,7 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 	database = db.setup(options);
 	database.save('_design/'+ hashName +'View', {
 		view: {
-			map: queryGen.almostOneAminoacid(aminoacids),
+			map: queryGen.almostOneAminoacidCountValue(aminoacids),
 			reduce: 'function(key, values,rereduce){var tot=0;var num=0; return sum(values)/values.length ;}'}});
 
 	database.view(hashName + 'View/view', function (err, doc) {
