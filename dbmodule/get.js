@@ -57,7 +57,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	});
 };
 
-var retrieveByAlmostOneAminoacids = function(aminoacids, callbackFunction, keyDB, start, end){
+var retrieveByAlmostOneAminoacid = function(aminoacids, callbackFunction, keyDB, start, end){
 	var input = ["retrieveByAlmostOneAminoacids", keyDB, aminoacids];
 	var hashName = hash.createHash(input);
 	start = start || 0;
@@ -192,6 +192,6 @@ exports.retrieveAllNameID = retrieveAllNameID;
 exports.retrieveAllIDs = retrieveAllIDs;
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
-exports.retrieveByAlmostOneAminoacids = retrieveByAlmostOneAminoacids;
+exports.retrieveByAlmostOneAminoacid = retrieveByAlmostOneAminoacid;
 exports.retrieveByAllAminoacids = retrieveByAllAminoacids;
 exports.retrieveByAlmostOneAminoacidSeqResAverage = retrieveByAlmostOneAminoacidSeqResAverage;
