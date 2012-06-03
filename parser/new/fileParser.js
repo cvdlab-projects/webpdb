@@ -76,6 +76,18 @@ var parsePDB = function (allGoingWell,pdbString,proteinID) {
 		console.log(protein["MODEL"][n]);
 		
 	}
+	
+	// Set rightful id
+	if (protein.hasOwnProperty("HEADER")) {
+	  var headrprotid = protein["HEADER"];
+	  if ( headrprotid.hasOwnProperty("idCode") ) {
+	   // Proteins id are 4 chars long and "XXXX" is a reserved value
+	   if (( headrprotid["idCode"].length == 4) && ( headrprotid["idCode"] != "XXXX" )) {
+	     // console.log("Yay idCode " + headrprotid["idCode"])
+	     protein["ID"] = headrprotid["idCode"];
+	   }
+	  }
+	}
 
 	//printRemarks(protein);
 	//printModeln(protein);
