@@ -102,6 +102,35 @@ var setResponseReastHeader = function(res) {
 	res.header('Access-Control-Allow-Origin', '*');  
 };
 
+app.get('/rest/protein/all/:how', function(req, res) {
+	var id = req.params.how;
+	console.log("[200] " + req.method + " to " + req.url);
+	setResponseReastHeader(res);
+
+	if ( how === "id" ) {
+		dbmodule.retrieveAllIDs(id, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'Invalid protein list request "' + how  + '" or db error'});
+			}
+			res.end();
+		}, "proteins");
+	} else if ( how === "name" ) {
+		dbmodule.retrieveAllNameID(id, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'Invalid protein list request "' + how  + '" or db error'});
+			}
+			res.end();
+		}, "proteins");
+	} else {
+		res.send({'ERROR' : 'Invalid protein list request "' + how  + '"'});
+		res.end();
+	}
+});
+
 app.get('/rest/protein/id/:id', function(req, res) {
 	var id = req.params.id;
 	console.log("[200] " + req.method + " to " + req.url);
@@ -144,51 +173,6 @@ app.get('/rest/protein/name/:name', function(req,res){
 	}
 
 });
-
-app.get('/rest/molecule/id/:id', function(req,res){
-	var id = req.params.id;
-	console.log("[200] " + req.method + " to " + req.url);
-	setResponseReastHeader(res);
-	
-	if (utils.checkIdMolecule(id)) {
-		dbmodule.retrieveByID(id, function(bool,data){
-			if (bool) {
-				res.send(data);
-			} else {
-				res.send({'ERROR' : 'Invalid molecule id "' + id + '" or db error'});
-			}
-			res.end();
-		}, "monomers");
-	}
-	else {
-		res.send({'ERROR' : 'Invalid molecule id "' + id + '"'});
-		res.end();
-	}
-});
-
-/*
-app.get('/rest/molecule/name/:name', function(req,res){
-  	var name = req.params.name;
-	console.log("[200] " + req.method + " to " + req.url);
-	setResponseReastHeader(res);
-	
-	if (utils.checkName(name)) {
-		dbmodule.retrieveByName(name, function(bool,data){
-			if (bool) {
-				res.send(data);
-			} else {
-				res.send({'ERROR' : 'Invalid molecule name "' + name + '" or db error'});
-			}
-			res.end();
-		}, "monomers");
-	}
-	else {
-		res.send({'ERROR' : 'Invalid molecule name "' + name + '"'});
-		res.end();
-	}
-	
-});
-*/
 
 app.get('/rest/protein/byamino/atleastone/:list', function(req, res) {
 	var list = utils.transformToList(req.params.list, ",");
@@ -253,6 +237,71 @@ app.get('/rest/protein/byamino/atleastone_seqaverage/:list', function(req, res) 
 		res.end();
 	}
 });
+
+app.get('/rest/molecule/all/:how', function(req, res) {
+	var id = req.params.how;
+	console.log("[200] " + req.method + " to " + req.url);
+	setResponseReastHeader(res);
+
+	if ( how === "id" ) {
+		dbmodule.retrieveAllIDs(id, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'Invalid molecule list request "' + how  + '" or db error'});
+			}
+			res.end();
+		}, "monomers");
+	} else {
+		res.send({'ERROR' : 'Invalid molecule list request "' + how  + '"'});
+		res.end();
+	}
+});
+
+app.get('/rest/molecule/id/:id', function(req,res){
+	var id = req.params.id;
+	console.log("[200] " + req.method + " to " + req.url);
+	setResponseReastHeader(res);
+	
+	if (utils.checkIdMolecule(id)) {
+		dbmodule.retrieveByID(id, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'Invalid molecule id "' + id + '" or db error'});
+			}
+			res.end();
+		}, "monomers");
+	}
+	else {
+		res.send({'ERROR' : 'Invalid molecule id "' + id + '"'});
+		res.end();
+	}
+});
+
+/*
+app.get('/rest/molecule/name/:name', function(req,res){
+  	var name = req.params.name;
+	console.log("[200] " + req.method + " to " + req.url);
+	setResponseReastHeader(res);
+	
+	if (utils.checkName(name)) {
+		dbmodule.retrieveByName(name, function(bool,data){
+			if (bool) {
+				res.send(data);
+			} else {
+				res.send({'ERROR' : 'Invalid molecule name "' + name + '" or db error'});
+			}
+			res.end();
+		}, "monomers");
+	}
+	else {
+		res.send({'ERROR' : 'Invalid molecule name "' + name + '"'});
+		res.end();
+	}
+	
+});
+*/
 
 // servizio admin
 app.post('/login', function (req, res) {

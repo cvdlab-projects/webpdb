@@ -156,6 +156,8 @@ var retrieveAllIDs = function(callbackFunction, keyDB){
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	
+	console.log("GET" + "::" + "retrieveAllIDs");
+	
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.hasID()
@@ -163,8 +165,10 @@ var retrieveAllIDs = function(callbackFunction, keyDB){
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveAllIDs" + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
+			console.log("GET" + "::" + "retrieveAllIDs" + "::" + "DONE");
 			var ids = [];
 			for(d in doc){
 				ids.push(doc[d].value);
@@ -180,6 +184,8 @@ var retrieveAllNameID = function(callbackFunction, keyDB){
 	options.keyDB = keyDB;
 	database = db.setup(options);
 	
+	console.log("GET" + "::" + "retrieveAllNameID");
+	
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.hasNameID()
@@ -187,8 +193,10 @@ var retrieveAllNameID = function(callbackFunction, keyDB){
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
+			console.log("GET" + "::" + "retrieveAllNameID" + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
+			console.log("GET" + "::" + "retrieveAllNameID" + "::" + "DONE");
 			var ids = [];
 			for(d in doc){
 				ids.push({name: doc[d].key, id: doc[d].value});
