@@ -1,4 +1,4 @@
-var foo = eval( "(" + {
+var foo = {
 	"ID": "2CRK",
 	"HEADER": {
 		"type": "HEADER",
@@ -59450,4 +59450,4 @@ var foo = eval( "(" + {
 		"numConect": "20",
 		"numSeq": "30"
 	}
-} + ")" ); 
+};
