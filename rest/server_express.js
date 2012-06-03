@@ -50,8 +50,9 @@ app.get('/', function(req, res){
 	res.end();
 });
 
-var sendFormError = function(res) {
-    res.send({'ERROR' : 'Invalid get request'});
+var sendFormError = function(res, extra) {
+    extra = extra || "";
+    res.send({'ERROR' : 'Invalid get request. Specific error: ' + extra});
     res.end();
 };
 
@@ -69,7 +70,7 @@ app.get('/form/retrieve', function(req,res){
 					res.send(JSON.stringify(data));
 					res.end();
 				} else {
-					sendFormError(res);
+					sendFormError(res, "Error while searching in database");
 				}
 			}, "proteins");
 		} else {
@@ -83,7 +84,7 @@ app.get('/form/retrieve', function(req,res){
 					res.send(JSON.stringify(data));
 					res.end();
 				} else {
-					sendFormError(res);
+					sendFormError(res, "Error while searching in database");
 				}
 			}, "proteins");
 		} else {
