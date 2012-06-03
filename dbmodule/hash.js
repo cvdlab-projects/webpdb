@@ -10,4 +10,5 @@ hash.update(s);
 console.log(s)
 return hash.digest('hex');}
 
+
 exports.createHash = createHash;
