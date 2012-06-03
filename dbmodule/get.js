@@ -37,7 +37,8 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	database = db.setup(options);
 	database.save('_design/'+ hashName +'View', {
 		view: {
-			map: queryGen.mapContains("TITLE.title", name)}});
+			map: queryGen.mapContains("TITLE.title", name)
+			}});
 	
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
@@ -116,20 +117,13 @@ var retrieveByAlmostOneAminoacidSeqResAverage = function(aminoacids, callbackFun
 	database.save('_design/'+ hashName +'View', {
 		view: {
 			map: queryGen.almostOneAminoacid(aminoacids),
-			reduce: function(key, values, rereduce){ 
-				return {'average' : sum(values) / values.length};
-			} }});
+			reduce: 'function(key, values,rereduce){var tot=0;var num=0; return sum(values)/values.length ;}'}});
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
 			callbackFunction(false, err);
 		} else {
-			var docs = {};
-			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
-			}
+			var docs = {average: doc[0].value};
 			callbackFunction(true, docs);
 		}
 	});

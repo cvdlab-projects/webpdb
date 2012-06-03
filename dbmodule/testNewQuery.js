@@ -59454,4 +59454,4 @@ var json = {
 	}
 }
 
-get.retrieveByAlmostOneAminoacidSeqResAverage(["VAL","ILE"], function(n,v){console.log(v);}, 'starwars');
+get.retrieveByName("CREATINE", function(n,v){console.log(v);}, 'starwars');

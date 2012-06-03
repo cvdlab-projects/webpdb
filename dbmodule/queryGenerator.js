@@ -58,7 +58,7 @@ var almostOneAminoacid = function(aminoacids){
 		}
 		query+=" || "
 	}
-	query+=" false) emit(doc._id, doc)}}}";
+	query+=" false) emit(doc._id, numeSeq['_count'])}}}";
 return query;
 }
 
