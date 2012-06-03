@@ -3,6 +3,7 @@ var queryGen = require('./queryGenerator');
 var db = require('./db');
 var options = {};
 var hash = require('./hash');
+
 /*
 	callbackFunction(success:BOOL, result:JSON);
 */
