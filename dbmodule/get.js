@@ -104,7 +104,7 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err)):
+			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
 			var docs = {};
