@@ -16,6 +16,8 @@ var store = require('./store');
 
 // Var application settings
 var WEBPORT = 3000;
+var ADMIN_PREFIX = 'admin/';
+var ADMIN_USERS = require('./adminusers.json');
 
 // Express settings
 app.use(express.bodyParser());
@@ -39,12 +41,12 @@ app.get('/', function(req, res){
 	res.write('<input type="submit" value = "Search" /></div>');
 	res.write('</form>');
 /*
-	res.write('<div align=left><h1>Log in as Administrator:</h1>');
-	res.write('<form enctype="application/x-www-form-urlencoded" action="login" method="post">');
-	res.write('<div align=left> <b>Username</b>:<input type="text" name="user" value="Username" />');
-	res.write('<b>Password</b>: <input type="password" name="password" value="Password" />');
-	res.write('<input type="submit" value = "Login" /></div>');
-	res.write('</form>');
+    res.write('<div align=left><h1>Log in as Administrator:</h1>');
+  res.write('<form enctype="application/x-www-form-urlencoded" action="./'+ADMIN_PREFIX+'login" method="post">');
+   res.write('<div align=left> <b>Username</b>:<input type="text" name="user" value="Username" />');
+    res.write('<b>Password</b>: <input type="password" name="password" value="Password" />');
+  res.write('<input type="submit" value = "Login" /></div>');
+  res.write('</form>');
 */
 	res.write('</html>');
 	res.end();
@@ -95,6 +97,9 @@ app.get('/form/retrieve', function(req,res){
 	  }
     }); 
 });
+
+// ========================================
+// ========================================
 
 // il vero servizio rest
 var setResponseReastHeader = function(res) {
@@ -303,35 +308,88 @@ app.get('/rest/molecule/name/:name', function(req,res){
 });
 */
 
+// ========================================
+// ========================================
+
 // servizio admin
-app.post('/login', function (req, res) {
+app.post('/'+ADMIN_PREFIX+'login', function (req, res) {
   var post = req.body;
-  if (post.user == 'admins' && post.password == 'admins') {
-  //if (req.query["user"] == 'admins' && req.query["password"] == 'admins') {
+  if ((ADMIN_USERS.hasOwnProperty(post.user)) && (ADMIN_USERS[post.user] === post.password)) {
     req.session.authenticated = true;
-    res.redirect('./admin_functions');
+    res.redirect('./'+ADMIN_PREFIX+'main');
   } else {
-    res.send('Bad user/pass');
+    res.redirect('./'+ADMIN_PREFIX+'badCredentials');
     //console.log(req.query["user"] + req.query["password"]);
     console.log(post);
   }
 });
 
-app.get('/admin_functions', checkAuth, function (req, res) {
+app.post('/'+ADMIN_PREFIX+'logout', function (req, res) {
+  delete req.session.authenticated;
+  res.redirect('./');
+});
+
+app.get('/'+ADMIN_PREFIX+'badCredentials', function (req,res){
+   res.contentType('text/html');
+    res.write('<div align =center>Incorrect Username or Password');
+    res.write('<form enctype="application/x-www-form-urlencoded" action="/" method="get">');
+    res.write('<input type="submit" value = "Try Again" /></div>');
+    res.write('</form></html>');
+    res.end();
+});
+
+app.get('/'+ADMIN_PREFIX+'main', checkAuth, function (req, res) {
  console.log("[200] " + req.method + " to " + req.url);
   // res.writeHead(200, "OK", {'Content-Type': 'text/html'});
   res.contentType('text/html');
   res.write('<html><head><title>Admin Control Panel</title></head><body>');
   res.write('<div align=Center><h1>Control Panel:</h1></div>');
-  res.write('<form enctype="application/x-www-form-urlencoded" action="logout" method="post">');
-  res.write('<input type="submit" value = "Logout" /></div>');
-  res.write('</form></html>');
+  res.write('<div align = center><table border="2" bordercolor="#050505" width="80%" bgcolor="">');
+  res.write('<tr>');
+  res.write('<td> Get informations about current Database </td>');
+  res.write('<td> <div align = center><form enctype="application/x-www-form-urlencoded" action="./'+ADMIN_PREFIX+'dbInfo" method="post">');
+  res.write('<input type="submit" value = "INFO" /></div>');
+  res.write('</form>');
+  res.write('</td>');
+  res.write('</tr>');
+  res.write('<tr>');
+  res.write('<td> Compact database </td>');
+  res.write('<td> <div align = center><form enctype="application/x-www-form-urlencoded" action="./'+ADMIN_PREFIX+'dbCompact" method="post">');
+  res.write('<input type="submit" value = "COMPACT" /></div>');
+   res.write('</form>');
+  res.write('</td>');
+  res.write('</tr>');
+  res.write('<tr>');
+  res.write('<td> Cleanup old view data </td>');
+  res.write('<td> <div align = center><form enctype="application/x-www-form-urlencoded" action="./'+ADMIN_PREFIX+'dbCleanup" method="post">');
+  res.write('<input type="submit" value = "CLEANUP" /></div>');
+   res.write('</form>');
+  res.write('</td>');
+  res.write('</tr>');
+  res.write('</table></div>');
+  res.write('<div align = center><form enctype="application/x-www-form-urlencoded" action="./'+ADMIN_PREFIX+'logout" method="post">');
+  res.write('<input type="submit" value = "LOGOUT" />');
+  res.write('</form></div></html>');
   res.end();
 });
 
-app.post('/logout', function (req, res) {
-  delete req.session.authenticated;
-  res.redirect('./');
+app.post('/'+ADMIN_PREFIX+'dbCompact', checkAuth, function(req,res){
+    console.log("[200] " + req.method + " to " + req.url);
+    req.on('end', function() {
+		dbmodule.compact();
+    }); 
+});
+app.post('/'+ADMIN_PREFIX+'dbInfo', checkAuth, function(req,res){
+    console.log("[200] " + req.method + " to " + req.url);
+    req.on('end', function() {
+		dbmodule.info();
+    }); 
+});
+app.post('/'+ADMIN_PREFIX+'dbCleanup', checkAuth, function(req,res){
+    console.log("[200] " + req.method + " to " + req.url);
+    req.on('end', function() {
+		dbmodule.viewCleanup();
+    }); 
 });
 
 function checkAuth(req, res, next) {
@@ -342,4 +400,8 @@ function checkAuth(req, res, next) {
   }
 };
 
+// ========================================
+// ========================================
+
+// Run service
 app.listen(WEBPORT);
