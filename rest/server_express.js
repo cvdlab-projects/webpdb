@@ -377,18 +377,21 @@ app.post('/'+ADMIN_PREFIX+'dbCompact', checkAuth, function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
 		dbmodule.compact();
+		res.redirect('./'+ADMIN_PREFIX+'main');
     }); 
 });
 app.post('/'+ADMIN_PREFIX+'dbInfo', checkAuth, function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
 		dbmodule.info();
+		res.redirect('./'+ADMIN_PREFIX+'main');
     }); 
 });
 app.post('/'+ADMIN_PREFIX+'dbCleanup', checkAuth, function(req,res){
     console.log("[200] " + req.method + " to " + req.url);
     req.on('end', function() {
 		dbmodule.viewCleanup();
+		res.redirect('./'+ADMIN_PREFIX+'main');
     }); 
 });
 
