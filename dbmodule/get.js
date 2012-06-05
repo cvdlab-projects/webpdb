@@ -3,6 +3,7 @@ var queryGen = require('./queryGenerator');
 var db = require('./db');
 var options = {};
 var hash = require('./hash');
+var idConverter = ('./idConverter.js');
 
 /*
 	callbackFunction(success:BOOL, result:JSON);
@@ -12,20 +13,19 @@ var hash = require('./hash');
 var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
 	database = db.setup(options);
+	var cId = idConverter.alfaToDecimal(id);
 	
-	console.log("GET" + "::" + "retrieveByID" + "::" + id);
-	database.get(id, function (err, doc) {
+	console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + cId);
+	database.get(cId, function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + "ERROR" + JSON.stringify(err));
+			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + cId + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
 		} else {
-			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + "DONE");
+			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + cId + "::" + "DONE");
 			delete doc._id;
 			delete doc._rev;
 			callbackFunction(true, doc);
 		}
-		
-	
 	});
 };
 
