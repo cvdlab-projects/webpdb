@@ -18,23 +18,23 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
 			database.save('_design/'+ hashName +'View', {
-		view: {
-			map: queryGen.mapContains("name", name)
-			}});
+			view: {
+				map: queryGen.mapContains("name", name)
+				}});
 			database.view(hashName + 'View/view', function (err, doc) {
-		if ( err !== null ) {
-			callbackFunction(false, err);
-		} else {
-			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
-			var docs = {};
-			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
-			}
-			callbackFunction(true, docs);
-		}
-	});
+				if ( err !== null ) {
+					callbackFunction(false, err);
+				} else {
+					console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
+					var docs = {};
+					for(var d = start; d < doc.length && d < end; d++){
+					delete doc[d].value._id;
+					delete doc[d].value._rev;
+					docs[d] = doc[d].value;
+					}
+					callbackFunction(true, docs);
+				}
+			});
 		} else {
 			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
 			var docs = {};

@@ -1,27 +1,27 @@
 var maxPos = 100;
 
 var mapContains = exports.mapContains = function(field, string){
-	return "function(doc){if(doc."+field+".match(\'.*"+string+".*\') !== null) emit(doc."+field+", doc)}";
+	return "function(doc){if(doc."+field+".match(\'.*"+string+".*\') !== null) emit(null)}";
 }
 
 var mapEqual = function(field, string){
-	return "function(doc){if(doc."+field+"==="+string+") emit(doc."+field+", doc)}";
+	return "function(doc){if(doc."+field+"==="+string+") emit(null)}";
 }
 
 var mapDisEqual = function(field, string){
-	return "function(doc){if(doc."+field+"!=="+string+") emit(doc."+field+", doc)}";
+	return "function(doc){if(doc."+field+"!=="+string+") emit(null)}";
 }
 
 var mapGreaterThan = function(field, minVal){
-	return "function(doc){if(doc."+field+">"+minVal+") emit(doc."+field+", doc)}";
+	return "function(doc){if(doc."+field+">"+minVal+") emit(null)}";
 };
 
 var mapLessThan = function(field, maxVal){
-	return "function(doc){if(doc."+field+"<"+maxVal+") emit(doc."+field+", doc)}";
+	return "function(doc){if(doc."+field+"<"+maxVal+") emit(null)}";
 };
 
 var mapBetween = function(field, minVal, maxVal){
-	return "function(doc){if(doc."+field+">"+minVal+" && doc."+field+"<"+maxVal+") emit(doc."+field+", doc)}";
+	return "function(doc){if(doc."+field+">"+minVal+" && doc."+field+"<"+maxVal+") emit(null)}";
 };
 
 var mapElementAtGreaterPositionThan =function(pos, elems){
@@ -33,7 +33,7 @@ var mapElementAtGreaterPositionThan =function(pos, elems){
 		}
 	}
 	temp = temp.substring(0, temp.length - 4);
-	return query + temp + ") emit(doc._id, doc)}";
+	return query + temp + ") emit(null)}";
 };
 
 var mapElementAtLessPositionThan =function(pos, elems){
@@ -46,7 +46,7 @@ var mapElementAtLessPositionThan =function(pos, elems){
 		}
 	}
 	temp = temp.substring(0, temp.length - 4);
-	return query + temp + ") emit(doc._id, doc)}";
+	return query + temp + ") emit(null)}";
 }; 
 
 var almostOneAminoacidCountValue = function(aminoacids){
@@ -63,15 +63,15 @@ return query;
 }
 
 var almostOneAminoacid = function(aminoacids){
-	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')){var numeSeq = doc['SEQRES']; for(var i=1; i<=numeSeq['_count'];i++){if(";
-	for(a in aminoacids){
-		query+= " numeSeq[i].resName == '" + aminoacids[a] + "'";
+	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')){var numeSeq = doc['SEQRES']; var ams = []; for(var i=1; i<=numeSeq['_count'];i++){";
+		query+= "ams.push(numeSeq[i].resName);";
 		for(var j=1; j<=12; j++){
-			query+=" || numeSeq[i].resName_" + j + " == '" + aminoacids[a] + "'";
+			query+="ams.push(numeSeq[i].resName_" + j + ");";
 		}
-		query+=" || "
-	}
-	query+=" false) emit(doc._id, doc)}}}";
+		query+="}if(";
+		for(a in aminoacids){
+		query+="ams.indexOf('"+ aminoacids[a] +"') != -1 || "};
+		query+= "true){emit(null);}}}"
 return query;
 }
 
@@ -84,18 +84,18 @@ var allAminoacids = function(aminoacids){
 		query+="}if(";
 		for(a in aminoacids){
 		query+="ams.indexOf('"+ aminoacids[a] +"') != -1 && "};
-		query+= "true){emit(doc._id, doc);}}}"
+		query+= "true){emit(null);}}}"
 
 return query;
 }
 
 var hasID = function(){
-	var query = "function(doc){if(doc._id){emit(doc._id, doc._id)}}"
+	var query = "function(doc){if(doc._id){emit(null)}}"
 	return query;
 }
 
 var hasNameID = function(){
-	var query = "function(doc){if(doc._id && doc.TITLE.title){emit(doc.TITLE.title, doc._id)}}"
+	var query = "function(doc){if(doc._id && doc.TITLE.title){emit(doc.TITLE.title,doc._id)}}"
 	return query;
 }
 
@@ -106,7 +106,7 @@ var allAminoacids1 = function(aminoacids){
 	query+= "var curreSeq = numeSeq[i];";
 		query+= "ams.push(curreSeq['resname']);";
 		for(var j=1; j<=12; j++){
-			query+="ams.push(curreSeq['resname_" + j + "']); emit(doc._id, curreSeq.resName);";
+			query+="ams.push(curreSeq['resname_" + j + "']); emit(null);";
 		}
 		query+="}";
 		query+= "}}"
@@ -115,7 +115,7 @@ return query;
 }
 
 var almostOneAminoacid1 = function(aminoacids){
-	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')) emit(doc._id, doc['SEQRES']._count)}";
+	var query = "function(doc){ if(doc.hasOwnProperty('SEQRES')) emit(null)}";
 return query;
 }
 

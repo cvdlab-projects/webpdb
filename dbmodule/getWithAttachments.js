@@ -26,7 +26,7 @@ var retrieveByID = function(id, callbackFunction, keyDB) {
 			delete doc._rev;
 			callbackFunction(true, doc);
 		}
-	});
+	},{'limit': 5});
 };
 
 //Returns the proteins (or monomers) with the specified string "name" in the field 'TITLE.content', 
@@ -42,7 +42,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	console.log("GET" + "::" + "retrieveByName" + "::" + name);
 	database.save('_design/'+ hashName +'View', {
 		view: {
-			map: queryGen.mapContains("TITLE.title", name)
+			map: queryGen.mapContains("name", name)
 			}});
 	
 	database.view(hashName + 'View/view', function (err, doc) {
@@ -53,9 +53,9 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
+				//delete doc[d].value._id;
+				//delete doc[d].value._rev;
+				docs[d] = doc[d].id;
 			}
 			callbackFunction(true, docs);
 		}
@@ -84,9 +84,9 @@ var retrieveByAlmostOneAminoacid = function(aminoacids, callbackFunction, keyDB,
 			console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
+				//delete doc[d].value._id;
+				//delete doc[d].value._rev;
+				docs[d] = doc[d].id;
 			}
 			callbackFunction(true, docs);
 		}
@@ -115,9 +115,9 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
+				//delete doc[d].value._id;
+				//delete doc[d].value._rev;
+				docs[d] = doc[d].id;
 			}
 			callbackFunction(true, docs);
 		}
@@ -171,7 +171,7 @@ var retrieveAllIDs = function(callbackFunction, keyDB){
 			console.log("GET" + "::" + "retrieveAllIDs" + "::" + "DONE");
 			var ids = [];
 			for(d in doc){
-				ids.push(doc[d].value);
+				ids.push(doc[d].id);
 			}
 			callbackFunction(true, ids);
 		}
