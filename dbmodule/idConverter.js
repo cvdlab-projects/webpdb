@@ -26,7 +26,7 @@ var alfaDecimal = function(decimal) {
 
 var toChar = function(n) {
   return ALPHABET.charAt(n);
-}
+};
 
 var decAlfa = function(alfa) {
 	alfa = alfa.toUpperCase();
