@@ -11,7 +11,7 @@ var options = {};
 var insert = function(id, json, callbackFunction, keyDB){
 	options.keyDB = keyDB;
 	database = db.setup(options);
-	id = idConverter.decimalToAlfa(id);
+	id = idConverter.alfaToDecimal(id);
 	database.save(id, json, function (err, res) {
 		callbackFunction(err === null, id);
 	});
