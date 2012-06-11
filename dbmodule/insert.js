@@ -1,7 +1,7 @@
 var cradle = require('cradle');
 var queryGen = require('./queryGenerator');
 var db = require('./db.js');
-var idConverter = ('./idConverter.js');
+var idConverter = require('./idConverter');
 var options = {};
 
 /*

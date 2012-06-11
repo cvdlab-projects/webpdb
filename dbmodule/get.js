@@ -3,7 +3,7 @@ var queryGen = require('./queryGenerator');
 var db = require('./db');
 var options = {};
 var hash = require('./hash');
-var idConverter = ('./idConverter.js');
+var idConverter = require('./idConverter');
 
 /*
 	callbackFunction(success:BOOL, result:JSON);
