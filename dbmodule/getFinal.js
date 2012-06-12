@@ -13,10 +13,10 @@ var idConverter = require('./idConverter');
 var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
 	database = db.setup(options);
-	var cId = idConverter.alfaToDecimal(id) || id;
+	var cId = idConverter.alfaToDecimal(id);
 	
 	console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + cId);
-	database.get(cId, function (err, doc) {
+	database.get(cId.toString(), function (err, doc) {
 		if ( err !== null ) {
 			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + cId + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
@@ -57,7 +57,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 					for(var d = start; d < doc.length && d < end; d++){
 						//delete doc[d].value._id;
 						//delete doc[d].value._rev;
-						docs[d] = doc[d].id;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 					}
 					callbackFunction(true, docs);
 					}
@@ -68,7 +68,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 			for(var d = start; d < doc.length && d < end; d++){
 				//delete doc[d].value._id;
 				//delete doc[d].value._rev;
-				docs[d] = doc[d].id;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 			}
 			callbackFunction(true, docs);
 		}
@@ -103,7 +103,7 @@ var retrieveByAlmostOneAminoacid = function(aminoacids, callbackFunction, keyDB,
 					for(var d = start; d < doc.length && d < end; d++){
 						//delete doc[d].value._id;
 						//delete doc[d].value._rev;
-						docs[d] = doc[d].id;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 					}
 				callbackFunction(true, docs);
 				}
@@ -114,7 +114,7 @@ var retrieveByAlmostOneAminoacid = function(aminoacids, callbackFunction, keyDB,
 			for(var d = start; d < doc.length && d < end; d++){
 				//delete doc[d].value._id;
 				//delete doc[d].value._rev;
-				docs[d] = doc[d].id;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 			}
 			callbackFunction(true, docs);
 		}
@@ -147,7 +147,7 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 					for(var d = start; d < doc.length && d < end; d++){
 						//delete doc[d].value._id;
 						//delete doc[d].value._rev;
-						docs[d] = doc[d].id;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 					}
 					callbackFunction(true, docs);
 				}
@@ -158,7 +158,7 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 			for(var d = start; d < doc.length && d < end; d++){
 				//delete doc[d].value._id;
 				//delete doc[d].value._rev;
-				docs[d] = doc[d].id;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 			}
 			callbackFunction(true, docs);
 		}
@@ -214,7 +214,7 @@ var retrieveAllIDs = function(callbackFunction, keyDB){
 					console.log("GET" + "::" + "retrieveAllIDs" + "::" + "DONE");
 					var ids = [];
 					for(d in doc){
-						ids.push(doc[d].id);
+						ids.push(idConverter.decimalToAlfa(doc[d].id));
 					}
 					callbackFunction(true, ids);
 				}
@@ -223,7 +223,7 @@ var retrieveAllIDs = function(callbackFunction, keyDB){
 			console.log("GET" + "::" + "retrieveAllIDs" + "::" + "DONE");
 			var ids = [];
 			for(d in doc){
-				ids.push(doc[d].id);
+				ids.push(idConverter.decimalToAlfa(doc[d].id));
 			}
 			callbackFunction(true, ids);
 		}
@@ -253,7 +253,7 @@ var retrieveAllNameID = function(callbackFunction, keyDB){
 					console.log("GET" + "::" + "retrieveAllNameID" + "::" + "DONE");
 					var ids = [];
 					for(d in doc){
-						ids.push({name: doc[d].key, id: doc[d].value});
+						ids.push({name: doc[d].key, id: idConverter.decimalToAlfa(doc[d].value)});
 					}
 					callbackFunction(true, ids);
 				}
@@ -262,7 +262,7 @@ var retrieveAllNameID = function(callbackFunction, keyDB){
 			console.log("GET" + "::" + "retrieveAllNameID" + "::" + "DONE");
 			var ids = [];
 			for(d in doc){
-				ids.push({name: doc[d].key, id: doc[d].value});
+				ids.push({name: doc[d].key, id: idConverter.decimalToAlfa(doc[d].value)});
 			}
 			callbackFunction(true, ids);
 		}
