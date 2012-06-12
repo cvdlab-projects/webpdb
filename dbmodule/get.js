@@ -13,10 +13,10 @@ var idConverter = require('./idConverter');
 var retrieveByID = function(id, callbackFunction, keyDB) {
 	options.keyDB = keyDB;
 	database = db.setup(options);
-	var cId = idConverter.alfaToDecimal(id) || id;
+	var cId = idConverter.alfaToDecimal(id);
 	
 	console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + cId);
-	database.get(cId, function (err, doc) {
+	database.get(cId.toString(), function (err, doc) {
 		if ( err !== null ) {
 			console.log("GET" + "::" + "retrieveByID" + "::" + id + "::" + cId + "::" + "ERROR" + JSON.stringify(err));
 			callbackFunction(false, err);
@@ -40,22 +40,35 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 	database = db.setup(options);
 	
 	console.log("GET" + "::" + "retrieveByName" + "::" + name);
-	database.save('_design/'+ hashName +'View', {
-		view: {
-			map: queryGen.mapContains("TITLE.title", name)
-			}});
 	
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "ERROR" + JSON.stringify(err));
-			callbackFunction(false, err);
+			database.save('_design/'+ hashName +'View', {
+			view: {
+			map: queryGen.mapContains("name", name)
+			}});
+			database.view(hashName + 'View/view', function (err, doc) {
+				if ( err !== null ) {
+					console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "ERROR" + JSON.stringify(err));
+					callbackFunction(false, err);
+				} else {
+					console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
+					var docs = {};
+					for(var d = start; d < doc.length && d < end; d++){
+						//delete doc[d].value._id;
+						//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
+					}
+					callbackFunction(true, docs);
+					}
+			});
 		} else {
 			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
+				//delete doc[d].value._id;
+				//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 			}
 			callbackFunction(true, docs);
 		}
@@ -72,21 +85,36 @@ var retrieveByAlmostOneAminoacid = function(aminoacids, callbackFunction, keyDB,
 	
 	console.log("GET" + "::" + "retrieveByAlmostOneAminoacid" + "::" + aminoacids);
 	
-	database.save('_design/'+ hashName +'View', {
-		view: {
-			map: queryGen.almostOneAminoacid(aminoacids)}});
+	
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
-			callbackFunction(false, err);
+			database.save('_design/'+ hashName +'View', {
+			view: {
+			map: queryGen.almostOneAminoacid(aminoacids)}});
+			
+			database.view(hashName + 'View/view', function (err, doc) {
+				if ( err !== null ) {
+				console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
+				callbackFunction(false, err);
+				} else {
+					console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "DONE");
+					var docs = {};
+					for(var d = start; d < doc.length && d < end; d++){
+						//delete doc[d].value._id;
+						//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
+					}
+				callbackFunction(true, docs);
+				}
+			});
 		} else {
 			console.log("GET" + "::" + "retrieveByAlmostOneAminoacids" + "::" + aminoacids + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
+				//delete doc[d].value._id;
+				//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 			}
 			callbackFunction(true, docs);
 		}
@@ -109,15 +137,28 @@ var retrieveByAllAminoacids = function(aminoacids, callbackFunction, keyDB, star
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
-			callbackFunction(false, err);
+			database.view(hashName + 'View/view', function (err, doc) {
+				if ( err !== null ) {
+				console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "ERROR" + JSON.stringify(err));
+				callbackFunction(false, err);
+				} else {
+					console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "DONE");
+					var docs = {};
+					for(var d = start; d < doc.length && d < end; d++){
+						//delete doc[d].value._id;
+						//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
+					}
+					callbackFunction(true, docs);
+				}
+			});
 		} else {
 			console.log("GET" + "::" + "retrieveByAllAminoacids" + "::" + aminoacids + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
-				delete doc[d].value._id;
-				delete doc[d].value._rev;
-				docs[d] = doc[d].value;
+				//delete doc[d].value._id;
+				//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
 			}
 			callbackFunction(true, docs);
 		}
@@ -165,13 +206,24 @@ var retrieveAllIDs = function(callbackFunction, keyDB){
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveAllIDs" + "::" + "ERROR" + JSON.stringify(err));
-			callbackFunction(false, err);
+			database.view(hashName + 'View/view', function (err, doc) {
+				if ( err !== null ) {
+					console.log("GET" + "::" + "retrieveAllIDs" + "::" + "ERROR" + JSON.stringify(err));
+					callbackFunction(false, err);
+				} else {
+					console.log("GET" + "::" + "retrieveAllIDs" + "::" + "DONE");
+					var ids = [];
+					for(d in doc){
+						ids.push(idConverter.decimalToAlfa(doc[d].id));
+					}
+					callbackFunction(true, ids);
+				}
+			});
 		} else {
 			console.log("GET" + "::" + "retrieveAllIDs" + "::" + "DONE");
 			var ids = [];
 			for(d in doc){
-				ids.push(doc[d].value);
+				ids.push(idConverter.decimalToAlfa(doc[d].id));
 			}
 			callbackFunction(true, ids);
 		}
@@ -185,21 +237,32 @@ var retrieveAllNameID = function(callbackFunction, keyDB){
 	database = db.setup(options);
 	
 	console.log("GET" + "::" + "retrieveAllNameID");
-	
-	database.save('_design/'+ hashName +'View', {
-		view: {
-			map: queryGen.hasNameID()
-		}});
 
 	database.view(hashName + 'View/view', function (err, doc) {
 		if ( err !== null ) {
-			console.log("GET" + "::" + "retrieveAllNameID" + "::" + "ERROR" + JSON.stringify(err));
-			callbackFunction(false, err);
+			database.save('_design/'+ hashName +'View', {
+				view: {
+					map: queryGen.hasNameID()
+			}});
+
+			database.view(hashName + 'View/view', function (err, doc) {
+				if ( err !== null ) {
+					console.log("GET" + "::" + "retrieveAllNameID" + "::" + "ERROR" + JSON.stringify(err));
+					callbackFunction(false, err);
+				} else {
+					console.log("GET" + "::" + "retrieveAllNameID" + "::" + "DONE");
+					var ids = [];
+					for(d in doc){
+						ids.push({name: doc[d].key, id: idConverter.decimalToAlfa(doc[d].value)});
+					}
+					callbackFunction(true, ids);
+				}
+			});
 		} else {
 			console.log("GET" + "::" + "retrieveAllNameID" + "::" + "DONE");
 			var ids = [];
 			for(d in doc){
-				ids.push({name: doc[d].key, id: doc[d].value});
+				ids.push({name: doc[d].key, id: idConverter.decimalToAlfa(doc[d].value)});
 			}
 			callbackFunction(true, ids);
 		}
