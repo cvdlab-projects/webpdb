@@ -7,7 +7,9 @@ var callbackFunction = function(success, s){
 };
 
 var tryGet = function() {
-	dbGet.retrieveByName('0', callbackFunction, 'starwars');
+        // dbGet.retrieveByName('INSULIN', callbackFunction, 'proteins');
+           dbGet.retrieveByCompound('7P', callbackFunction, 'monomers');
+
 };
 
  tryGet();

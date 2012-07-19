@@ -45,7 +45,7 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 		if ( err !== null ) {
 			database.save('_design/'+ hashName +'View', {
 			view: {
-			map: queryGen.mapContains("name", name)
+			map: queryGen.mapContains("TITLE.title", name)
 			}});
 			database.view(hashName + 'View/view', function (err, doc) {
 				if ( err !== null ) {
@@ -64,6 +64,51 @@ var retrieveByName = function(name, callbackFunction, keyDB, start, end){
 			});
 		} else {
 			console.log("GET" + "::" + "retrieveByName" + "::" + name + "::" + "DONE");
+			var docs = {};
+			for(var d = start; d < doc.length && d < end; d++){
+				//delete doc[d].value._id;
+				//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
+			}
+			callbackFunction(true, docs);
+		}
+	});
+};
+
+// Test for monomers
+var retrieveByCompound = function(name, callbackFunction, keyDB, start, end){
+	var input = ["retrieveByCompound", keyDB, name];
+	var hashName = hash.createHash(input);
+	start = start || 0;
+	end = end || 50;
+	options.keyDB = keyDB;
+	database = db.setup(options);
+	
+	console.log("GET" + "::" + "retrieveByCompound" + "::" + name);
+	
+	database.view(hashName + 'View/view', function (err, doc) {
+		if ( err !== null ) {
+			database.save('_design/'+ hashName +'View', {
+			view: {
+			map: queryGen.mapContains("COMPND.compound", name)
+			}});
+			database.view(hashName + 'View/view', function (err, doc) {
+				if ( err !== null ) {
+					console.log("GET" + "::" + "retrieveByCompound" + "::" + name + "::" + "ERROR" + JSON.stringify(err));
+					callbackFunction(false, err);
+				} else {
+					console.log("GET" + "::" + "retrieveByCompound" + "::" + name + "::" + "DONE");
+					var docs = {};
+					for(var d = start; d < doc.length && d < end; d++){
+						//delete doc[d].value._id;
+						//delete doc[d].value._rev;
+						docs[d] = idConverter.decimalToAlfa(doc[d].id);
+					}
+					callbackFunction(true, docs);
+					}
+			});
+		} else {
+			console.log("GET" + "::" + "retrieveByCompound" + "::" + name + "::" + "DONE");
 			var docs = {};
 			for(var d = start; d < doc.length && d < end; d++){
 				//delete doc[d].value._id;
@@ -273,6 +318,7 @@ exports.retrieveAllNameID = retrieveAllNameID;
 exports.retrieveAllIDs = retrieveAllIDs;
 exports.retrieveByID = retrieveByID;
 exports.retrieveByName = retrieveByName;
+exports.retrieveByCompound = retrieveByCompound;
 exports.retrieveByAlmostOneAminoacid = retrieveByAlmostOneAminoacid;
 exports.retrieveByAllAminoacids = retrieveByAllAminoacids;
 exports.retrieveByAlmostOneAminoacidSeqResAverage = retrieveByAlmostOneAminoacidSeqResAverage;
