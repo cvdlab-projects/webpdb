@@ -3,7 +3,7 @@ var parsedJSON = require('./config.json');
 var JSONDB = require('./databases.json');
 
 //Reads the .json File with configuration informations, such as db host, port, username and password.
-var setup = exports.setup = function (options, callback) {
+var setupConn = exports.setupConn = function (options, callback) {
 	// Gets info from the config file and set connection configuration. 
 	var host = parsedJSON.database.host;
 	var port = parsedJSON.database.port;
@@ -22,8 +22,13 @@ var setup = exports.setup = function (options, callback) {
   	var c = new(cradle.Connection)(host, port, {
 		auth: {username: userName, password: password}
 	});
+	return c;
+};
+
+var setup = exports.setup = function (options, callback) {
+  	var c = setupConn(options, callback);
 	
-	var db =  c.database(getDB(options.keyDB));
+	var db = c.database(getDB(options.keyDB));
 	return db; // Returns the istance of the
 };
 

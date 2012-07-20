@@ -1,7 +1,6 @@
 /* Check if id is made by 4 characters in the range A-Z or 0-9 */
 var checkIdProtein = function(id) {
-
-	if (!id && id.length != 4) {
+	if (!id || id.length != 4) {
 		console.log('Wrong ID! It must have 4 characters (numbers and/or capital letters)');
 		return false;
 	}

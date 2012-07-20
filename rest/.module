@@ -1,4 +1,4 @@
 ## moduli da caricare
 
 express
-# connect-redis
+connect-redis
